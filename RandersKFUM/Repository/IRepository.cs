@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace RandersKFUM.Repository
 {
-    internal class IRepository
+    public interface IRepository<t> where t : class
     {
+        IEnumerable<t> GetAll();
+        t GetById(int id);
+        void Add(t entity);
+        void Update(t entity);
+        void Delete(int id);
     }
 }
