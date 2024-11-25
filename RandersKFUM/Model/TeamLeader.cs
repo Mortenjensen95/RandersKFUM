@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RandersKFUM.Model
+{
+    public class TeamLeader
+    {
+        public int TeamLeaderId { get; set; }
+        public string Name { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public int Phone { get; set; }
+        public string Email { get; set; }
+
+        public ICollection<Team> Teams { get; set; } // navigation property
+
+        public TeamLeader(int teamLeaderId, string name, string userName, string password, int phone, string email)
+        {
+            TeamLeaderId = teamLeaderId;
+            Name = name;
+            UserName = userName;
+            Password = password;
+            Phone = phone;
+            Email = email;
+            Teams = new List<Team>();
+        }
+    }
+}
