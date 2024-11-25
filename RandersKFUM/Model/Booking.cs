@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RandersKFUM.Model
+namespace RandersKFUM.Model //test
 {
     public class Booking
     {
