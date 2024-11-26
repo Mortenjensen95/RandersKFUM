@@ -11,12 +11,19 @@ namespace RandersKFUM.Model //test
         public int BookingNumber { get; set; }
         public DateTime DateTimeStart { get; set; }
         public DateTime DateTimeEnd { get; set; }
-        public int TeamId { get; }
+        public int TeamId { get; set; }
 
         public Team Team { get; set; } // Navigation til Team
 
         public ICollection<FieldBooking> FieldBookings { get; set; } // Navigation til mange til mange relation
         public ICollection<LockerRoomBooking> LockerRoomBookings { get; set; }
+
+        public Booking () 
+        {
+            FieldBookings = new List<FieldBookings>();
+            LockerRoomBookings = new List<LockerRoomBookings>();
+        }
+
 
         public Booking(int bookingNumber, DateTime dateTimeStart, DateTime dateTimeEnd, int teamId)
         {

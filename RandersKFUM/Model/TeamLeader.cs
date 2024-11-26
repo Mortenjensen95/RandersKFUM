@@ -17,6 +17,11 @@ namespace RandersKFUM.Model
 
         public ICollection<Team> Teams { get; set; } // navigation property
 
+        public TeamLeader ()
+        {
+            Teams = new List<Team>();
+        }
+
         public TeamLeader(int teamLeaderId, string name, string userName, string password, int phone, string email)
         {
             TeamLeaderId = teamLeaderId;

@@ -15,6 +15,8 @@ namespace RandersKFUM.Model
 
         public TeamLeader TeamLeader { get; set; }
 
+        public Team () { }
+
         public Team(int teamId, string teamType, int teamLeaderId, string teamName)
         {
             TeamId = teamId;

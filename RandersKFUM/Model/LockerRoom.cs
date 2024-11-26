@@ -14,6 +14,11 @@ namespace RandersKFUM.Model
 
         public ICollection<LockerRoomBooking> LockerRoomBookings { get; set; }
 
+        public LockerRoom () 
+        {
+            LockerRoomBookings = new List<LockerRoomBooking>();
+        }
+
         public LockerRoom(int lockerRoomId, int lockerRoomNumber, string lockerRoomType)
         {
             LockerRoomId = lockerRoomId;
