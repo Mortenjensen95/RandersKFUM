@@ -23,7 +23,7 @@ namespace RandersKFUM.Repository
         {
             var teamLeaders = new List<TeamLeader>();
 
-            using (var connection = new SqlConnection(_connectionString.ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open(); // Sørg for, at forbindelsen er åben
                 using (var command = new SqlCommand("uspGetAllTeamLeaders", connection))
@@ -63,7 +63,7 @@ namespace RandersKFUM.Repository
         {
             try
             {
-                using (var connection = new SqlConnection(_connection.ConnectionString))
+                using (var connection = new SqlConnection(_connectionString))
                 {
                     connection.Open(); // Sørg for at forbindelsen er åben
                     using (var command = new SqlCommand("uspGetTeamLeaderById", connection))
@@ -105,7 +105,7 @@ namespace RandersKFUM.Repository
 
         public void Add(TeamLeader teamLeader)
         {
-            using (var connection = new SqlConnection(_connection.ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
                 using (var command = new SqlCommand("uspAddTeamLeader", connection))
@@ -139,7 +139,7 @@ namespace RandersKFUM.Repository
         public void Delete(int teamLeaderId)
         {
             // Sikrer korrekt forbindelseshåndtering
-            using (var connection = new SqlConnection(_connection.ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open(); // Sørger for, at forbindelsen er åben
                 using (var command = new SqlCommand("uspDeleteTeamLeader", connection))
@@ -159,7 +159,7 @@ namespace RandersKFUM.Repository
         public void Update(TeamLeader teamLeader)
         {
             // Sørg for at forbindelsen håndteres korrekt
-            using (var connection = new SqlConnection(_connection.ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open(); // Sørg for, at forbindelsen er åben
                 using (var command = new SqlCommand("uspUpdateTeamLeader", connection))

@@ -9,18 +9,19 @@ namespace RandersKFUM.Model
     public class Team
     {
         public int TeamId { get; set; }
-        public string Name { get; set; }
         public string TeamType { get; set; }
         public int TeamLeaderId { get; set; }
+        public string TeamName { get; set; }
 
         public TeamLeader TeamLeader { get; set; }
 
-        public Team(int teamId, string name, string teamType, int teamLeaderId)
+        public Team(int teamId, string teamType, int teamLeaderId, string teamName)
         {
             TeamId = teamId;
-            Name = name;
             TeamType = teamType;
             TeamLeaderId = teamLeaderId;
+            TeamName = teamName;
+
         }
     }
 }
