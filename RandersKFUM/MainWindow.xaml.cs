@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using RandersKFUM.View;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,7 @@ namespace RandersKFUM
         public MainWindow()
         {
             InitializeComponent();
+            MainFrame.Navigate(new MainMenuView()); // Naviger til hovedmenu
         }
     }
 }
