@@ -11,7 +11,14 @@ namespace RandersKFUM.Repository
 {
     internal class TeamLeaderRepository : IRepository<TeamLeader>
     {
-        public List<TeamLeader> GetAll()
+        private readonly string _connectionString;
+
+        public TeamLeaderRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        public IEnumerable<TeamLeader> GetAll()
         {
             var teamLeaders = new List<TeamLeader>();
 
