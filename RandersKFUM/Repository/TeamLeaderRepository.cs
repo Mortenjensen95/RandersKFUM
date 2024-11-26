@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RandersKFUM.Model;
+using Microsoft.Data.SqlClient;
 
 namespace RandersKFUM.Repository
 {
@@ -22,7 +23,7 @@ namespace RandersKFUM.Repository
         {
             var teamLeaders = new List<TeamLeader>();
 
-            using (var connection = new SqlConnection(_connection.ConnectionString))
+            using (var connection = new SqlConnection(_connectionString.ConnectionString))
             {
                 connection.Open(); // Sørg for, at forbindelsen er åben
                 using (var command = new SqlCommand("uspGetAllTeamLeaders", connection))

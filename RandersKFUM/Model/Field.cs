@@ -9,14 +9,14 @@ namespace RandersKFUM.Model
     public class Field
     {
         public int FieldId { get; set; }
-        public string FieldName { get; set; }
+        public string FieldType { get; set; }
         public int FieldNumber { get; set; }
 
         public ICollection<FieldBooking> FieldBookings { get; set; }
 
-        public Field(string fieldName, int fieldNumber)
+        public Field(string fieldType, int fieldNumber)
         {
-            FieldName = fieldName;
+            FieldType = fieldType;
             FieldNumber = fieldNumber;
             FieldBookings = new List<FieldBooking>();
         }
