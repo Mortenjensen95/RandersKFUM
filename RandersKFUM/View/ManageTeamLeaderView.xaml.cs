@@ -19,9 +19,12 @@ namespace RandersKFUM.View
     /// </summary>
     public partial class ManageTeamLeaderView : Window
     {
-        public ManageTeamLeaderView()
+        public ManageTeamLeadersWindow()
         {
             InitializeComponent();
+
+            // Initialiser ViewModel og bind til DataContext
+            DataContext = new ManageTeamLeadersViewModel();
         }
     }
 }

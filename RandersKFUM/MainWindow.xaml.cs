@@ -20,7 +20,15 @@ namespace RandersKFUM
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new MainMenuView()); // Naviger til hovedmenu
+
+            // Initialiser ViewModel og giv Frame til navigation
+            var viewModel = new ViewModels.MainMenuViewModel(MainFrame);
+
+            // Naviger til hovedmenu
+            MainFrame.Navigate(new MainMenuView(MainFrame));
+
+            // Sæt DataContext til ViewModel
+            DataContext = viewModel;
         }
     }
 }

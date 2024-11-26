@@ -20,9 +20,10 @@ namespace RandersKFUM.View
     /// </summary>
     public partial class AdministrationView : Page
     {
-        public AdministrationView()
+        public AdministrationView(Frame navigationFrame)
         {
             InitializeComponent();
+            DataContext = new ViewModels.AdministrationViewModel(navigationFrame);
         }
     }
 }

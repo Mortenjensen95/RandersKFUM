@@ -20,9 +20,10 @@ namespace RandersKFUM.View
     /// </summary>
     public partial class BookingOverviewView : Page
     {
-        public BookingOverviewView()
+        public BookingOverviewView(Frame navigationFrame)
         {
             InitializeComponent();
+            DataContext = new ViewModels.BookingOverviewViewModel(navigationFrame);
         }
     }
 }

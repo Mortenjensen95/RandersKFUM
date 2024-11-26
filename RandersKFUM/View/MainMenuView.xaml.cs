@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RandersKFUM.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,10 @@ namespace RandersKFUM.View
     /// </summary>
     public partial class MainMenuView : Page
     {
-        public MainMenuView()
+        public MainMenuView(Frame navigationFrame)
         {
             InitializeComponent();
+            DataContext = new ViewModels.MainMenuViewModel(navigationFrame);
         }
     }
 }
