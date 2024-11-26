@@ -33,11 +33,11 @@ namespace RandersKFUM.Repository
                     {
                         while (reader.Read())
                         {
-                            fields.Add(new Field
+                            fields.Add(new Field(
+                                reader["FieldType"]?.ToString(),
+                                reader["FieldNumber"] != DBNull.Value ? Convert.ToInt32(reader["FieldNumber"]) : 0)
                             {
-                                FieldId = Convert.ToInt32(reader["FieldId"]),
-                                FieldType = reader["FieldType"]?.ToString(),
-                                FieldNumber = reader["FieldNumber"] != DBNull.Value ? Convert.ToInt32(reader["FieldNumber"]) : 0
+                                FieldId = Convert.ToInt32(reader["FieldId"]) // FieldID er ikke i konstruktøren, så den skal sættes her efterfølgende.
                             });
                         }
                     }
