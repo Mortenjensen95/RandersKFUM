@@ -1,0 +1,73 @@
+﻿<Window x:Class="RandersKFUM.View.ManageTeamView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RandersKFUM.View"
+        mc:Ignorable="d"
+        Title="ManageTeamView" Height="450" Width="800">
+    <Grid Background="LightGray">
+        <!-- Layout til hoveddelen -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <!-- DataGrid fylder mest -->
+            <RowDefinition Height="Auto" />
+            <!-- Knapper nederst -->
+        </Grid.RowDefinitions>
+
+        <!-- DataGrid til Hold -->
+        <StackPanel Grid.Row="0" Margin="20">
+            <TextBlock Text="Administrer Hold" 
+                       FontSize="20" 
+                       FontWeight="Bold" 
+                       Margin="0,0,0,20" />
+
+            <DataGrid ItemsSource="{Binding Teams}" 
+                      SelectedItem="{Binding SelectedTeam}" 
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="True" 
+                      IsReadOnly="False" 
+                      Margin="0,0,0,10">
+                <!-- Kolonner -->
+                <DataGrid.Columns>
+                    <!-- Holdnavn -->
+                    <DataGridTextColumn Header="Holdnavn" Binding="{Binding TeamName}" />
+
+                    <!-- Holdtype -->
+                    <DataGridTextColumn Header="Holdtype" Binding="{Binding TeamType}" />
+
+                    <!-- Holdleder (ComboBox til at vælge navn) -->
+                    <DataGridTemplateColumn Header="Holdleder">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding TeamLeaderName}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding DataContext.TeamLeaders, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                          DisplayMemberPath="Name" 
+                                          SelectedValuePath="TeamLeaderId" 
+                                          SelectedValue="{Binding TeamLeaderId}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <!-- Knapper nederst på skærmen -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+            <Button Content="Opret Hold" Width="100" Height="30" Margin="5" 
+                    Command="{Binding CreateTeamCommand}" />
+            <Button Content="Opdater Hold" Width="100" Height="30" Margin="5" 
+                    Command="{Binding UpdateTeamCommand}" 
+                    IsEnabled="{Binding IsTeamSelected}" />
+            <Button Content="Slet Hold" Width="100" Height="30" Margin="5" 
+                    Command="{Binding DeleteTeamCommand}" 
+                    IsEnabled="{Binding IsTeamSelected}" />
+            <Button Content="Gem" Width="100" Height="30" Margin="5" 
+                    Command="{Binding SaveChangesCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

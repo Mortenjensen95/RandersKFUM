@@ -1,0 +1,33 @@
+﻿<Page x:Class="RandersKFUM.View.MainMenuView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RandersKFUM.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainMenuView">
+
+    <Grid Background="LightGray">
+        <!-- Layout til knapperne i hovedmenuen -->
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+            <TextBlock Text="Menu" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       TextAlignment="Center" 
+                       Margin="0,0,0,20" />
+            <Button Content="Bookingoversigt" Height="40" Margin="0,10"
+                    Command="{Binding NavigateToOverviewCommand}" />
+            <Button Content="Opret booking" Height="40" Margin="0,10"
+                    Command="{Binding NavigateToBookingCommand}" />
+            <Button Content="Administration" Height="40" Margin="0,10"
+                    Command="{Binding NavigateToAdministrationCommand}" />
+        </StackPanel>
+
+        <!-- Login/Logout-knap nederst i venstre hjørne -->
+        <Button Content="{Binding LoginButtonText}" 
+                Width="100" Height="30" 
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                Margin="10" Command="{Binding LoginLogoutCommand}" />
+    </Grid>
+</Page>
