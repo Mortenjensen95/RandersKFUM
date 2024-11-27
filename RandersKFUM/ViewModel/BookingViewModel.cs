@@ -5,6 +5,10 @@ using System.Linq;
 using System.Windows.Input;
 using RandersKFUM.Repository;
 using RandersKFUM.Model;
+using RandersKFUM.Utilities;
+using RandersKFUM.View;
+
+
 
 namespace RandersKFUM.ViewModels
 {

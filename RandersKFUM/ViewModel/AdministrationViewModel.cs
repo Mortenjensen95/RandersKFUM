@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
 using RandersKFUM.View;
+using RandersKFUM.Utilities;
+
 
 namespace RandersKFUM.ViewModels
 {
@@ -13,27 +15,27 @@ namespace RandersKFUM.ViewModels
             _navigateBackToMenu = navigateBackToMenu;
 
             // Initialiser kommandoer
-            OpenManageTeamWindowCommand = new RelayCommand(OpenManageTeamWindow);
-            OpenManageTeamLeaderWindowCommand = new RelayCommand(OpenManageTeamLeaderWindow);
+            OpenManageTeamViewCommand = new RelayCommand(OpenManageTeamView);
+            OpenManageTeamLeaderViewCommand = new RelayCommand(OpenManageTeamLeaderView);
             NavigateBackToMenuCommand = new RelayCommand(NavigateBackToMenu);
         }
 
         // Kommandoer
-        public ICommand OpenManageTeamWindowCommand { get; }
-        public ICommand OpenManageTeamLeaderWindowCommand { get; }
+        public ICommand OpenManageTeamViewCommand { get; }
+        public ICommand OpenManageTeamLeaderViewCommand { get; }
         public ICommand NavigateBackToMenuCommand { get; }
 
         // Metoder
-        private void OpenManageTeamWindow()
+        private void OpenManageTeamView()
         {
-            var manageTeamWindow = new ManageTeamWindow(); // Instantiér vinduet
-            manageTeamWindow.Show(); // Åbn vinduet
+            var manageTeamView = new ManageTeamView(); // Instantiér vinduet
+            manageTeamView.Show(); // Åbn vinduet
         }
 
-        private void OpenManageTeamLeaderWindow()
+        private void OpenManageTeamLeaderView()
         {
-            var manageTeamLeaderWindow = new ManageTeamLeaderWindow(); // Instantiér vinduet
-            manageTeamLeaderWindow.Show(); // Åbn vinduet
+            var manageTeamLeaderView = new ManageTeamLeaderView(); // Instantiér vinduet
+            manageTeamLeaderView.Show(); // Åbn vinduet
         }
 
         private void NavigateBackToMenu()

@@ -4,6 +4,10 @@ using System.ComponentModel;
 using System.Windows.Input;
 using RandersKFUM.Model;
 using RandersKFUM.Repository;
+using RandersKFUM.Utilities;
+using RandersKFUM.View;
+
+
 
 namespace RandersKFUM.ViewModels
 {
