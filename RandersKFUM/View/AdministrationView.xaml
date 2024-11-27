@@ -9,25 +9,15 @@
       Title="AdministrationView">
 
     <Grid Background="LightGray">
-        <!-- Layout til hovedadministration -->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
-            <TextBlock Text="Administration" 
-                       FontSize="24" 
-                       FontWeight="Bold" 
-                       TextAlignment="Center" 
-                       Margin="0,0,0,20" />
-            <Button Content="Administrer Hold" 
-                    Height="40" Margin="0,10" 
-                    Command="{Binding ManageTeamsCommand}" />
-            <Button Content="Administrer Holdleder" 
-                    Height="40" Margin="0,10" 
-                    Command="{Binding ManageTeamLeadersCommand}" />
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Administration" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+            <Button Content="Administrer Hold" Width="200" Height="50" Margin="0,10"
+                Command="{Binding OpenManageTeamWindowCommand}" />
+            <Button Content="Administrer Holdleder" Width="200" Height="50" Margin="0,10"
+                Command="{Binding OpenManageTeamLeaderWindowCommand}" />
         </StackPanel>
 
-        <!-- Tilbage til menu knap nederst i venstre hjørne -->
-        <Button Content="Tilbage til menu" 
-                Width="100" Height="30" 
-                HorizontalAlignment="Left" VerticalAlignment="Bottom" 
-                Margin="10" Command="{Binding NavigateBackCommand}" />
+        <Button Content="Tilbage til menu" Width="150" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10"
+            Command="{Binding NavigateBackToMenuCommand}" />
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RandersKFUM.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,10 @@ namespace RandersKFUM.View
         public AdministrationView(Frame navigationFrame)
         {
             InitializeComponent();
-            DataContext = new ViewModels.AdministrationViewModel(navigationFrame);
+
+            DataContext = new AdministrationViewModel(
+                navigateBackToMenu: () => navigationFrame.Navigate(new MainMenuView(navigationFrame))
+            );
         }
     }
 }

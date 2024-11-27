@@ -17,14 +17,12 @@ namespace RandersKFUM.View
     /// <summary>
     /// Interaction logic for ManageTeamView.xaml
     /// </summary>
-    public partial class ManageTeamView : Window
+    public partial class ManageTeamWindow : Window
     {
-        public ManageTeamsWindow()
+        public ManageTeamWindow()
         {
             InitializeComponent();
-
-            // Initialiser ViewModel og bind til DataContext
-            DataContext = new ManageTeamsViewModel();
+            DataContext = new ManageTeamViewModel();
         }
     }
 }
