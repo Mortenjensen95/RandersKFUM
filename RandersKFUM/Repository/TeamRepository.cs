@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RandersKFUM.Repository
 {
-    internal class TeamRepository : IRepository<Team>
+    public class TeamRepository : IRepository<Team>
     {
         private readonly string _connectionString;
 

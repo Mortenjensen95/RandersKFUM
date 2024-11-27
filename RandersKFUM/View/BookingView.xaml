@@ -18,8 +18,13 @@
         <StackPanel Grid.Column="0" Margin="10">
             <TextBlock Text="Vælg dato" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" />
             <Calendar SelectedDate="{Binding SelectedDate}" />
+
             <TextBlock Text="Vælg tidsrum" Margin="0,20,0,5" />
             <ComboBox ItemsSource="{Binding TimeSlots}" SelectedItem="{Binding SelectedTimeSlot}" />
+
+            <TextBlock Text="Vælg varighed (minutter)" Margin="0,20,0,5" />
+            <ComboBox ItemsSource="{Binding Durations}" SelectedItem="{Binding SelectedDuration}" />
+
             <TextBlock Text="Vælg omklædningsrum" Margin="0,20,0,5" />
             <ComboBox ItemsSource="{Binding LockerRooms}" SelectedItem="{Binding SelectedLockerRoom}" />
         </StackPanel>
@@ -29,17 +34,17 @@
             <TextBlock Text="Vælg bane" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" />
             <UniformGrid Rows="2" Columns="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button Content="Bane 1" Background="Green" Foreground="White" Margin="5" Width="100" Height="50"
-                        Command="{Binding SelectFieldCommand}" CommandParameter="1" />
+                    Command="{Binding SelectFieldCommand}" CommandParameter="1" />
                 <Button Content="Bane 2" Background="Green" Foreground="White" Margin="5" Width="100" Height="50"
-                        Command="{Binding SelectFieldCommand}" CommandParameter="2" />
+                    Command="{Binding SelectFieldCommand}" CommandParameter="2" />
                 <Button Content="Bane 3" Background="Green" Foreground="White" Margin="5" Width="150" Height="50"
-                        Command="{Binding SelectFieldCommand}" CommandParameter="3" />
+                    Command="{Binding SelectFieldCommand}" CommandParameter="3" />
                 <Button Content="Bane 4" Background="Green" Foreground="White" Margin="5" Width="150" Height="50"
-                        Command="{Binding SelectFieldCommand}" CommandParameter="4" />
+                    Command="{Binding SelectFieldCommand}" CommandParameter="4" />
                 <Button Content="Bane 5" Background="Green" Foreground="White" Margin="5" Width="100" Height="50"
-                        Command="{Binding SelectFieldCommand}" CommandParameter="5" />
+                    Command="{Binding SelectFieldCommand}" CommandParameter="5" />
                 <Button Content="Multi" Background="Green" Foreground="White" Margin="5" Width="50" Height="100"
-                        Command="{Binding SelectFieldCommand}" CommandParameter="Multi" />
+                    Command="{Binding SelectFieldCommand}" CommandParameter="Multi" />
             </UniformGrid>
         </StackPanel>
 
@@ -49,4 +54,5 @@
             <Button Content="Cancel" Width="80" Command="{Binding NavigateBackCommand}" />
         </StackPanel>
     </Grid>
+
 </Page>

@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 
 namespace RandersKFUM.Repository
 {
-    internal class BookingRepository : IRepository<Booking>
+    public class BookingRepository : IRepository<Booking>
     {
         private readonly string _connectionString;
 

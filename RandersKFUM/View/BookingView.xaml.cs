@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RandersKFUM.Repository;
+using RandersKFUM.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +25,17 @@ namespace RandersKFUM.View
         public BookingView(Frame navigationFrame)
         {
             InitializeComponent();
-            DataContext = new ViewModels.BookingViewModel(navigationFrame);
+
+            // Brug DatabaseConfig til at hente connection string
+            string connectionString = DatabaseConfig.GetConnectionString();
+
+            // Initialiser ViewModel med repositories
+            DataContext = new BookingViewModel(
+                new BookingRepository(connectionString),
+                new FieldRepository(connectionString),
+                new LockerRoomRepository(connectionString),
+                () => navigationFrame.Navigate(new MainMenuView(navigationFrame))
+            );
         }
     }
 }

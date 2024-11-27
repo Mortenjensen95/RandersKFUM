@@ -9,51 +9,46 @@
       Title="BookingOverviewView">
 
     <Grid Background="LightGray" Margin="10">
-        <!-- Grid-layout med to kolonner -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <!-- Kalender -->
-            <ColumnDefinition Width="*" />
-            <!-- Bookingoversigt -->
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <!-- Indhold -->
             <RowDefinition Height="Auto" />
-            <!-- Tilbage-knap -->
+            <!-- Knap -->
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <!-- Kalender til venstre -->
+        <!-- Kalender -->
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="10">
             <TextBlock Text="Kalender" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" />
             <Calendar SelectedDate="{Binding SelectedDate}" />
         </StackPanel>
 
-        <!-- Bookingoversigt til højre -->
+        <!-- DataGrid -->
         <StackPanel Grid.Row="0" Grid.Column="1" Margin="10">
-            <TextBlock Text="Bookingoversigt" 
-                       FontSize="16" 
-                       FontWeight="Bold" 
-                       Margin="0,0,0,10" />
-            <DataGrid ItemsSource="{Binding Bookings}" 
-                      AutoGenerateColumns="False" 
-                      CanUserAddRows="False" 
-                      Height="300">
-                <!-- Kolonner -->
+            <TextBlock Text="Bookingoversigt" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" />
+            <DataGrid ItemsSource="{Binding Bookings}" AutoGenerateColumns="False" Height="300">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Omklædning" Binding="{Binding LockerRoom}" />
-                    <DataGridTextColumn Header="Bane" Binding="{Binding Field}" />
-                    <DataGridTextColumn Header="Tidsrum" Binding="{Binding TimeSlot}" />
-                    <DataGridTextColumn Header="Hold" Binding="{Binding Team}" />
+                    <DataGridTextColumn Header="Omklædning" Binding="{Binding LockerRoomBookings}" />
+                    <DataGridTextColumn Header="Bane" Binding="{Binding FieldBookings}" />
+                    <DataGridTextColumn Header="Starttid" Binding="{Binding DateTimeStart}" />
+                    <DataGridTextColumn Header="Sluttid" Binding="{Binding DateTimeEnd}" />
+                    <DataGridTextColumn Header="Hold" Binding="{Binding Team.TeamName}" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
 
         <!-- Tilbage til menu knap -->
-        <Button Content="Tilbage til menu" 
-                Width="100" Height="30" 
-                HorizontalAlignment="Left" VerticalAlignment="Bottom" 
-                Margin="10" Command="{Binding NavigateBackCommand}" 
-                Grid.Row="1" Grid.Column="0" />
+        <Button Content="Tilbage til menu"
+                Grid.Row="1"
+                Grid.Column="0"
+                Width="120"
+                Height="40"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Margin="10"
+                Command="{Binding NavigateBackCommand}" />
     </Grid>
 </Page>

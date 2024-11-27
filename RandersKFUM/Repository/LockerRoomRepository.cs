@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RandersKFUM.Repository
 {
-    internal class LockerRoomRepository : IRepository<LockerRoom>
+    public class LockerRoomRepository : IRepository<LockerRoom>
     {
         private readonly string _connectionString;
 

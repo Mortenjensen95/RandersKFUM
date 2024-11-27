@@ -10,7 +10,7 @@ using Microsoft.Data.SqlClient;
 
 namespace RandersKFUM.Repository
 {
-    internal class TeamLeaderRepository : IRepository<TeamLeader>
+    public class TeamLeaderRepository : IRepository<TeamLeader>
     {
         private readonly string _connectionString;
 
