@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RandersKFUM.Repository;
+using RandersKFUM.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,12 +19,12 @@ namespace RandersKFUM.View
     /// <summary>
     /// Interaction logic for ManageTeamLeaderView.xaml
     /// </summary>
-    public partial class ManageTeamLeaderWindow : Window
+    public partial class ManageTeamLeaderView : Window
     {
-        public ManageTeamLeaderWindow()
+        public ManageTeamLeaderView()
         {
             InitializeComponent();
-            DataContext = new ManageTeamLeaderViewModel();
+            DataContext = new ManageTeamLeaderViewModel(new TeamLeaderRepository(DatabaseConfig.GetConnectionString()));
         }
     }
 }
