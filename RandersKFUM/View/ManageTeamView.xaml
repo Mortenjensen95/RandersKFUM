@@ -36,11 +36,11 @@
                 <!-- Kolonner -->
                 <DataGrid.Columns>
                     <!-- Holdnavn -->
-                    <DataGridTextColumn Header="Holdnavn" Binding="{Binding TeamName}" />
+                    <DataGridTextColumn Header="Holdnavn" Binding="{Binding TeamName}" Width="*"/>
                     <!-- Holdtype -->
-                    <DataGridTextColumn Header="Holdtype" Binding="{Binding TeamType}" />
+                        <DataGridTextColumn Header="Holdtype" Binding="{Binding TeamType}" Width="*"/>
                     <!-- Holdledernavn -->
-                    <DataGridTextColumn Header="Holdleder" Binding="{Binding TeamLeaderName}" />
+                        <DataGridTextColumn Header="Holdleder" Binding="{Binding TeamLeaderName}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
