@@ -1,11 +1,13 @@
-﻿<Window x:Class="RandersKFUM.View.ManageTeamLeaderView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RandersKFUM.View"
-        mc:Ignorable="d"
-        Title="ManageTeamLeaderView" Height="450" Width="800">
+﻿<Page x:Class="RandersKFUM.View.ManageTeamLeaderView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RandersKFUM.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ManageTeamLeaderView">
+
     <Grid Background="LightGray">
         <!-- Layout til hoveddelen -->
         <Grid.RowDefinitions>
@@ -15,32 +17,39 @@
             <!-- Knapper nederst -->
         </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+        
+
         <!-- DataGrid til Holdledere -->
-        <StackPanel Grid.Row="0" Margin="20">
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="20">
             <TextBlock Text="Administrer Holdledere" 
-                       FontSize="20" 
-                       FontWeight="Bold" 
-                       Margin="0,0,0,20" />
+                   FontSize="20" 
+                   FontWeight="Bold" 
+                   Margin="0,0,0,20" />
 
             <DataGrid ItemsSource="{Binding TeamLeaders}" 
-                      SelectedItem="{Binding SelectedTeamLeader}" 
-                      AutoGenerateColumns="False" 
-                      CanUserAddRows="True" 
-                      IsReadOnly="False" 
-                      Margin="0,0,0,10">
+                  SelectedItem="{Binding SelectedTeamLeader}" 
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="True" 
+                  IsReadOnly="False" 
+                  Margin="0,0,0,10">
                 <!-- Kolonner -->
                 <DataGrid.Columns>
                     <!-- Holdleder ID -->
-                    <DataGridTextColumn Header="Holdleder ID" Binding="{Binding TeamLeaderId}" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Holdleder ID" Binding="{Binding TeamLeaderId}" IsReadOnly="True" Width="4*"/>
 
                     <!-- Holdleder Navn -->
-                    <DataGridTextColumn Header="Navn" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Navn" Binding="{Binding Name}" Width="4*"/>
 
                     <!-- Brugernavn -->
-                    <DataGridTextColumn Header="Brugernavn" Binding="{Binding UserName}" />
+                        <DataGridTextColumn Header="Brugernavn" Binding="{Binding UserName}" Width="4*"/>
 
                     <!-- Adgangskode (PasswordBox til redigering) -->
-                    <DataGridTemplateColumn Header="Adgangskode">
+                        <DataGridTemplateColumn Header="Adgangskode" Width="4*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="********" />
@@ -49,32 +58,45 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <PasswordBox Password="{Binding Password}" />
+                                    <PasswordBox Password="{Binding Password}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
 
                     <!-- Telefon -->
-                    <DataGridTextColumn Header="Telefon" Binding="{Binding Phone}" />
+                        <DataGridTextColumn Header="Telefon" Binding="{Binding Phone}" Width="4*"/>
 
                     <!-- Email -->
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="4*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
+            <StackPanel Grid.Column="1" Margin="0,75,0,0">
+                <Label Content="Navn"/>
+                <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="Brugernavn"/>
+                <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.UserName, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Adgangskode"/>
+                <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.Password, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Telefon"/>
+                <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.Phone, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Email"/>
+                <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.Email, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </Grid>
 
         <!-- Knapper nederst på skærmen -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
             <Button Content="Opret Holdleder" Width="120" Height="30" Margin="5" 
-                    Command="{Binding CreateTeamLeaderCommand}" />
+                Command="{Binding CreateTeamLeaderCommand}" />
             <Button Content="Opdater Holdleder" Width="120" Height="30" Margin="5" 
-                    Command="{Binding UpdateTeamLeaderCommand}" 
-                    IsEnabled="{Binding IsTeamLeaderSelected}" />
+                Command="{Binding UpdateTeamLeaderCommand}" 
+                IsEnabled="{Binding IsTeamLeaderSelected}" />
             <Button Content="Slet Holdleder" Width="120" Height="30" Margin="5" 
-                    Command="{Binding DeleteTeamLeaderCommand}" 
-                    IsEnabled="{Binding IsTeamLeaderSelected}" />
+                Command="{Binding DeleteTeamLeaderCommand}" 
+                IsEnabled="{Binding IsTeamLeaderSelected}" />
             <Button Content="Gem" Width="100" Height="30" Margin="5" 
-                    Command="{Binding SaveChangesCommand}" />
+                Command="{Binding SaveChangesCommand}" />
         </StackPanel>
     </Grid>
-</Window>
+</Page>

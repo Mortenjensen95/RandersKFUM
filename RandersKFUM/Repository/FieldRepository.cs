@@ -39,6 +39,7 @@ namespace RandersKFUM.Repository
                                 FieldType = reader["FieldType"]?.ToString(),
                                 FieldNumber = reader["FieldNumber"] != DBNull.Value ? Convert.ToInt32(reader["FieldNumber"]) : 0
                             });
+
                         }
                     }
                 }
