@@ -1,6 +1,4 @@
-﻿using RandersKFUM.Repository;
-using RandersKFUM.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace RandersKFUM.View
@@ -19,15 +18,11 @@ namespace RandersKFUM.View
     /// <summary>
     /// Interaction logic for ManageTeamView.xaml
     /// </summary>
-    public partial class ManageTeamView : Window
+    public partial class ManageTeamView : Page
     {
         public ManageTeamView()
         {
             InitializeComponent();
-            DataContext = new ManageTeamViewModel(
-                new TeamRepository(DatabaseConfig.GetConnectionString()),
-                new TeamLeaderRepository(DatabaseConfig.GetConnectionString())
-            );
         }
     }
 }

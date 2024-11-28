@@ -22,56 +22,60 @@
                 <ColumnDefinition Width="7*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-        
 
-        <!-- DataGrid til Holdledere -->
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="20">
-            <TextBlock Text="Administrer Holdledere" 
+
+            <!-- DataGrid til Holdledere -->
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="20">
+                <TextBlock Text="Administrer Holdledere" 
                    FontSize="20" 
                    FontWeight="Bold" 
                    Margin="0,0,0,20" />
 
-            <DataGrid ItemsSource="{Binding TeamLeaders}" 
+                <DataGrid ItemsSource="{Binding TeamLeaders}" 
                   SelectedItem="{Binding SelectedTeamLeader}" 
                   AutoGenerateColumns="False" 
                   CanUserAddRows="True" 
                   IsReadOnly="False" 
                   Margin="0,0,0,10">
-                <!-- Kolonner -->
-                <DataGrid.Columns>
-                    <!-- Holdleder ID -->
-                    <DataGridTextColumn Header="Holdleder ID" Binding="{Binding TeamLeaderId}" IsReadOnly="True" Width="4*"/>
+                    <!-- Kolonner -->
+                    <DataGrid.Columns>
+                        <!-- Holdleder ID -->
+                        <DataGridTextColumn Header="Holdleder ID" Binding="{Binding TeamLeaderId}" IsReadOnly="True" Width="4*"/>
 
-                    <!-- Holdleder Navn -->
+                        <!-- Holdleder Navn -->
                         <DataGridTextColumn Header="Navn" Binding="{Binding Name}" Width="4*"/>
 
-                    <!-- Brugernavn -->
+                        <!-- Brugernavn -->
                         <DataGridTextColumn Header="Brugernavn" Binding="{Binding UserName}" Width="4*"/>
 
-                    <!-- Adgangskode (PasswordBox til redigering) -->
+                        <!-- Adgangskode (PasswordBox til redigering) -->
                         <DataGridTemplateColumn Header="Adgangskode" Width="4*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="********" />
-                                <!-- Vis altid stjerner -->
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="********" />
+                                    <!-- Vis altid stjerner -->
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
                                     <PasswordBox Password="{Binding Password}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
 
-                    <!-- Telefon -->
+                        <!-- Telefon -->
                         <DataGridTextColumn Header="Telefon" Binding="{Binding Phone}" Width="4*"/>
 
-                    <!-- Email -->
+                        <!-- Email -->
                         <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="4*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
-            <StackPanel Grid.Column="1" Margin="0,75,0,0">
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="20,20,20,20">
+                <TextBlock Text="Holdleder information" 
+           FontSize="16" 
+           FontWeight="Bold" 
+           Margin="0,0,0,10" />
                 <Label Content="Navn"/>
                 <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}" />
                 <Label Content="Brugernavn"/>
