@@ -12,11 +12,12 @@ namespace RandersKFUM.Model
         public int LockerRoomNumber { get; set; }
         public string LockerRoomType { get; set; }
 
-        public ICollection<LockerRoomBooking> LockerRoomBookings { get; set; }
+        //En lockerroom kan være i flere bookings 
+        public ICollection<Booking> Bookings { get; set; }
 
         public LockerRoom () 
         {
-            LockerRoomBookings = new List<LockerRoomBooking>();
+            Bookings = new List<Booking>();
         }
 
         public LockerRoom(int lockerRoomId, int lockerRoomNumber, string lockerRoomType)
@@ -24,7 +25,7 @@ namespace RandersKFUM.Model
             LockerRoomId = lockerRoomId;
             LockerRoomNumber = lockerRoomNumber;
             LockerRoomType = lockerRoomType;
-            LockerRoomBookings = new List<LockerRoomBooking>();
+            Bookings = new List<Booking>();
         }
     }
 }

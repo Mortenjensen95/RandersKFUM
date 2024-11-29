@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RandersKFUM.Repository
 {
+    //Interface (skabelon) 
     public interface IRepository<t> where t : class
     {
         IEnumerable<t> GetAll();

@@ -15,24 +15,27 @@ namespace RandersKFUM.Model //test
 
         public Team Team { get; set; } // Navigation til Team
 
-        public ICollection<FieldBooking> FieldBookings { get; set; } // Navigation til mange til mange relation
-        public ICollection<LockerRoomBooking> LockerRoomBookings { get; set; }
+        //En booking kan have flere fields/LockerRooms 
+        public ICollection<Field> Fields { get; set; } // Navigation til mange til mange relation
+        public ICollection<LockerRoom> LockerRooms { get; set; }
+
 
         public Booking () 
         {
-            FieldBookings = new List<FieldBookings>();
-            LockerRoomBookings = new List<LockerRoomBookings>();
+            //Hver gang jeg laver en instants af booking så laver jeg en liste af fields
+            Fields = new List<Field>();
+            LockerRooms = new List<LockerRoom>();
         }
 
-
+        //en constructor med parametere (constructor overload)
         public Booking(int bookingNumber, DateTime dateTimeStart, DateTime dateTimeEnd, int teamId)
         {
             BookingNumber = bookingNumber;
             DateTimeStart = dateTimeStart;
             DateTimeEnd = dateTimeEnd;
             TeamId = teamId;
-            FieldBookings = new List<FieldBookings>();
-            LockerRoomBookings = new List<LockerRoomBookings>();
+            Fields = new List<Field>();
+            LockerRooms = new List<LockerRoom>();
         }
     }
 }
