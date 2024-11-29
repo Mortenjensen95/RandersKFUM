@@ -32,5 +32,17 @@ namespace RandersKFUM.Model
             Email = email;
             Teams = new List<Team>();
         }
+
+        public string TeamLeaderName
+        {
+            get => TeamLeader?.Name; // Returner navnet, hvis TeamLeader ikke er null
+            set
+            {
+                if (TeamLeader == null)
+                    TeamLeader = new TeamLeader();
+
+                TeamLeader.Name = value;
+            }
+        }
     }
 }

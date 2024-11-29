@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RandersKFUM
+namespace RandersKFUM.Utilities
 {
     public class DatabaseConfig
     {

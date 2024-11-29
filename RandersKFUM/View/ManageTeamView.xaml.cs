@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RandersKFUM.Repository;
+using RandersKFUM.ViewModel;
+using RandersKFUM.Utilities;
 
 namespace RandersKFUM.View
 {
@@ -23,6 +26,7 @@ namespace RandersKFUM.View
         public ManageTeamView()
         {
             InitializeComponent();
+            DataContext = new ManageTeamViewModel();
         }
     }
 }

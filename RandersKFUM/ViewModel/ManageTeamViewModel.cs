@@ -1,140 +1,69 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows.Input;
+using System.Text;
+using System.Threading.Tasks;
+using RandersKFUM.Utilities;
 using RandersKFUM.Model;
 using RandersKFUM.Repository;
-using RandersKFUM.Utilities;
-using RandersKFUM.View;
 
-
-
-namespace RandersKFUM.ViewModels
+namespace RandersKFUM.ViewModel
 {
-    public class ManageTeamViewModel : INotifyPropertyChanged
+    internal class ManageTeamViewModel : ViewModelBase
     {
-        private readonly TeamRepository _teamRepository;
-        private readonly TeamLeaderRepository _teamLeaderRepository;
+        public ObservableCollection<Team> Teams { get; set; }
+        private readonly TeamRepository teamRepository;
+        private readonly TeamLeaderRepository teamLeaderRepository;
 
-        private Team _selectedTeam;
-        private bool _isTeamSelected;
+        public RelayCommand CreateTeamCommand => new RelayCommand(execute => CreateTeam());
+        public RelayCommand DeleteTeamCommand => new RelayCommand(execute => DeleteTeam(), canExecute => SelectedItem != null);
+        public RelayCommand SaveChangesCommand => new RelayCommand(execute => SaveChanges(), canExecute => SelectedItem != null);
 
-        public ManageTeamViewModel(TeamRepository teamRepository, TeamLeaderRepository teamLeaderRepository)
+        public ManageTeamViewModel()
         {
-            _teamRepository = teamRepository;
-            _teamLeaderRepository = teamLeaderRepository;
-
-            // Hent eksisterende teams og holdledere fra databasen
-            Teams = new ObservableCollection<Team>(_teamRepository.GetAll());
-            TeamLeaders = new ObservableCollection<TeamLeader>(_teamLeaderRepository.GetAll());
-
-            // Kommandoer
-            CreateTeamCommand = new RelayCommand(CreateTeam);
-            UpdateTeamCommand = new RelayCommand(UpdateTeam, () => IsTeamSelected);
-            DeleteTeamCommand = new RelayCommand(DeleteTeam, () => IsTeamSelected);
-            SaveChangesCommand = new RelayCommand(SaveChanges);
+            string connectionString = DatabaseConfig.GetConnectionString();
+            teamRepository = new TeamRepository(connectionString);
+            teamLeaderRepository = new TeamLeaderRepository(connectionString);
+            Teams = new ObservableCollection<Team>();
         }
 
-        // Properties
-        public ObservableCollection<Team> Teams { get; }
-        public ObservableCollection<TeamLeader> TeamLeaders { get; }
+        private Team selectedItem;
 
-        public Team SelectedTeam
+        public Team SelectedItem
         {
-            get => _selectedTeam;
-            set
-            {
-                _selectedTeam = value;
-                IsTeamSelected = _selectedTeam != null;
-                OnPropertyChanged(nameof(SelectedTeam));
+            get { return selectedItem; }
+            set 
+            { 
+                selectedItem = value; 
+                OnPropertyChanged(); 
             }
         }
 
-        public bool IsTeamSelected
-        {
-            get => _isTeamSelected;
-            set
-            {
-                _isTeamSelected = value;
-                OnPropertyChanged(nameof(IsTeamSelected));
-                RefreshCommands();
-            }
-        }
-
-        // Commands
-        public ICommand CreateTeamCommand { get; }
-        public ICommand UpdateTeamCommand { get; }
-        public ICommand DeleteTeamCommand { get; }
-        public ICommand SaveChangesCommand { get; }
-
-        // Methods
-
-        // Opret et nyt hold
         private void CreateTeam()
         {
             var newTeam = new Team
             {
-                TeamName = "Nyt Hold",
-                TeamType = "Type",
-                TeamLeaderId = TeamLeaders.FirstOrDefault()?.TeamLeaderId ?? 0
+                TeamName = "New Team", // Eksempeldata, justér efter behov
+                TeamType = "Default Type",
+                TeamLeaderId = 0
             };
 
-            Teams.Add(newTeam);
-            SelectedTeam = newTeam;
+            teamRepository.Add(newTeam); // Gem i databasen
+            Teams.Add(newTeam);           // Opdater ObservableCollection
         }
 
-        // Opdater det valgte hold
-        private void UpdateTeam()
-        {
-            if (SelectedTeam != null)
-            {
-                // Ændringer gemmes automatisk med databinding
-            }
-        }
-
-        // Slet det valgte hold
         private void DeleteTeam()
         {
-            if (SelectedTeam == null) return;
-
-            // Fjern fra ObservableCollection
-            Teams.Remove(SelectedTeam);
-
-            // Fjern fra databasen
-            _teamRepository.Delete(SelectedTeam.TeamId);
+            teamRepository.Delete(SelectedItem.TeamId); // Slet fra databasen
+            Teams.Remove(SelectedItem);                 // Fjern fra ObservableCollection
         }
 
-        // Gem ændringer i databasen
         private void SaveChanges()
         {
-            foreach (var team in Teams)
-            {
-                if (team.TeamId == 0)
-                {
-                    // Opret nyt hold
-                    _teamRepository.Add(team);
-                }
-                else
-                {
-                    // Opdater eksisterende hold
-                    _teamRepository.Update(team);
-                }
-            }
+            teamRepository.Update(SelectedItem); // Gem ændringer i databasen
         }
 
-        private void RefreshCommands()
-        {
-            (UpdateTeamCommand as RelayCommand)?.RaiseCanExecuteChanged();
-            (DeleteTeamCommand as RelayCommand)?.RaiseCanExecuteChanged();
-        }
 
-        // INotifyPropertyChanged implementation
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
