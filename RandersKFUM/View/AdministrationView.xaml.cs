@@ -1,4 +1,4 @@
-﻿using RandersKFUM.ViewModels;
+﻿using RandersKFUM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RandersKFUM.Utilities;
+using RandersKFUM.ViewModel;
 
 namespace RandersKFUM.View
 {
@@ -21,13 +23,13 @@ namespace RandersKFUM.View
     /// </summary>
     public partial class AdministrationView : Page
     {
-        public AdministrationView(Frame navigationFrame)
+        private readonly Utilities.NavigationService _navigationService;
+
+        public AdministrationView(Utilities.NavigationService navigationService)
         {
             InitializeComponent();
-
-            DataContext = new AdministrationViewModel(
-                navigateBackToMenu: () => navigationFrame.Navigate(new MainMenuView(navigationFrame))
-            );
+            _navigationService = navigationService;
+            DataContext = new AdministrationViewModel(_navigationService);
         }
     }
 }

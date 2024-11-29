@@ -19,16 +19,18 @@ namespace RandersKFUM
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); // Binder XAML til denne kode-behind fil
 
-            // Initialiser ViewModel og giv Frame til navigation
-            var viewModel = new ViewModels.MainMenuViewModel(MainFrame);
+            // Navigation logik her
+            var navigationService = new Utilities.NavigationService(MainFrame);
 
-            // Naviger til hovedmenu
-            MainFrame.Navigate(new MainMenuView(MainFrame));
+            var administrationViewModel = new ViewModel.AdministrationViewModel(navigationService);
+            var administrationView = new View.AdministrationView
+            {
+                DataContext = administrationViewModel
+            };
 
-            // Sæt DataContext til ViewModel
-            DataContext = viewModel;
+            MainFrame.Navigate(administrationView);
         }
     }
 }
