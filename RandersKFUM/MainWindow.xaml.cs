@@ -1,4 +1,6 @@
 ﻿using RandersKFUM.View;
+using RandersKFUM.ViewModel;
+using RandersKFUM.Utilities;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,20 +19,26 @@ namespace RandersKFUM
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static RandersKFUM.Utilities.NavigationService NavigationService { get; private set; }
+
         public MainWindow()
         {
-            InitializeComponent(); // Binder XAML til denne kode-behind fil
+            InitializeComponent();
 
-            // Navigation logik her
-            var navigationService = new Utilities.NavigationService(MainFrame);
+            // Initialiser NavigationService
+            NavigationService = new RandersKFUM.Utilities.NavigationService();
+            NavigationService.Configure(MainFrame);
 
-            var administrationViewModel = new ViewModel.AdministrationViewModel(navigationService);
-            var administrationView = new View.AdministrationView
-            {
-                DataContext = administrationViewModel
-            };
+            // Registrér Views og ViewModels
+            NavigationService.Register<MainMenuViewModel, MainMenuView>();
+            NavigationService.Register<BookingOverviewViewModel, BookingOverviewView>();
+            NavigationService.Register<BookingViewModel, BookingView>();
+            NavigationService.Register<AdministrationViewModel, AdministrationView>();
+            NavigationService.Register<ManageTeamViewModel, ManageTeamView>();
+            NavigationService.Register<ManageTeamLeaderViewModel, ManageTeamLeaderView>();
 
-            MainFrame.Navigate(administrationView);
+            // Naviger til start View
+            NavigationService.NavigateTo<MainMenuViewModel>();
         }
     }
 }

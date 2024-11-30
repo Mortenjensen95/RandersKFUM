@@ -23,13 +23,11 @@ namespace RandersKFUM.View
     /// </summary>
     public partial class AdministrationView : Page
     {
-        private readonly Utilities.NavigationService _navigationService;
 
-        public AdministrationView(Utilities.NavigationService navigationService)
+        public AdministrationView()
         {
             InitializeComponent();
-            _navigationService = navigationService;
-            DataContext = new AdministrationViewModel(_navigationService);
+
         }
     }
 }

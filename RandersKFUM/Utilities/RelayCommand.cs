@@ -5,14 +5,14 @@ namespace RandersKFUM.Utilities
 {
     public class RelayCommand : ICommand
     {
-        private Action<object> _execute;
-        private Func<object, bool> _canExecute;
+        private Action<object> execute;
+        private Func<object, bool> canExecute;
 
         // Constructor for RelayCommand
         public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            _execute = execute;
-            _canExecute = canExecute;
+            execute = execute;
+            canExecute = canExecute;
         }
 
         // Event to notify about command state changes
@@ -25,13 +25,13 @@ namespace RandersKFUM.Utilities
         // Determines if the command can be executed
         public bool CanExecute(object? parameter)
         {
-            return _canExecute == null || _canExecute(parameter);
+            return canExecute == null || canExecute(parameter);
         }
 
         // Executes the command logic
         public void Execute(object? parameter)
         {
-            _execute(parameter);
+            execute(parameter);
         }
 
     }

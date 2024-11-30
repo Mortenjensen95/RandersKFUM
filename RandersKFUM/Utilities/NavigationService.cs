@@ -1,41 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace RandersKFUM.Utilities
 {
     public class NavigationService
     {
-        private readonly Frame _mainFrame;
+        private readonly Dictionary<Type, Type> _viewModelViewMap = new();
 
-        public NavigationService(Frame mainFrame)
+        private Frame _mainFrame;
+
+        public void Configure(Frame mainFrame)
         {
-            _mainFrame = mainFrame ?? throw new ArgumentNullException(nameof(mainFrame));
+            _mainFrame = mainFrame;
         }
 
-        /// <summary>
-        /// Navigates to the specified page.
-        /// </summary>
-        /// <param name="page">The page to navigate to.</param>
-        public void NavigateTo(Page page)
+        public void Register<TViewModel, TView>()
+            where TView : Page, new()
         {
-            if (page == null) throw new ArgumentNullException(nameof(page));
-            _mainFrame.Navigate(page);
+            _viewModelViewMap[typeof(TViewModel)] = typeof(TView);
         }
 
-        /// <summary>
-        /// Navigates back to the previous page in the navigation history.
-        /// </summary>
-        public void GoBack()
+        public void NavigateTo<TViewModel>() where TViewModel : class
         {
-            if (_mainFrame.CanGoBack)
+            if (_viewModelViewMap.TryGetValue(typeof(TViewModel), out var viewType))
             {
-                _mainFrame.GoBack();
+                var view = (Page)Activator.CreateInstance(viewType);
+                _mainFrame.Navigate(view);
+            }
+            else
+            {
+                throw new InvalidOperationException($"No view registered for {typeof(TViewModel)}.");
             }
         }
-
-        /// <summary>
-        /// Checks if navigation can go back.
-        /// </summary>
-        public bool CanGoBack => _mainFrame.CanGoBack;
     }
 }
