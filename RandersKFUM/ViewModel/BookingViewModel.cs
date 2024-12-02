@@ -129,21 +129,22 @@ public class BookingViewModel : ViewModelBase
         var start = SelectedDate.Date + SelectedTimeSlot;
         var end = start.AddMinutes(SelectedDuration);
 
-        var availableFields = _fieldRepository.GetAvailableFields(start, end).Select(f => f.FieldId).ToHashSet();
-        var availableLockerRooms = _lockerRoomRepository.GetAvailableLockerRooms(start, end).Select(lr => lr.LockerRoomId).ToHashSet();
+        var availableFields = _fieldRepository.GetAvailableFields(start, end).Select(f => f.FieldId).ToList();
+        var availableLockerRooms = _lockerRoomRepository.GetAvailableLockerRooms(start, end).Select(lr => lr.LockerRoomId).ToList();
 
         foreach (var field in Fields)
         {
-            var isAvailable = availableFields.Contains(field.FieldId);
-            OnPropertyChanged(nameof(Fields));
+            field.IsAvailable = availableFields.Contains(field.FieldId);
+            OnPropertyChanged(nameof(Fields)); // Sikrer UI opdatering
         }
 
         foreach (var lockerRoom in LockerRooms)
         {
-            var isAvailable = availableLockerRooms.Contains(lockerRoom.LockerRoomId);
-            OnPropertyChanged(nameof(LockerRooms));
+            lockerRoom.IsAvailable = availableLockerRooms.Contains(lockerRoom.LockerRoomId);
+            OnPropertyChanged(nameof(LockerRooms)); // Sikrer UI opdatering
         }
     }
+
 
     private void SelectField(Field field)
     {

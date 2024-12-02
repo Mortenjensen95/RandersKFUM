@@ -26,36 +26,49 @@
             <ComboBox ItemsSource="{Binding Durations}" SelectedItem="{Binding SelectedDuration}" />
 
             <TextBlock Text="Vælg omklædningsrum" Margin="0,20,0,5" />
-            <ComboBox ItemsSource="{Binding LockerRooms}" SelectedItem="{Binding SelectedLockerRoom}" 
-                      DisplayMemberPath="LockerRoomNumber">
+            <ComboBox ItemsSource="{Binding LockerRooms}" SelectedItem="{Binding SelectedLockerRoom}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding LockerRoomNumber}" 
-                                   Foreground="{Binding DataContext.LockerRoomIsAvailable, 
-                                   RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                                   Converter={StaticResource BoolToBrushConverter}} />
+                                   Foreground="{Binding IsAvailable, Converter={StaticResource BoolToBrushConverter}}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
 
         <!-- Visualisering af baner -->
-        <StackPanel Grid.Column="1" Margin="20">
-            <TextBlock Text="Vælg bane" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" />
-            <ItemsControl ItemsSource="{Binding Fields}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Content="{Binding FieldNumber}"
-                                Background="{Binding DataContext.FieldIsAvailable, 
-                                    RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                    Converter={StaticResource BoolToBrushConverter}}"
-                                Command="{Binding DataContext.SelectFieldCommand, 
-                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                CommandParameter="{Binding}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
+        <TextBlock Text="Vælg bane" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Grid.Column="1" HorizontalAlignment="Center"/>
+
+        <!-- Faste knapper til baner -->
+        <Button Content="Bane 1" Width="100" Height="50" Grid.Column="1"
+                Background="{Binding Fields[0].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                Command="{Binding SelectFieldCommand}" 
+                CommandParameter="{Binding Fields[0]}" Margin="201,185,300,215" />
+
+        <Button Content="Multi" Width="100" Height="50" Grid.Column="1"
+                Background="{Binding Fields[1].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                Command="{Binding SelectFieldCommand}" 
+                CommandParameter="{Binding Fields[1]}" Margin="61,190,440,210" />
+
+        <Button Content="Bane 2" Width="100" Height="50" Grid.Column="1"
+                Background="{Binding Fields[2].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                Command="{Binding SelectFieldCommand}" 
+                CommandParameter="{Binding Fields[2]}" Margin="325,290,176,110" />
+
+        <Button Content="Bane 3" Width="100" Height="50" Grid.Column="1"
+                Background="{Binding Fields[3].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                Command="{Binding SelectFieldCommand}" 
+                CommandParameter="{Binding Fields[3]}" Margin="240,95,261,305" />
+
+        <Button Content="Bane 4" Width="100" Height="50" Grid.Column="1"
+                Background="{Binding Fields[4].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                Command="{Binding SelectFieldCommand}" 
+                CommandParameter="{Binding Fields[4]}" Margin="375,200,126,200" />
+
+        <Button Content="Bane 5" Width="100" Height="50" Grid.Column="1"
+                Background="{Binding Fields[5].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                Command="{Binding SelectFieldCommand}" 
+                CommandParameter="{Binding Fields[5]}" Margin="375,95,126,305" />
 
         <!-- Knapper til handling -->
         <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20">
@@ -63,5 +76,4 @@
             <Button Content="Cancel" Width="80" Command="{Binding NavigateBackCommand}" />
         </StackPanel>
     </Grid>
-
 </Page>
