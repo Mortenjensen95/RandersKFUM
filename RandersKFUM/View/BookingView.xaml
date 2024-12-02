@@ -50,7 +50,7 @@
 
         <!-- Booking-knapper nederst -->
         <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20">
-            <Button Content="Book" Width="80" Margin="10" Command="{Binding ConfirmBookingCommand}" />
+            <Button Content="Book" Width="80" Height="35" Margin="0,0,10,0"  Command="{Binding ConfirmBookingCommand}" />
             <Button Content="Cancel" Width="80" Command="{Binding NavigateBackCommand}" />
         </StackPanel>
     </Grid>
