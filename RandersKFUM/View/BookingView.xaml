@@ -14,7 +14,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Kalender til venstre -->
+        <!-- Kalender og valgmenuer -->
         <StackPanel Grid.Column="0" Margin="10">
             <TextBlock Text="Vælg dato" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" />
             <Calendar SelectedDate="{Binding SelectedDate}" />
@@ -26,31 +26,57 @@
             <ComboBox ItemsSource="{Binding Durations}" SelectedItem="{Binding SelectedDuration}" />
 
             <TextBlock Text="Vælg omklædningsrum" Margin="0,20,0,5" />
-            <ComboBox ItemsSource="{Binding LockerRooms}" SelectedItem="{Binding SelectedLockerRoom}" />
+            <ComboBox ItemsSource="{Binding LockerRooms}" SelectedItem="{Binding SelectedLockerRoom}" 
+                      DisplayMemberPath="LockerRoomNumber">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding LockerRoomNumber}" 
+                                   Foreground="{Binding IsAvailable, Converter={StaticResource BoolToBrushConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
 
-        <!-- Højre side: Visualisering af baner -->
-        <StackPanel Grid.Column="1" Margin="20">
-            <TextBlock Text="Vælg bane" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" />
-            <UniformGrid Rows="2" Columns="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Content="Bane 1" Background="Green" Foreground="White" Margin="5" Width="100" Height="50"
-                    Command="{Binding SelectFieldCommand}" CommandParameter="1" />
-                <Button Content="Multi" Background="Green" Foreground="White" Width="50" Height="100"
-                    Command="{Binding SelectFieldCommand}" CommandParameter="Multi" />
-                <Button Content="Bane 2" Background="Green" Foreground="White" Margin="5" Width="100" Height="50"
-                    Command="{Binding SelectFieldCommand}" CommandParameter="2" />
-                <Button Content="Bane 3" Background="Green" Foreground="White" Margin="5" Width="150" Height="50"
-                    Command="{Binding SelectFieldCommand}" CommandParameter="3" />
-                <Button Content="Bane 4" Background="Green" Foreground="White" Margin="5" Width="150" Height="50"
-                    Command="{Binding SelectFieldCommand}" CommandParameter="4" />
-                <Button Content="Bane 5" Background="Green" Foreground="White" Margin="5" Width="100" Height="50"
-                    Command="{Binding SelectFieldCommand}" CommandParameter="5" />
-            </UniformGrid>
-        </StackPanel>
+        <!-- Visualisering af baner -->
+            <TextBlock Text="Vælg bane" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Grid.Column="1" HorizontalAlignment="Center"/>
+            <!-- Bane 1 -->
+            <Button Content="Bane 1" Width="100" Height="50" Grid.Column="1"
+                        Background="{Binding Fields[0].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                        Command="{Binding SelectFieldCommand}" 
+                        CommandParameter="{Binding Fields[0]}" Margin="201,185,300,215" />
 
-        <!-- Booking-knapper nederst -->
+            <!-- Multi -->
+        <Button Content="Multi" Width="100" Height="50" Grid.Column="1"
+                        Background="{Binding Fields[1].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                        Command="{Binding SelectFieldCommand}" 
+                        CommandParameter="{Binding Fields[1]}" Margin="61,190,440,210" />
+
+            <!-- Bane 2 -->
+        <Button Content="Bane 2" Width="100" Height="50" Grid.Column="1"
+                        Background="{Binding Fields[2].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                        Command="{Binding SelectFieldCommand}" 
+                        CommandParameter="{Binding Fields[2]}" Margin="325,290,176,110" />
+
+            <!-- Bane 3 -->
+        <Button Content="Bane 3" Width="100" Height="50" Grid.Column="1"
+                        Background="{Binding Fields[3].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                        Command="{Binding SelectFieldCommand}" 
+                        CommandParameter="{Binding Fields[3]}" Margin="240,95,261,305" />
+
+            <!-- Bane 4 -->
+        <Button Content="Bane 4" Width="100" Height="50" Grid.Column="1"
+                        Background="{Binding Fields[4].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                        Command="{Binding SelectFieldCommand}" 
+                        CommandParameter="{Binding Fields[4]}" Margin="375,200,126,200" />
+        <Button Content="Bane 5" Width="100" Height="50" Grid.Column="1"
+                        Background="{Binding Fields[5].IsAvailable, Converter={StaticResource BoolToBrushConverter}}"
+                        Command="{Binding SelectFieldCommand}" 
+                        CommandParameter="{Binding Fields[5]}" Margin="375,95,126,305" />
+
+
+        <!-- Knapper til handling -->
         <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20">
-            <Button Content="Book" Width="80" Height="35" Margin="0,0,10,0"  Command="{Binding ConfirmBookingCommand}" />
+            <Button Content="Book" Width="80" Height="35" Margin="0,0,10,0" Command="{Binding ConfirmBookingCommand}" />
             <Button Content="Cancel" Width="80" Command="{Binding NavigateBackCommand}" />
         </StackPanel>
     </Grid>
