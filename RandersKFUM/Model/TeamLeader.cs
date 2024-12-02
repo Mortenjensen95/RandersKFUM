@@ -33,7 +33,7 @@ namespace RandersKFUM.Model
             Teams = new List<Team>();
         }
 
-        public string TeamLeaderName
+        /*public string TeamLeaderName
         {
             get => TeamLeader?.Name; // Returner navnet, hvis TeamLeader ikke er null
             set
@@ -44,5 +44,6 @@ namespace RandersKFUM.Model
                 TeamLeader.Name = value;
             }
         }
+        */
     }
 }
