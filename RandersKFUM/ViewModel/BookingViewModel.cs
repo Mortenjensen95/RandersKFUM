@@ -112,7 +112,7 @@ public class BookingViewModel : ViewModelBase
 
     private void InitializeTimeSlots()
     {
-        for (int hour = 8; hour <= 22; hour++)
+        for (int hour = 15; hour <= 22; hour++)
         {
             TimeSlots.Add(new TimeSpan(hour, 0, 0));
             TimeSlots.Add(new TimeSpan(hour, 30, 0));
