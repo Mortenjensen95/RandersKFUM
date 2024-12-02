@@ -150,6 +150,7 @@ namespace RandersKFUM.ViewModel
         }
 
 
+
         private void SelectField(Field field)
         {
             SelectedField = field;

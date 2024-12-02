@@ -154,6 +154,35 @@ namespace RandersKFUM.Repository
             return fields;
         }
 
+        public IEnumerable<Field> GetUnavailableFields(DateTime start, DateTime end)
+        {
+            var fields = new List<Field>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand("uspGetUnavailableFields", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@NewBookingStart", start);
+                    command.Parameters.AddWithValue("@NewBookingEnd", end);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            fields.Add(new Field
+                            {
+                                FieldId = Convert.ToInt32(reader["FieldId"]),
+                                FieldNumber = Convert.ToInt32(reader["FieldNumber"])
+                            });
+                        }
+                    }
+                }
+            }
+            return fields;
+        }
+
+
     }
 
 }
