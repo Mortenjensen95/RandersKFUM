@@ -1,13 +1,17 @@
-﻿using RandersKFUM.Model;
+﻿using RandersKFUM.Hjælpeklasser;
+using RandersKFUM.Model;
 using RandersKFUM.Repository;
 using RandersKFUM.Utilities;
 using System.Collections.ObjectModel;
 
 public class BookingViewModel : ViewModelBase
 {
-    private readonly FieldRepository _fieldRepository;
-    private readonly LockerRoomRepository _lockerRoomRepository;
-    private readonly BookingRepository _bookingRepository;
+    private readonly FieldRepository fieldRepository;
+    private readonly LockerRoomRepository lockerRoomRepository;
+    private readonly BookingRepository bookingRepository;
+
+    public ObservableCollection<FieldStatus> FieldAvailability { get; set; } = new ObservableCollection<FieldStatus>();
+    public ObservableCollection<LockerRoomStatus> LockerRoomAvailability { get; set; } = new ObservableCollection<LockerRoomStatus>();
 
     public ObservableCollection<Field> Fields { get; set; } = new ObservableCollection<Field>();
     public ObservableCollection<LockerRoom> LockerRooms { get; set; } = new ObservableCollection<LockerRoom>();
@@ -19,60 +23,60 @@ public class BookingViewModel : ViewModelBase
     public RelayCommand ConfirmBookingCommand { get; }
     public RelayCommand NavigateBackCommand { get; }
 
-    private Field _selectedField;
+    private Field selectedField;
     public Field SelectedField
     {
-        get => _selectedField;
+        get => selectedField;
         set
         {
-            _selectedField = value;
+            selectedField = value;
             OnPropertyChanged(); // Dette sikrer, at UI bliver opdateret, når værdien ændres
         }
     }
 
-    private LockerRoom _selectedLockerRoom;
+    private LockerRoom selectedLockerRoom;
     public LockerRoom SelectedLockerRoom
     {
-        get => _selectedLockerRoom;
+        get => selectedLockerRoom;
         set
         {
-            _selectedLockerRoom = value;
+            selectedLockerRoom = value;
             OnPropertyChanged(); // Sikrer, at UI bliver opdateret
         }
     }
 
 
-    private DateTime _selectedDate;
+    private DateTime selectedDate;
     public DateTime SelectedDate
     {
-        get => _selectedDate;
+        get => selectedDate;
         set
         {
-            _selectedDate = value;
+            selectedDate = value;
             OnPropertyChanged();
             UpdateAvailability();
         }
     }
 
-    private TimeSpan _selectedTimeSlot;
+    private TimeSpan selectedTimeSlot;
     public TimeSpan SelectedTimeSlot
     {
-        get => _selectedTimeSlot;
+        get => selectedTimeSlot;
         set
         {
-            _selectedTimeSlot = value;
+            selectedTimeSlot = value;
             OnPropertyChanged();
             UpdateAvailability();
         }
     }
 
-    private int _selectedDuration;
+    private int selectedDuration;
     public int SelectedDuration
     {
-        get => _selectedDuration;
+        get => selectedDuration;
         set
         {
-            _selectedDuration = value;
+            selectedDuration = value;
             OnPropertyChanged();
             UpdateAvailability();
         }
@@ -80,9 +84,9 @@ public class BookingViewModel : ViewModelBase
 
     public BookingViewModel(FieldRepository fieldRepository, LockerRoomRepository lockerRoomRepository, BookingRepository bookingRepository)
     {
-        _fieldRepository = fieldRepository;
-        _lockerRoomRepository = lockerRoomRepository;
-        _bookingRepository = bookingRepository;
+        this.fieldRepository = fieldRepository;
+        this.lockerRoomRepository = lockerRoomRepository;
+        this.bookingRepository = bookingRepository;
 
         UpdateAvailabilityCommand = new RelayCommand(_ => UpdateAvailability());
         SelectFieldCommand = new RelayCommand<Field>(field => SelectField(field));
@@ -96,14 +100,14 @@ public class BookingViewModel : ViewModelBase
     private void LoadAllResources()
     {
         Fields.Clear();
-        var allFields = _fieldRepository.GetAll();
+        var allFields = fieldRepository.GetAll();
         foreach (var field in allFields)
         {
             Fields.Add(field);
         }
 
         LockerRooms.Clear();
-        var allLockerRooms = _lockerRoomRepository.GetAll();
+        var allLockerRooms = lockerRoomRepository.GetAll();
         foreach (var lockerRoom in allLockerRooms)
         {
             LockerRooms.Add(lockerRoom);
@@ -122,28 +126,47 @@ public class BookingViewModel : ViewModelBase
     private void UpdateAvailability()
     {
         if (SelectedDate == default || SelectedTimeSlot == default || SelectedDuration == 0)
-        {
             return;
-        }
 
         var start = SelectedDate.Date + SelectedTimeSlot;
         var end = start.AddMinutes(SelectedDuration);
 
-        var availableFields = _fieldRepository.GetAvailableFields(start, end).Select(f => f.FieldId).ToList();
-        var availableLockerRooms = _lockerRoomRepository.GetAvailableLockerRooms(start, end).Select(lr => lr.LockerRoomId).ToList();
+        // Hent alle felter og omklædningsrum først
+        var allFields = fieldRepository.GetAll();
+        var allLockerRooms = lockerRoomRepository.GetAll();
 
-        foreach (var field in Fields)
+        // Hent kun tilgængelige ressourcer
+        var availableFields = fieldRepository.GetAvailableFields(start, end).Select(f => f.FieldId).ToList();
+        var availableLockerRooms = lockerRoomRepository.GetAvailableLockerRooms(start, end).Select(lr => lr.LockerRoomId).ToList();
+
+        // Opdater tilgængelighedsstatus for alle ressourcer
+        FieldAvailability.Clear();
+        foreach (var field in allFields)
         {
-            field.IsAvailable = availableFields.Contains(field.FieldId);
-            OnPropertyChanged(nameof(Fields)); // Sikrer UI opdatering
+            FieldAvailability.Add(new FieldStatus
+            {
+                FieldId = field.FieldId,
+                IsAvailable = availableFields.Contains(field.FieldId)
+            });
         }
 
-        foreach (var lockerRoom in LockerRooms)
+        LockerRoomAvailability.Clear();
+        foreach (var lockerRoom in allLockerRooms)
         {
-            lockerRoom.IsAvailable = availableLockerRooms.Contains(lockerRoom.LockerRoomId);
-            OnPropertyChanged(nameof(LockerRooms)); // Sikrer UI opdatering
+            LockerRoomAvailability.Add(new LockerRoomStatus
+            {
+                LockerRoomId = lockerRoom.LockerRoomId,
+                IsAvailable = availableLockerRooms.Contains(lockerRoom.LockerRoomId)
+            });
         }
+
+        OnPropertyChanged(nameof(FieldAvailability));
+        OnPropertyChanged(nameof(LockerRoomAvailability));
     }
+
+
+
+
 
 
     private void SelectField(Field field)
@@ -169,7 +192,7 @@ public class BookingViewModel : ViewModelBase
             DateTimeEnd = end
         };
 
-        _bookingRepository.Add(booking);
+        bookingRepository.Add(booking);
     }
 
     private void NavigateBack()
