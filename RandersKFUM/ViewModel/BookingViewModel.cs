@@ -45,7 +45,6 @@ public class BookingViewModel : ViewModelBase
         }
     }
 
-
     private DateTime selectedDate;
     public DateTime SelectedDate
     {
@@ -163,10 +162,6 @@ public class BookingViewModel : ViewModelBase
         OnPropertyChanged(nameof(FieldAvailability));
         OnPropertyChanged(nameof(LockerRoomAvailability));
     }
-
-
-
-
 
 
     private void SelectField(Field field)

@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 
 namespace RandersKFUM.Repository
 {
-    public class BookingRepository : IRepository<Booking>
+    public class BookingRepository
     {
         private readonly string _connectionString;
 
@@ -75,7 +75,7 @@ namespace RandersKFUM.Repository
             return null;
         }
 
-        public void Add(Booking booking)
+        public void Add(Booking booking, int fieldId, int lockerRoomId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -84,16 +84,19 @@ namespace RandersKFUM.Repository
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.Add(new SqlParameter("@DateTimeStart", SqlDbType.DateTime2)).Value = booking.DateTimeStart;
-                    command.Parameters.Add(new SqlParameter("@DateTimeEnd", SqlDbType.DateTime2)).Value = booking.DateTimeEnd;
-                    command.Parameters.Add(new SqlParameter("@TeamId", SqlDbType.Int)).Value = booking.TeamId;
+                    command.Parameters.Add(new SqlParameter("@DateTimeStart", booking.DateTimeStart));
+                    command.Parameters.Add(new SqlParameter("@DateTimeEnd", booking.DateTimeEnd));
+                    command.Parameters.Add(new SqlParameter("@TeamId", booking.TeamId));
+                    command.Parameters.Add(new SqlParameter("@FieldId", fieldId));
+                    command.Parameters.Add(new SqlParameter("@LockerRoomId", lockerRoomId));
 
                     command.ExecuteNonQuery();
                 }
             }
         }
 
-        public void Update(Booking booking)
+
+        public void Update(Booking booking, int fieldId, int lockerRoomId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -102,15 +105,18 @@ namespace RandersKFUM.Repository
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.Add(new SqlParameter("@BookingNumber", SqlDbType.Int)).Value = booking.BookingNumber;
-                    command.Parameters.Add(new SqlParameter("@DateTimeStart", SqlDbType.DateTime2)).Value = booking.DateTimeStart;
-                    command.Parameters.Add(new SqlParameter("@DateTimeEnd", SqlDbType.DateTime2)).Value = booking.DateTimeEnd;
-                    command.Parameters.Add(new SqlParameter("@TeamId", SqlDbType.Int)).Value = booking.TeamId;
+                    command.Parameters.Add(new SqlParameter("@BookingNumber", booking.BookingNumber));
+                    command.Parameters.Add(new SqlParameter("@DateTimeStart", booking.DateTimeStart));
+                    command.Parameters.Add(new SqlParameter("@DateTimeEnd", booking.DateTimeEnd));
+                    command.Parameters.Add(new SqlParameter("@TeamId", booking.TeamId));
+                    command.Parameters.Add(new SqlParameter("@FieldId", fieldId));
+                    command.Parameters.Add(new SqlParameter("@LockerRoomId", lockerRoomId));
 
                     command.ExecuteNonQuery();
                 }
             }
         }
+
 
         public void Delete(int bookingNumber)
         {
@@ -120,11 +126,12 @@ namespace RandersKFUM.Repository
                 using (var command = new SqlCommand("uspDeleteBooking", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add(new SqlParameter("@BookingNumber", SqlDbType.Int)).Value = bookingNumber;
 
+                    command.Parameters.Add(new SqlParameter("@BookingNumber", bookingNumber));
                     command.ExecuteNonQuery();
                 }
             }
         }
+
     }
 }

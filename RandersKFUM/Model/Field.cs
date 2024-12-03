@@ -14,7 +14,11 @@ namespace RandersKFUM.Model
 
         public ICollection<FieldBooking> FieldBookings { get; set; }
 
-        
+        public Field()
+        {
+
+        }
+
         public Field(string fieldType, int fieldNumber)
         {
             FieldType = fieldType;
