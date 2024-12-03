@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RandersKFUM.View"
-        xmlns:vm="clr-namespace:RandersKFUM.ViewModel"
+        xmlns:viewModel="clr-namespace:RandersKFUM.ViewModel"
         mc:Ignorable="d"
         Title="LoginView" Height="450" Width="800"
         WindowStyle="None"
@@ -12,10 +12,6 @@
         WindowStartupLocation="CenterScreen"
         MouseDown="Window_MouseDown">
 
-    <Window.DataContext>
-        <viewModel:LoginViewModel/>
-    </Window.DataContext>
-    
     <Grid Background="LightGray">
         <Grid>
             <Grid.RowDefinitions>
