@@ -173,22 +173,25 @@ public class BookingViewModel : ViewModelBase
     {
         if (SelectedField == null || SelectedLockerRoom == null)
         {
+            // Sørg for at både Field og LockerRoom er valgt, før du fortsætter.
             return;
         }
 
         var start = SelectedDate.Date + SelectedTimeSlot;
         var end = start.AddMinutes(SelectedDuration);
 
+        // Opret en ny booking med de nødvendige egenskaber.
         var booking = new Booking
         {
-            FieldId = SelectedField.FieldId,
-            LockerRoomId = SelectedLockerRoom.LockerRoomId,
             DateTimeStart = start,
-            DateTimeEnd = end
+            DateTimeEnd = end,
+            TeamId = SelectedTeam.TeamId // Sørg for at have et valgt team.
         };
 
-        bookingRepository.Add(booking);
+        // Send alle nødvendige parametre til Add-metoden.
+        bookingRepository.Add(booking, SelectedField.FieldId, SelectedLockerRoom.LockerRoomId);
     }
+
 
     private void NavigateBack()
     {
