@@ -19,7 +19,6 @@ public class BookingViewModel : ViewModelBase
     public ObservableCollection<int> Durations { get; set; } = new ObservableCollection<int> { 30, 60, 90, 120 };
 
     public RelayCommand UpdateAvailabilityCommand { get; }
-    public RelayCommand<Field> SelectFieldCommand { get; }
     public RelayCommand ConfirmBookingCommand { get; }
     public RelayCommand NavigateBackCommand { get; }
 
@@ -88,7 +87,6 @@ public class BookingViewModel : ViewModelBase
         this.bookingRepository = bookingRepository;
 
         UpdateAvailabilityCommand = new RelayCommand(_ => UpdateAvailability());
-        SelectFieldCommand = new RelayCommand<Field>(field => SelectField(field));
         ConfirmBookingCommand = new RelayCommand(_ => ConfirmBooking());
         NavigateBackCommand = new RelayCommand(_ => NavigateBack());
 
