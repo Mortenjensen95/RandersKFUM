@@ -16,8 +16,7 @@
             <Button Content="Opret booking" Height="40" Margin="0,10"
                     Command="{Binding NavigateToBookingCommand}" />
             <Button Content="Administration" Height="40" Margin="0,10"
-                    Command="{Binding NavigateToAdministrationCommand}" 
-                    Visibility="{Binding IsAdminVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    Command="{Binding NavigateToAdministrationCommand}" />
         </StackPanel>
 
         <!-- Login/Logout-knap nederst -->
