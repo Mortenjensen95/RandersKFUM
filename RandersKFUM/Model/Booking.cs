@@ -20,8 +20,8 @@ namespace RandersKFUM.Model //test
 
         public Booking () 
         {
-            FieldBookings = new List<FieldBookings>();
-            LockerRoomBookings = new List<LockerRoomBookings>();
+            FieldBookings = new List<FieldBooking>();
+            LockerRoomBookings = new List<LockerRoomBooking>();
         }
 
 
@@ -31,8 +31,8 @@ namespace RandersKFUM.Model //test
             DateTimeStart = dateTimeStart;
             DateTimeEnd = dateTimeEnd;
             TeamId = teamId;
-            FieldBookings = new List<FieldBookings>();
-            LockerRoomBookings = new List<LockerRoomBookings>();
+            FieldBookings = new List<FieldBooking>();
+            LockerRoomBookings = new List<LockerRoomBooking>();
         }
     }
 }

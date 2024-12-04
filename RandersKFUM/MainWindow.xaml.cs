@@ -30,15 +30,15 @@ namespace RandersKFUM
             NavigationService.Configure(MainFrame);
 
             // Registrér Views og ViewModels
-            NavigationService.Register<MainMenuViewModel, MainMenuView>();
-            NavigationService.Register<BookingOverviewViewModel, BookingOverviewView>();
+            // NavigationService.Register<MainMenuViewModel, MainMenuView>();
+            // NavigationService.Register<BookingOverviewViewModel, BookingOverviewView>();
             NavigationService.Register<BookingViewModel, BookingView>();
             NavigationService.Register<AdministrationViewModel, AdministrationView>();
             NavigationService.Register<ManageTeamViewModel, ManageTeamView>();
             NavigationService.Register<ManageTeamLeaderViewModel, ManageTeamLeaderView>();
 
             // Naviger til start View
-            NavigationService.NavigateTo<MainMenuViewModel>();
+            // NavigationService.NavigateTo<MainMenuViewModel>();
         }
     }
 }

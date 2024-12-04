@@ -27,6 +27,7 @@ namespace RandersKFUM.View
         public AdministrationView()
         {
             InitializeComponent();
+            DataContext = new AdministrationViewModel();
 
         }
     }

@@ -9,10 +9,12 @@ public class BookingViewModel : ViewModelBase
     private readonly FieldRepository fieldRepository;
     private readonly LockerRoomRepository lockerRoomRepository;
     private readonly BookingRepository bookingRepository;
+    private readonly TeamRepository teamRepository;
 
     public ObservableCollection<FieldStatus> FieldAvailability { get; set; } = new ObservableCollection<FieldStatus>();
     public ObservableCollection<LockerRoomStatus> LockerRoomAvailability { get; set; } = new ObservableCollection<LockerRoomStatus>();
-
+    
+    public ObservableCollection<Team> Teams { get; set; } = new ObservableCollection<Team> { };
     public ObservableCollection<Field> Fields { get; set; } = new ObservableCollection<Field>();
     public ObservableCollection<LockerRoom> LockerRooms { get; set; } = new ObservableCollection<LockerRoom>();
     public ObservableCollection<TimeSpan> TimeSlots { get; set; } = new ObservableCollection<TimeSpan>();
@@ -80,11 +82,24 @@ public class BookingViewModel : ViewModelBase
         }
     }
 
-    public BookingViewModel(FieldRepository fieldRepository, LockerRoomRepository lockerRoomRepository, BookingRepository bookingRepository)
+    private Team selectedTeam;
+    public Team SelectedTeam
+    {
+        get => selectedTeam;
+        set
+        {
+            selectedTeam = value;
+            OnPropertyChanged();
+            UpdateAvailability();
+        }
+    }
+
+    public BookingViewModel(FieldRepository fieldRepository, LockerRoomRepository lockerRoomRepository, BookingRepository bookingRepository, TeamRepository teamRepository)
     {
         this.fieldRepository = fieldRepository;
         this.lockerRoomRepository = lockerRoomRepository;
         this.bookingRepository = bookingRepository;
+        this.teamRepository = teamRepository;
 
         UpdateAvailabilityCommand = new RelayCommand(_ => UpdateAvailability());
         ConfirmBookingCommand = new RelayCommand(_ => ConfirmBooking());
@@ -109,6 +124,13 @@ public class BookingViewModel : ViewModelBase
         {
             LockerRooms.Add(lockerRoom);
         }
+
+        Teams.Clear();
+        var allTeams = teamRepository.GetAll();
+        foreach (var team in allTeams)
+        {
+            Teams.Add(team);
+        }
     }
 
     private void InitializeTimeSlots()
@@ -122,7 +144,7 @@ public class BookingViewModel : ViewModelBase
 
     private void UpdateAvailability()
     {
-        if (SelectedDate == default || SelectedTimeSlot == default || SelectedDuration == 0)
+        if (SelectedDate == default || SelectedTimeSlot == default || SelectedDuration == 0 || SelectedTeam == default)
             return;
 
         var start = SelectedDate.Date + SelectedTimeSlot;

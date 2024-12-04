@@ -1,6 +1,7 @@
 ﻿using RandersKFUM.Repository;
 using RandersKFUM.Utilities;
 using RandersKFUM.ViewModel;
+using RandersKFUM.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace RandersKFUM.View
         public BookingView()
         {
             InitializeComponent();
-            DataContext = new BookingViewModel(new FieldRepository(), new LockerRoomRepository(), new BookingRepository());
+            DataContext = new BookingViewModel(new FieldRepository(DatabaseConfig.GetConnectionString()), new LockerRoomRepository(DatabaseConfig.GetConnectionString()), new BookingRepository(DatabaseConfig.GetConnectionString()), new TeamRepository(DatabaseConfig.GetConnectionString()));
         }
     }
 }
