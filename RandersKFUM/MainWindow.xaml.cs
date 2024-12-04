@@ -26,8 +26,8 @@ namespace RandersKFUM
             // Initialiser NavigationService.MainFrame
             RandersKFUM.Utilities.NavigationService.MainFrame = MainFrame;
 
-            // Naviger til AdministrationView
-            MainFrame.Navigate(new AdministrationView());
+            // Naviger til MainMenuView
+            MainFrame.Navigate(new MainMenuView());
         }
 
     }

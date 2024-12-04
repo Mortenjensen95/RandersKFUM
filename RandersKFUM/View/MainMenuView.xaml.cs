@@ -21,7 +21,7 @@ namespace RandersKFUM.View
     /// </summary>
     public partial class MainMenuView : Page
     {
-        public MainMenuView(Frame navigationFrame)
+        public MainMenuView()
         {
             InitializeComponent();
             DataContext = new MainMenuViewModel();

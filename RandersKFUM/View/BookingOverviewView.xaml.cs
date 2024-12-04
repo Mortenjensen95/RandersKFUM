@@ -21,7 +21,7 @@ namespace RandersKFUM.View
     /// </summary>
     public partial class BookingOverviewView : Page
     {
-        public BookingOverviewView(Frame navigationFrame)
+        public BookingOverviewView()
         {
             InitializeComponent();
             DataContext = new BookingOverviewViewModel();
