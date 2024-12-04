@@ -11,9 +11,9 @@
     <Grid Background="LightGray">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Administration" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
-            <Button Content="Administrer Hold" Width="200" Height="50" Margin="0,10"
+            <Button Content="Administrer hold" Width="200" Height="50" Margin="0,10"
                 Command="{Binding NavigateToManageTeamViewCommand}" />
-            <Button Content="Administrer Holdleder" Width="200" Height="50" Margin="0,10"
+            <Button Content="Administrer holdleder" Width="200" Height="50" Margin="0,10"
                 Command="{Binding NavigateToManageTeamLeaderCommand}" />
         </StackPanel>
 
