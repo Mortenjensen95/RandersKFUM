@@ -4,6 +4,5 @@
              xmlns:local="clr-namespace:RandersKFUM"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <local:BoolToBrushConverter x:Key="BoolToBrushConverter" />
     </Application.Resources>
 </Application>

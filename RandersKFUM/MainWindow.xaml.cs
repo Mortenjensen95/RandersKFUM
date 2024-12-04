@@ -22,7 +22,7 @@ namespace RandersKFUM
         public MainWindow()
         {
             InitializeComponent();
-            RandersKFUM.Utilities.NavigationService.MainFrame = MainFrame; // Binder MainFrame til NavigationService
+            MainFrame.Navigate(new View.AdministrationView());
         }
     }
 }
