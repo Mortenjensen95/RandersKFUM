@@ -22,12 +22,12 @@ namespace RandersKFUM.ViewModel
 
         private void NavigateToManageTeamView()
         {
-            NavigationService.NavigateTo(new ManageTeamView());
+            RandersKFUM.Utilities.NavigationService.NavigateTo(new ManageTeamView());   
         }
 
         private void NavigateToTeamLeaderView()
         {
-            NavigationService.NavigateTo(new ManageTeamLeaderView());
+            RandersKFUM.Utilities.NavigationService.NavigateTo(new ManageTeamLeaderView());
         }
     }
 }
