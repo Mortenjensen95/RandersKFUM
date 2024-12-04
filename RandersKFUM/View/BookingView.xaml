@@ -58,10 +58,10 @@
                         <TextBlock Text="{Binding FieldId}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Background" Value="Green"/>
+                                    <Setter Property="Background" Value="Green" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsAvailable}" Value="False">
-                                            <Setter Property="Background" Value="Red"/>
+                                            <Setter Property="Background" Value="Red" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -70,6 +70,9 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+
+
+
 
         </StackPanel>
 
