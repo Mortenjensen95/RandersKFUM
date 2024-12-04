@@ -19,26 +19,10 @@ namespace RandersKFUM
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static RandersKFUM.Utilities.NavigationService NavigationService { get; private set; }
-
         public MainWindow()
         {
             InitializeComponent();
-
-            // Initialiser NavigationService
-            NavigationService = new RandersKFUM.Utilities.NavigationService();
-            NavigationService.Configure(MainFrame);
-
-            // Registrér Views og ViewModels
-            // NavigationService.Register<MainMenuViewModel, MainMenuView>();
-            // NavigationService.Register<BookingOverviewViewModel, BookingOverviewView>();
-            NavigationService.Register<BookingViewModel, BookingView>();
-            NavigationService.Register<AdministrationViewModel, AdministrationView>();
-            NavigationService.Register<ManageTeamViewModel, ManageTeamView>();
-            NavigationService.Register<ManageTeamLeaderViewModel, ManageTeamLeaderView>();
-
-            // Naviger til start View
-            // NavigationService.NavigateTo<MainMenuViewModel>();
+            RandersKFUM.Utilities.NavigationService.MainFrame = MainFrame; // Binder MainFrame til NavigationService
         }
     }
 }

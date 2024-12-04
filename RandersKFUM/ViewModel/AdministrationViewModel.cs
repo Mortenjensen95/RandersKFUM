@@ -11,22 +11,23 @@ namespace RandersKFUM.ViewModel
 {
     public class AdministrationViewModel
     {
-        public ICommand OpenManageTeamViewCommand { get; }
-        public ICommand OpenManageTeamLeaderViewCommand { get; }
+        public RelayCommand NavigateToManageTeamViewCommand { get; }
+        public RelayCommand NavigateToManageTeamLeaderCommand { get; }
 
         public AdministrationViewModel()
         {
-            // Brug en parameter, selvom den ikke er nødvendig (kan være null), der skal være en parameter ellers brokker relaycommand sig
-            OpenManageTeamViewCommand = new RelayCommand(
-                parameter => MainWindow.NavigationService.NavigateTo<ManageTeamViewModel>(),
-                parameter => true // Kan udføres altid
-            );
-
-            OpenManageTeamLeaderViewCommand = new RelayCommand(
-                parameter => MainWindow.NavigationService.NavigateTo<ManageTeamLeaderViewModel>(),
-                parameter => true // Kan udføres altid
-            );
+            NavigateToManageTeamViewCommand = new RelayCommand(_ => NavigateToManageTeamView());
+            NavigateToManageTeamLeaderCommand = new RelayCommand(_ => NavigateToTeamLeaderView());
         }
 
+        private void NavigateToManageTeamView()
+        {
+            NavigationService.NavigateTo(new ManageTeamView());
+        }
+
+        private void NavigateToTeamLeaderView()
+        {
+            NavigationService.NavigateTo(new ManageTeamLeaderView());
+        }
     }
 }
