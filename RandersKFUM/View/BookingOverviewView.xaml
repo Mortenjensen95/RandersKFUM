@@ -49,6 +49,6 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Margin="10"
-                Command="{Binding NavigateBackCommand}" />
+                Command="{Binding NavigateBackToMainMenuCommand}" />
     </Grid>
 </Page>

@@ -18,6 +18,6 @@
         </StackPanel>
 
         <Button Content="Tilbage til menu" Width="150" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10"
-            Command="{Binding NavigateBackToMenuCommand}" />
+            Command="{Binding NavigateBackToMainMenuCommand}" />
     </Grid>
 </Page>
