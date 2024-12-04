@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace RandersKFUM.Utilities
 {
-    public class ViewModelBase : INotifyPropertyChanged
-    {
+    public abstract class ViewModelBase : INotifyPropertyChanged    {
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
