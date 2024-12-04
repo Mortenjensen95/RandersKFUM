@@ -7,34 +7,13 @@ using System.Windows.Controls;
 
 namespace RandersKFUM.Utilities
 {
-    public class NavigationService
+    public static class NavigationService
     {
-        private readonly Dictionary<Type, Type> _viewModelViewMap = new();
+        public static Frame MainFrame { get; set; }
 
-        private Frame _mainFrame;
-
-        public void Configure(Frame mainFrame)
+        public static void NavigateTo(Page page)
         {
-            _mainFrame = mainFrame;
-        }
-
-        public void Register<TViewModel, TView>()
-            where TView : Page, new()
-        {
-            _viewModelViewMap[typeof(TViewModel)] = typeof(TView);
-        }
-
-        public void NavigateTo<TViewModel>() where TViewModel : class
-        {
-            if (_viewModelViewMap.TryGetValue(typeof(TViewModel), out var viewType))
-            {
-                var view = (Page)Activator.CreateInstance(viewType);
-                _mainFrame.Navigate(view);
-            }
-            else
-            {
-                throw new InvalidOperationException($"No view registered for {typeof(TViewModel)}.");
-            }
+            MainFrame?.Navigate(page);
         }
     }
 }
