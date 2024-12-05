@@ -12,7 +12,7 @@ namespace RandersKFUM.Model
         public string Name { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
 
         public ICollection<Team> Teams { get; set; } // navigation property
@@ -22,7 +22,7 @@ namespace RandersKFUM.Model
             Teams = new List<Team>();
         }
 
-        public TeamLeader(int teamLeaderId, string name, string userName, string password, int phone, string email)
+        public TeamLeader(int teamLeaderId, string name, string userName, string password, string phone, string email)
         {
             TeamLeaderId = teamLeaderId;
             Name = name;

@@ -33,5 +33,11 @@ namespace RandersKFUM.Utilities
         {
             _execute(parameter);
         }
+
+        public void RaiseCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
+
     }
 }

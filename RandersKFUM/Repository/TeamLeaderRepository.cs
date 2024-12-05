@@ -42,7 +42,7 @@ namespace RandersKFUM.Repository
                                     Name = reader["Name"] != DBNull.Value ? reader["Name"].ToString() : string.Empty,
                                     UserName = reader["UserName"] != DBNull.Value ? reader["UserName"].ToString() : string.Empty,
                                     Password = reader["Password"] != DBNull.Value ? reader["Password"].ToString() : string.Empty,
-                                    Phone = reader["Phone"] != DBNull.Value ? (int)reader["Phone"] : 0,
+                                    Phone = reader["Phone"] != DBNull.Value ? reader["Password"].ToString() : string.Empty,
                                     Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : string.Empty
                                 });
                             }
@@ -83,7 +83,7 @@ namespace RandersKFUM.Repository
                                     Name = reader["Name"]?.ToString(),
                                     UserName = reader["UserName"]?.ToString(),
                                     Password = reader["Password"]?.ToString(),
-                                    Phone = reader["Phone"] != DBNull.Value ? Convert.ToInt32(reader["Phone"]) : 0,
+                                    Phone = reader["Phone"]?.ToString(),
                                     Email = reader["Email"]?.ToString()
                                 };
                             }
@@ -171,7 +171,7 @@ namespace RandersKFUM.Repository
                     command.Parameters.Add(new SqlParameter("@Name", SqlDbType.NVarChar, 50)).Value = teamLeader.Name;
                     command.Parameters.Add(new SqlParameter("@UserName", SqlDbType.NVarChar, 50)).Value = teamLeader.UserName;
                     command.Parameters.Add(new SqlParameter("@Password", SqlDbType.NVarChar, 50)).Value = teamLeader.Password;
-                    command.Parameters.Add(new SqlParameter("@Phone", SqlDbType.Int)).Value = teamLeader.Phone;
+                    command.Parameters.Add(new SqlParameter("@Phone", SqlDbType.NVarChar, 50)).Value = teamLeader.Phone;
                     command.Parameters.Add(new SqlParameter("@Email", SqlDbType.NVarChar, 50)).Value = teamLeader.Email;
 
                     // Udfør opdatering
