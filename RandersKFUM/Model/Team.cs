@@ -25,5 +25,6 @@ namespace RandersKFUM.Model
             TeamName = teamName;
 
         }
+        
     }
 }

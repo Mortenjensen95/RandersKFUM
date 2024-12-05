@@ -42,7 +42,7 @@ namespace RandersKFUM.Repository
                                     Name = reader["Name"] != DBNull.Value ? reader["Name"].ToString() : string.Empty,
                                     UserName = reader["UserName"] != DBNull.Value ? reader["UserName"].ToString() : string.Empty,
                                     Password = reader["Password"] != DBNull.Value ? reader["Password"].ToString() : string.Empty,
-                                    Phone = reader["Phone"] != DBNull.Value ? reader["Password"].ToString() : string.Empty,
+                                    Phone = reader["Phone"] != DBNull.Value ? reader["Phone"].ToString() : string.Empty,
                                     Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : string.Empty
                                 });
                             }

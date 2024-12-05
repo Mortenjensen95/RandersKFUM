@@ -37,8 +37,13 @@ namespace RandersKFUM.Repository
                             {
                                 TeamId = Convert.ToInt32(reader["TeamId"]),
                                 TeamType = reader["TeamType"]?.ToString(),
-                                TeamLeaderId = reader["TeamLeaderId"] != DBNull.Value ? Convert.ToInt32(reader["TeamLeaderId"]) : 0,
-                                TeamName = reader["TeamName"]?.ToString()
+                                TeamLeaderId = Convert.ToInt32(reader["TeamLeaderId"]),
+                                TeamName = reader["TeamName"]?.ToString(),
+                                TeamLeader = new TeamLeader
+                                {
+                                    TeamLeaderId = Convert.ToInt32(reader["TeamLeaderId"]),
+                                    Name = reader["TeamLeaderName"]?.ToString()
+                                }
                             });
                         }
                     }
@@ -47,6 +52,7 @@ namespace RandersKFUM.Repository
 
             return teams;
         }
+
 
         public Team GetById(int id)
         {

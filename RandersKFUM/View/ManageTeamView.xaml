@@ -29,18 +29,19 @@
                        FontWeight="Bold" 
                        Margin="0,0,0,20" />
             <DataGrid ItemsSource="{Binding Teams}" 
-                      SelectedItem="{Binding SelectedTeam}" 
+                      SelectedItem="{Binding SelectedItem}" 
                       AutoGenerateColumns="False" 
                       IsReadOnly="False" 
                       Margin="0,0,0,10">
                 <!-- Kolonner -->
-                <DataGrid.Columns>
-                    <!-- Holdnavn -->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="HoldID" Binding="{Binding TeamId}" Width="*"/>
+                        <!-- Holdnavn -->
                     <DataGridTextColumn Header="Holdnavn" Binding="{Binding TeamName}" Width="*"/>
                     <!-- Holdtype -->
                         <DataGridTextColumn Header="Holdtype" Binding="{Binding TeamType}" Width="*"/>
                     <!-- Holdledernavn -->
-                        <DataGridTextColumn Header="Holdleder" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Holdleder" Binding="{Binding TeamLeader.Name}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
@@ -52,30 +53,28 @@
                        FontWeight="Bold" 
                        Margin="0,0,0,10" />
             <Label Content="Holdnavn:" />
-            <TextBox Margin="0,0,0,10" Text="{Binding SelectedTeam.TeamName, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Margin="0,0,0,10" Text="{Binding SelectedItem.TeamName, UpdateSourceTrigger=PropertyChanged}" />
 
             <Label Content="Holdtype:" />
-            <TextBox Margin="0,0,0,10" Text="{Binding SelectedTeam.TeamType, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Margin="0,0,0,10" Text="{Binding SelectedItem.TeamType, UpdateSourceTrigger=PropertyChanged}" />
 
             <Label Content="Holdleder:" />
             <ComboBox ItemsSource="{Binding TeamLeaders}" 
                       DisplayMemberPath="Name" 
                       SelectedValuePath="TeamLeaderId"
-                      SelectedValue="{Binding SelectedTeam.TeamLeaderId, Mode=TwoWay}" 
+                      SelectedValue="{Binding SelectedItem.TeamLeaderId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                       Margin="0,0,0,10" />
         </StackPanel>
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
             <Button Content="Opret Hold" Width="120" Height="30" Margin="5" 
         Command="{Binding CreateTeamCommand}" />
-            <Button Content="Opdater Hold" Width="120" Height="30" Margin="5" 
-        Command="{Binding UpdateTeamCommand}" 
-        IsEnabled="{Binding IsTeamSelected}" />
             <Button Content="Slet Hold" Width="120" Height="30" Margin="5" 
-        Command="{Binding DeleteTeamCommand}" 
-        IsEnabled="{Binding IsTeamSelected}" />
+        Command="{Binding DeleteTeamCommand}" />
             <Button Content="Gem" Width="100" Height="30" Margin="5" 
         Command="{Binding SaveChangesCommand}" />
         </StackPanel>
+        <Button Content="Tilbage til AdministrationView" Width="175" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="1"
+        Command="{Binding NavigateBackToAdministrationViewCommand}" />
     </Grid>
 </Page>

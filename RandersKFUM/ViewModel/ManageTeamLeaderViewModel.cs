@@ -40,8 +40,6 @@ namespace RandersKFUM.ViewModel
             {
                 selectedItem = value;
                 OnPropertyChanged();
-                DeleteTeamLeaderCommand?.RaiseCanExecuteChanged();
-                SaveChangesCommand?.RaiseCanExecuteChanged();
             }
         }
 
