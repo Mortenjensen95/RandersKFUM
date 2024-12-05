@@ -165,9 +165,12 @@ public class BookingViewModel : ViewModelBase
             FieldAvailability.Add(new FieldStatus
             {
                 FieldId = field.FieldId,
+                FieldNumber = field.FieldNumber, // Bruger FieldNumber
+                FieldType = field.FieldType,     // Bruger FieldType
                 IsAvailable = availableFields.Contains(field.FieldId)
             });
         }
+
 
         LockerRoomAvailability.Clear();
         foreach (var lockerRoom in allLockerRooms)
@@ -175,6 +178,8 @@ public class BookingViewModel : ViewModelBase
             LockerRoomAvailability.Add(new LockerRoomStatus
             {
                 LockerRoomId = lockerRoom.LockerRoomId,
+                LockerRoomNumber = lockerRoom.LockerRoomNumber, // Sørg for, at dette er korrekt mappet
+                LockerRoomType = lockerRoom.LockerRoomType, // Sørg for, at dette er korrekt mappet
                 IsAvailable = availableLockerRooms.Contains(lockerRoom.LockerRoomId)
             });
         }

@@ -125,13 +125,15 @@ namespace RandersKFUM.Repository
             }
         }
 
+        
+
         public IEnumerable<LockerRoom> GetAvailableLockerRooms(DateTime start, DateTime end)
         {
             var lockerRooms = new List<LockerRoom>();
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (var command = new SqlCommand("uspGetAvailableLockerRooms", connection))
+                using (var command = new SqlCommand("uspGetAvailableLockerRooms", connection)) // Brug den rigtige stored procedure
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@NewBookingStart", start);
@@ -144,7 +146,8 @@ namespace RandersKFUM.Repository
                             lockerRooms.Add(new LockerRoom
                             {
                                 LockerRoomId = Convert.ToInt32(reader["LockerRoomId"]),
-                                LockerRoomNumber = Convert.ToInt32(reader["LockerRoomNumber"])
+                                LockerRoomNumber = Convert.ToInt32(reader["LockerRoomNumber"]),
+                                LockerRoomType = reader["LockerRoomType"].ToString() // Henter LockerRoomType
                             });
                         }
                     }
@@ -153,33 +156,7 @@ namespace RandersKFUM.Repository
             return lockerRooms;
         }
 
-        public IEnumerable<LockerRoom> GetUnavailableLockerRooms(DateTime start, DateTime end)
-        {
-            var lockerRooms = new List<LockerRoom>();
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                using (var command = new SqlCommand("uspGetUnavailableLockerRooms", connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@NewBookingStart", start);
-                    command.Parameters.AddWithValue("@NewBookingEnd", end);
 
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            lockerRooms.Add(new LockerRoom
-                            {
-                                LockerRoomId = Convert.ToInt32(reader["LockerRoomId"]),
-                                LockerRoomNumber = Convert.ToInt32(reader["LockerRoomNumber"])
-                            });
-                        }
-                    }
-                }
-            }
-            return lockerRooms;
-        }
 
 
     }

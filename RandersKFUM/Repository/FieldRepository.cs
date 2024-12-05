@@ -145,7 +145,8 @@ namespace RandersKFUM.Repository
                             fields.Add(new Field
                             {
                                 FieldId = Convert.ToInt32(reader["FieldId"]),
-                                FieldNumber = Convert.ToInt32(reader["FieldNumber"])
+                                FieldNumber = Convert.ToInt32(reader["FieldNumber"]), // FieldNumber som string
+                                FieldType = reader["FieldType"].ToString() // Tilføjet FieldType
                             });
                         }
                     }
@@ -153,6 +154,7 @@ namespace RandersKFUM.Repository
             }
             return fields;
         }
+
 
 
     }

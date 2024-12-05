@@ -9,6 +9,8 @@ namespace RandersKFUM.Hjælpeklasser
     public class FieldStatus
     {
         public int FieldId { get; set; }
+        public int FieldNumber { get; set; }
+        public string FieldType { get; set; }
         public bool IsAvailable { get; set; } = false;
     }
 }
