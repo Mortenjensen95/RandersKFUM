@@ -21,6 +21,10 @@ public class BookingViewModel : ViewModelBase
     public ObservableCollection<TimeSpan> TimeSlots { get; set; } = new ObservableCollection<TimeSpan>();
     public ObservableCollection<int> Durations { get; set; } = new ObservableCollection<int> { 30, 60, 90, 120 };
 
+    public ObservableCollection<FieldStatus> SelectedFields { get; set; } = new ObservableCollection<FieldStatus>();
+    public ObservableCollection<LockerRoomStatus> SelectedLockerRooms { get; set; } = new ObservableCollection<LockerRoomStatus>();
+
+
     public RelayCommand ConfirmBookingCommand { get; }
     public RelayCommand NavigateBackCommand { get; }
 
@@ -189,29 +193,32 @@ public class BookingViewModel : ViewModelBase
 
     private void ConfirmBooking()
     {
-        MessageBox.Show($"SelectedField: {SelectedField?.FieldNumber}, SelectedLockerRoom: {SelectedLockerRoom?.LockerRoomNumber}",
-                    "Debug Info", MessageBoxButton.OK, MessageBoxImage.Information);
-        if (SelectedField == null || SelectedLockerRoom == null || SelectedTeam == null)
+        if (!SelectedFields.Any() || !SelectedLockerRooms.Any() || SelectedTeam == null)
         {
-            // Sørg for at både Field og LockerRoom er valgt, før du fortsætter.
-            MessageBox.Show("Vælg venligst både en bane,et omklædningsrum og et hold.", "Validering Fejl", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show("Vælg venligst mindst én bane, ét omklædningsrum og et hold.", "Validering Fejl", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
         var start = SelectedDate.Date + SelectedTimeSlot;
         var end = start.AddMinutes(SelectedDuration);
 
-        // Opret en ny booking med de nødvendige egenskaber.
         var booking = new Booking
         {
             DateTimeStart = start,
             DateTimeEnd = end,
-            TeamId = SelectedTeam.TeamId // Sørg for at have et valgt team.
+            TeamId = SelectedTeam.TeamId
         };
 
-        // Send alle nødvendige parametre til Add-metoden.
-        bookingRepository.Add(booking, SelectedField.FieldId, SelectedLockerRoom.LockerRoomId);
+        // Saml FieldIds og LockerRoomIds
+        var fieldIds = SelectedFields.Select(f => f.FieldId);
+        var lockerRoomIds = SelectedLockerRooms.Select(lr => lr.LockerRoomId);
+
+        bookingRepository.Add(booking, fieldIds, lockerRoomIds);
+
+        MessageBox.Show("Booking oprettet!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
     }
+
+
 
 
     private void NavigateBack()

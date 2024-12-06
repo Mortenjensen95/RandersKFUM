@@ -75,7 +75,7 @@ namespace RandersKFUM.Repository
             return null;
         }
 
-        public void Add(Booking booking, int fieldId, int lockerRoomId)
+        public void Add(Booking booking, IEnumerable<int> fieldIds, IEnumerable<int> lockerRoomIds)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -87,13 +87,39 @@ namespace RandersKFUM.Repository
                     command.Parameters.Add(new SqlParameter("@DateTimeStart", booking.DateTimeStart));
                     command.Parameters.Add(new SqlParameter("@DateTimeEnd", booking.DateTimeEnd));
                     command.Parameters.Add(new SqlParameter("@TeamId", booking.TeamId));
-                    command.Parameters.Add(new SqlParameter("@FieldId", fieldId));
-                    command.Parameters.Add(new SqlParameter("@LockerRoomId", lockerRoomId));
+
+                    // FieldIds
+                    var fieldIdsParam = new SqlParameter("@FieldIds", SqlDbType.Structured)
+                    {
+                        TypeName = "dbo.IntList",
+                        Value = ConvertToDataTable(fieldIds)
+                    };
+                    command.Parameters.Add(fieldIdsParam);
+
+                    // LockerRoomIds
+                    var lockerRoomIdsParam = new SqlParameter("@LockerRoomIds", SqlDbType.Structured)
+                    {
+                        TypeName = "dbo.IntList",
+                        Value = ConvertToDataTable(lockerRoomIds)
+                    };
+                    command.Parameters.Add(lockerRoomIdsParam);
 
                     command.ExecuteNonQuery();
                 }
             }
         }
+
+        private DataTable ConvertToDataTable(IEnumerable<int> ids)
+        {
+            var table = new DataTable();
+            table.Columns.Add("Id", typeof(int));
+            foreach (var id in ids)
+            {
+                table.Rows.Add(id);
+            }
+            return table;
+        }
+
 
 
         public void Update(Booking booking, int fieldId, int lockerRoomId)
