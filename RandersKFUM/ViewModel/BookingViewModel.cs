@@ -2,6 +2,7 @@
 using RandersKFUM.Model;
 using RandersKFUM.Repository;
 using RandersKFUM.Utilities;
+using RandersKFUM.View;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -107,7 +108,7 @@ public class BookingViewModel : ViewModelBase
         this.teamRepository = teamRepository;
 
         ConfirmBookingCommand = new RelayCommand(_ => ConfirmBooking());
-        NavigateBackCommand = new RelayCommand(_ => NavigateBack());
+        NavigateBackCommand = new RelayCommand(_ => NavigateBackToMainMenu());
 
         LoadAllResources();
         InitializeTimeSlots();
@@ -218,11 +219,8 @@ public class BookingViewModel : ViewModelBase
         MessageBox.Show("Booking oprettet!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
-
-
-
-    private void NavigateBack()
+    private void NavigateBackToMainMenu()
     {
-        // Logik til at navigere tilbage
+        RandersKFUM.Utilities.NavigationService.NavigateTo(new MainMenuView());
     }
 }
