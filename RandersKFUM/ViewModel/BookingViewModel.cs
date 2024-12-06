@@ -217,6 +217,8 @@ public class BookingViewModel : ViewModelBase
         bookingRepository.Add(booking, fieldIds, lockerRoomIds);
 
         MessageBox.Show("Booking oprettet!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        NavigateBackToMainMenu();
     }
 
     private void NavigateBackToMainMenu()
