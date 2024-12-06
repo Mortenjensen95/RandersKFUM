@@ -10,7 +10,7 @@ public class BookingViewModel : ViewModelBase
 {
     private readonly FieldRepository fieldRepository;
     private readonly LockerRoomRepository lockerRoomRepository;
-    private readonly BookingRepository bookingRepository;
+    protected readonly BookingRepository bookingRepository;
     private readonly TeamRepository teamRepository;
 
     public ObservableCollection<FieldStatus> FieldAvailability { get; set; } = new ObservableCollection<FieldStatus>();
@@ -192,7 +192,7 @@ public class BookingViewModel : ViewModelBase
     }
 
 
-    private void ConfirmBooking()
+    public virtual void ConfirmBooking()
     {
         if (!SelectedFields.Any() || !SelectedLockerRooms.Any() || SelectedTeam == null)
         {

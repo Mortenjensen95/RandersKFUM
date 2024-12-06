@@ -122,26 +122,57 @@ namespace RandersKFUM.Repository
 
 
 
-        public void Update(Booking booking, int fieldId, int lockerRoomId)
+        public void Update(Booking updatedBooking, IEnumerable<int> fieldIds, IEnumerable<int> lockerRoomIds)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using var connection = new SqlConnection(DatabaseConfig.GetConnectionString());
+            connection.Open();
+
+            // Konverter fieldIds til DataTable
+            var fieldIdsTable = new DataTable();
+            fieldIdsTable.Columns.Add("Id", typeof(int));
+            foreach (var id in fieldIds)
             {
-                connection.Open();
-                using (var command = new SqlCommand("uspUpdateBooking", connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    command.Parameters.Add(new SqlParameter("@BookingNumber", booking.BookingNumber));
-                    command.Parameters.Add(new SqlParameter("@DateTimeStart", booking.DateTimeStart));
-                    command.Parameters.Add(new SqlParameter("@DateTimeEnd", booking.DateTimeEnd));
-                    command.Parameters.Add(new SqlParameter("@TeamId", booking.TeamId));
-                    command.Parameters.Add(new SqlParameter("@FieldId", fieldId));
-                    command.Parameters.Add(new SqlParameter("@LockerRoomId", lockerRoomId));
-
-                    command.ExecuteNonQuery();
-                }
+                fieldIdsTable.Rows.Add(id);
             }
+
+            // Konverter lockerRoomIds til DataTable
+            var lockerRoomIdsTable = new DataTable();
+            lockerRoomIdsTable.Columns.Add("Id", typeof(int));
+            foreach (var id in lockerRoomIds)
+            {
+                lockerRoomIdsTable.Rows.Add(id);
+            }
+
+            // Opret parameterobjekter til stored procedure
+            var parameters = new[]
+            {
+        new SqlParameter("@BookingNumber", updatedBooking.BookingNumber),
+        new SqlParameter("@DateTimeStart", updatedBooking.DateTimeStart),
+        new SqlParameter("@DateTimeEnd", updatedBooking.DateTimeEnd),
+        new SqlParameter("@TeamId", updatedBooking.TeamId),
+        new SqlParameter("@FieldIds", SqlDbType.Structured)
+        {
+            TypeName = "dbo.IntList",
+            Value = fieldIdsTable
+        },
+        new SqlParameter("@LockerRoomIds", SqlDbType.Structured)
+        {
+            TypeName = "dbo.IntList",
+            Value = lockerRoomIdsTable
         }
+    };
+
+            // Kald stored procedure
+            using var command = new SqlCommand("uspUpdateBooking", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            command.Parameters.AddRange(parameters);
+            command.ExecuteNonQuery();
+        }
+
+
+
 
 
         public void Delete(int bookingNumber)
