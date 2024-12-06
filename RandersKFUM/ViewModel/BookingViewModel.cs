@@ -3,6 +3,7 @@ using RandersKFUM.Model;
 using RandersKFUM.Repository;
 using RandersKFUM.Utilities;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 public class BookingViewModel : ViewModelBase
 {
@@ -20,12 +21,12 @@ public class BookingViewModel : ViewModelBase
     public ObservableCollection<TimeSpan> TimeSlots { get; set; } = new ObservableCollection<TimeSpan>();
     public ObservableCollection<int> Durations { get; set; } = new ObservableCollection<int> { 30, 60, 90, 120 };
 
-    public RelayCommand UpdateAvailabilityCommand { get; }
     public RelayCommand ConfirmBookingCommand { get; }
     public RelayCommand NavigateBackCommand { get; }
 
-    private Field selectedField;
-    public Field SelectedField
+
+    private FieldStatus selectedField;
+    public FieldStatus SelectedField
     {
         get => selectedField;
         set
@@ -35,8 +36,8 @@ public class BookingViewModel : ViewModelBase
         }
     }
 
-    private LockerRoom selectedLockerRoom;
-    public LockerRoom SelectedLockerRoom
+    private LockerRoomStatus selectedLockerRoom;
+    public LockerRoomStatus SelectedLockerRoom
     {
         get => selectedLockerRoom;
         set
@@ -101,7 +102,6 @@ public class BookingViewModel : ViewModelBase
         this.bookingRepository = bookingRepository;
         this.teamRepository = teamRepository;
 
-        UpdateAvailabilityCommand = new RelayCommand(_ => UpdateAvailability());
         ConfirmBookingCommand = new RelayCommand(_ => ConfirmBooking());
         NavigateBackCommand = new RelayCommand(_ => NavigateBack());
 
@@ -184,21 +184,17 @@ public class BookingViewModel : ViewModelBase
             });
         }
 
-        OnPropertyChanged(nameof(FieldAvailability));
-        OnPropertyChanged(nameof(LockerRoomAvailability));
     }
 
-
-    private void SelectField(Field field)
-    {
-        SelectedField = field;
-    }
 
     private void ConfirmBooking()
     {
-        if (SelectedField == null || SelectedLockerRoom == null)
+        MessageBox.Show($"SelectedField: {SelectedField?.FieldNumber}, SelectedLockerRoom: {SelectedLockerRoom?.LockerRoomNumber}",
+                    "Debug Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        if (SelectedField == null || SelectedLockerRoom == null || SelectedTeam == null)
         {
             // Sørg for at både Field og LockerRoom er valgt, før du fortsætter.
+            MessageBox.Show("Vælg venligst både en bane,et omklædningsrum og et hold.", "Validering Fejl", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 

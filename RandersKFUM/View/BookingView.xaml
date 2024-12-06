@@ -41,10 +41,8 @@
                         <Border Padding="5" Margin="2" CornerRadius="5">
                             <Border.Style>
                                 <Style TargetType="Border">
-                                    <!-- Standard baggrundsfarve -->
                                     <Setter Property="Background" Value="Green" />
                                     <Style.Triggers>
-                                        <!-- Skift baggrund til rød, hvis ikke tilgængelig -->
                                         <DataTrigger Binding="{Binding IsAvailable}" Value="False">
                                             <Setter Property="Background" Value="Red" />
                                         </DataTrigger>
@@ -52,19 +50,28 @@
                                 </Style>
                             </Border.Style>
                             <StackPanel Orientation="Horizontal">
-                                <!-- Viser LockerRoomNumber -->
-                                <TextBlock Text="{Binding LockerRoomNumber, StringFormat='Omklædning:, {0}'}" 
-                               FontWeight="Bold" FontSize="14" Foreground="White"/>
-                                <!-- Parentes og LockerRoomType -->
-                                <TextBlock Text=" (" Margin="5,0,0,0" FontSize="12" Foreground="White"/>
+                                <TextBlock Text="{Binding LockerRoomNumber, StringFormat='Omklædning: {0}'}" 
+                               FontWeight="Bold" FontSize="14" Foreground="White" />
+                                <TextBlock Text=" (" FontSize="12" Foreground="White" />
                                 <TextBlock Text="{Binding LockerRoomType}" 
-                               FontSize="12" FontStyle="Italic" Foreground="White"/>
-                                <TextBlock Text=")" FontSize="12" Foreground="White"/>
+                               FontStyle="Italic" FontSize="12" Foreground="White" />
+                                <TextBlock Text=")" FontSize="12" Foreground="White" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAvailable}" Value="False">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.ItemContainerStyle>
             </ComboBox>
+
         </StackPanel>
 
         <!-- Højre side: Visualisering af baner -->
@@ -95,7 +102,18 @@
                         </Border>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAvailable}" Value="False">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.ItemContainerStyle>
             </ComboBox>
+
 
 
 

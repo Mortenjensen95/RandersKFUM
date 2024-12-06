@@ -26,8 +26,22 @@ namespace RandersKFUM.View
     {
         public BookingView()
         {
-            InitializeComponent();
-            DataContext = new BookingViewModel(new FieldRepository(DatabaseConfig.GetConnectionString()), new LockerRoomRepository(DatabaseConfig.GetConnectionString()), new BookingRepository(DatabaseConfig.GetConnectionString()), new TeamRepository(DatabaseConfig.GetConnectionString()));
+            try
+            {
+                InitializeComponent();
+                var connectionString = DatabaseConfig.GetConnectionString();
+
+                DataContext = new BookingViewModel(
+                    new FieldRepository(connectionString),
+                    new LockerRoomRepository(connectionString),
+                    new BookingRepository(connectionString),
+                    new TeamRepository(connectionString));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"En fejl opstod under initialisering: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
     }
 }
