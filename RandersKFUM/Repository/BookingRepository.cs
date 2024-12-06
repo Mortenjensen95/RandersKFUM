@@ -175,20 +175,43 @@ namespace RandersKFUM.Repository
 
 
 
-        public void Delete(int bookingNumber)
+        public IEnumerable<BookingOverview> GetBookingOverviews()
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                using (var command = new SqlCommand("uspDeleteBooking", connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
+            var bookings = new List<BookingOverview>();
 
-                    command.Parameters.Add(new SqlParameter("@BookingNumber", bookingNumber));
-                    command.ExecuteNonQuery();
+            using (var connection = new SqlConnection(DatabaseConfig.GetConnectionString()))
+            {
+                // Åbn forbindelsen
+                connection.Open();
+
+                // SQL-forespørgsel til at hente data fra viewet
+                var query = "SELECT * FROM BookingOverview";
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Map resultaterne fra databasen til BookingOverview-modellen
+                            bookings.Add(new BookingOverview
+                            {
+                                BookingNumber = reader.GetInt32(reader.GetOrdinal("BookingNumber")),
+                                DateTimeStart = reader.GetDateTime(reader.GetOrdinal("DateTimeStart")),
+                                DateTimeEnd = reader.GetDateTime(reader.GetOrdinal("DateTimeEnd")),
+                                TeamName = reader.GetString(reader.GetOrdinal("TeamName")),
+                                FieldNumbers = reader.GetString(reader.GetOrdinal("FieldNumbers")),
+                                LockerRoomNumbers = reader.GetString(reader.GetOrdinal("LockerRoomNumbers"))
+                            });
+                        }
+                    }
                 }
             }
+
+            return bookings;
         }
+
+
 
     }
 }
