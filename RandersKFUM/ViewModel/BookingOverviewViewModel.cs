@@ -32,7 +32,6 @@ namespace RandersKFUM.ViewModel
         }
 
         public RelayCommand NavigateBackToMainMenuCommand { get; }
-        public RelayCommand EditBookingCommand { get; }
 
         public BookingOverviewViewModel(FieldRepository fieldRepo, LockerRoomRepository lockerRoomRepo, BookingRepository bookingRepo, TeamRepository teamRepo)
         {
@@ -44,7 +43,6 @@ namespace RandersKFUM.ViewModel
 
             // Initialize commands
             NavigateBackToMainMenuCommand = new RelayCommand(_ => NavigateBackToMainMenuView());
-            EditBookingCommand = new RelayCommand(param => OpenEditBookingView(param as Booking));
 
             // Load all bookings
             LoadBookings();
@@ -100,13 +98,5 @@ namespace RandersKFUM.ViewModel
             NavigationService.NavigateTo(new MainMenuView());
         }
 
-        private void OpenEditBookingView(Booking selectedBooking)
-        {
-            if (selectedBooking == null) return;
-
-            // Pass the booking to EditBookingView
-            var editView = new EditBookingView(selectedBooking);
-            NavigationService.NavigateTo(editView);
-        }
     }
 }
