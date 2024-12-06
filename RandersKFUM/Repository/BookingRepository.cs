@@ -171,6 +171,22 @@ namespace RandersKFUM.Repository
             command.ExecuteNonQuery();
         }
 
+        public void Delete(int bookingNumber)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                // Opretter en SqlCommand for at kalde stored procedure
+                using (var command = new SqlCommand("uspDeleteBooking", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@BookingNumber", bookingNumber));
+
+                    command.ExecuteNonQuery();  // Udfører kommandoen
+                }
+            }
+        }
 
 
 

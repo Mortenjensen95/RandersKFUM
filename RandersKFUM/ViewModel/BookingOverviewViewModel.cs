@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using RandersKFUM.Model;
 using RandersKFUM.Repository;
 using RandersKFUM.Utilities;
@@ -32,32 +33,39 @@ namespace RandersKFUM.ViewModel
         }
 
         public RelayCommand NavigateBackToMainMenuCommand { get; }
+        public RelayCommand DeleteBookingCommand { get; }
+
+        private BookingOverview selectedBooking;
+        public BookingOverview SelectedBooking
+        {
+            get { return selectedBooking; }
+            set
+            {
+                selectedBooking = value;
+                OnPropertyChanged(nameof(SelectedBooking));
+            }
+        }
 
         public BookingOverviewViewModel(FieldRepository fieldRepo, LockerRoomRepository lockerRoomRepo, BookingRepository bookingRepo, TeamRepository teamRepo)
         {
-            // Inject dependencies
             fieldRepository = fieldRepo;
             lockerRoomRepository = lockerRoomRepo;
             bookingRepository = bookingRepo;
             teamRepository = teamRepo;
 
-            // Initialize commands
             NavigateBackToMainMenuCommand = new RelayCommand(_ => NavigateBackToMainMenuView());
+            DeleteBookingCommand = new RelayCommand(_ => DeleteBooking(), canExecute => SelectedBooking != null);
 
-            // Load all bookings
             LoadBookings();
 
-            // Set default date to today's date
             SelectedDate = DateTime.Today;
         }
 
         private void LoadBookings()
         {
-            // Hent bookingoversigten via repository
             var bookingOverviews = bookingRepository.GetBookingOverviews();
             AllBookings = new ObservableCollection<BookingOverview>(bookingOverviews);
 
-            // Initialiser filtreret liste
             FilteredBookings = new ObservableCollection<BookingOverview>(AllBookings);
 
             OnPropertyChanged(nameof(AllBookings));
@@ -68,7 +76,6 @@ namespace RandersKFUM.ViewModel
         {
             if (SelectedDate.HasValue)
             {
-                // Filtrér bookinger for den valgte dato
                 var filtered = AllBookings
                     .Where(b => b.DateTimeStart.Date == SelectedDate.Value.Date)
                     .ToList();
@@ -81,7 +88,6 @@ namespace RandersKFUM.ViewModel
             }
             else
             {
-                // Hvis ingen dato er valgt, vis alle bookinger
                 FilteredBookings.Clear();
                 foreach (var booking in AllBookings)
                 {
@@ -92,11 +98,25 @@ namespace RandersKFUM.ViewModel
             OnPropertyChanged(nameof(FilteredBookings));
         }
 
-        private void NavigateBackToMainMenuView()
+        private void DeleteBooking()
         {
-            // Navigate to main menu
-            NavigationService.NavigateTo(new MainMenuView());
+            if (SelectedBooking == null) return;
+
+            var result = MessageBox.Show("Er du sikker på, at du vil slette denne booking?", "Bekræft Sletning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                bookingRepository.Delete(SelectedBooking.BookingNumber);
+
+                // Reload bookings after deletion
+                LoadBookings();
+            }
         }
 
+        private void NavigateBackToMainMenuView()
+        {
+            NavigationService.NavigateTo(new MainMenuView());
+        }
     }
+
 }
