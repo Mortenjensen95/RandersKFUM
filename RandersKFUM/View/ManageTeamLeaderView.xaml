@@ -33,6 +33,7 @@
 
                 <DataGrid ItemsSource="{Binding TeamLeaders}" 
                   SelectedItem="{Binding SelectedItem}" 
+                  SelectionMode="Single"
                   AutoGenerateColumns="False" 
                   CanUserAddRows="True" 
                   IsReadOnly="False" 
@@ -79,12 +80,12 @@
         </Grid>
 
         <!-- Knapper nederst på skærmen -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-            <Button Content="Opret Holdleder" Width="120" Height="30" Margin="5" 
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Opret Holdleder" Width="120" Height="40" Margin="5" 
                 Command="{Binding CreateTeamLeaderCommand}" />
-            <Button Content="Slet Holdleder" Width="120" Height="30" Margin="5" 
+            <Button Content="Slet Holdleder" Width="120" Height="40" Margin="5" 
                 Command="{Binding DeleteTeamLeaderCommand}" />
-                <Button Content="Gem" Width="100" Height="30" Margin="5" 
+                <Button Content="Gem" Width="100" Height="40" Margin="5" 
                 Command="{Binding SaveChangesCommand}" />
         </StackPanel>
 
