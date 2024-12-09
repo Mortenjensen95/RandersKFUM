@@ -213,12 +213,19 @@ public class BookingViewModel : ViewModelBase
         // Saml FieldIds og LockerRoomIds
         var fieldIds = SelectedFields.Select(f => f.FieldId);
         var lockerRoomIds = SelectedLockerRooms.Select(lr => lr.LockerRoomId);
+        try
+        {
 
-        bookingRepository.Add(booking, fieldIds, lockerRoomIds);
 
-        MessageBox.Show("Booking oprettet!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
-        NavigateBackToMainMenu();
+            bookingRepository.Add(booking, fieldIds, lockerRoomIds);
+            MessageBox.Show("Booking oprettet!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            NavigateBackToMainMenu();
+        }
+        catch (Exception ex)
+        {
+            // Håndter uforudsete fejl
+            MessageBox.Show($"Der opstod en fejl: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     private void NavigateBackToMainMenu()

@@ -54,8 +54,8 @@ namespace RandersKFUM.ViewModel
             // Opret et net team med standardværdier (vi har har endnu ikke gemt til databasen
             var newTeam = new Team
             {
-                TeamName = "New Team",
-                TeamType = "Default Type",
+                TeamName = "",
+                TeamType = "",
                 TeamLeaderId = TeamLeaders.FirstOrDefault()?.TeamLeaderId ?? 0 // Eksempeldata
             };
 

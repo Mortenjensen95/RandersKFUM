@@ -48,11 +48,11 @@ namespace RandersKFUM.ViewModel
             // Opret en ny TeamLeader med standardværdier (ikke gemt i databasen endnu)
             var newTeamLeader = new TeamLeader
             {
-                Name = "Ny holdleder",
-                UserName = "Brugernavn", // Tomt brugernavn som brugeren selv skal udfylde
-                Password = "Kodeord",
-                Phone = "12345678",
-                Email = "email@example.com"
+                Name = "",
+                UserName = "",
+                Password = "",
+                Phone = "",
+                Email = ""
             };
 
             // Tilføj til ObservableCollection
