@@ -67,7 +67,7 @@ namespace RandersKFUM.ViewModel
         }
 
         // Login-metode
-        private void Login(object obj)
+        public void Login(object obj)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace RandersKFUM.ViewModel
             UserName = string.Empty; // Ryd brugernavn
             Password = string.Empty; // Ryd adgangskode
                                      // Eventuel navigering til login-skærm eller opdatering af UI
-            RandersKFUM.Utilities.NavigationService.NavigateTo(new LoginView());
+            RandersKFUM.Utilities.NavigationService.NavigateTo(new StartView());
         }
     }
 
