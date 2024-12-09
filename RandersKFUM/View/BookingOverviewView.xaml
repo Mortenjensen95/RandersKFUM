@@ -31,7 +31,8 @@
                       AutoGenerateColumns="false" 
                       Height="318" 
                       SelectedItem="{Binding SelectedBooking}" 
-                      SelectionMode="Single">
+                      SelectionMode="Single"
+                      IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Hold" Binding="{Binding TeamName}" Width="*" />
                     <DataGridTextColumn Header="Starttid" Binding="{Binding DateTimeStart, StringFormat='{}{0:HH:mm}'}" Width="*" />
