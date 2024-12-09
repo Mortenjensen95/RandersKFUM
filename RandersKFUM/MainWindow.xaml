@@ -13,7 +13,7 @@
        HorizontalAlignment="Right"
        VerticalAlignment="Top"
        Opacity="0.3"
-       Margin="0,350,10,0" 
+       Margin="0,350,-15,0" 
        IsHitTestVisible="False" Height="124" Width="184"/>
     </Grid>
 </Window>

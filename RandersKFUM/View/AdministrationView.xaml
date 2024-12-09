@@ -8,16 +8,16 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AdministrationView">
 
-    <Grid Background="LightGray">
+    <Grid Background="SlateGray">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Administration" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
             <Button Content="Administrer hold" Width="200" Height="50" Margin="0,10"
-                Command="{Binding NavigateToManageTeamViewCommand}" />
+                Command="{Binding NavigateToManageTeamViewCommand}" Background="Gainsboro" BorderThickness="3" BorderBrush="Gray"/>
             <Button Content="Administrer holdleder" Width="200" Height="50" Margin="0,10"
-                Command="{Binding NavigateToManageTeamLeaderCommand}" />
+                Command="{Binding NavigateToManageTeamLeaderCommand}" Background="Gainsboro" BorderThickness="3" BorderBrush="Gray"/>
         </StackPanel>
 
         <Button Content="Tilbage til menu" Width="150" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10"
-            Command="{Binding NavigateBackToMainMenuCommand}" />
+            Command="{Binding NavigateBackToMainMenuCommand}" Background="Gainsboro" BorderThickness="3" BorderBrush="Gray"/>
     </Grid>
 </Page>
