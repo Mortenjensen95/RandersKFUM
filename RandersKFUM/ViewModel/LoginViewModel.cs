@@ -61,7 +61,7 @@ namespace RandersKFUM.ViewModel
             teamLeaderRepository = new TeamLeaderRepository(DatabaseConfig.GetConnectionString());
 
             LoginCommand = new RelayCommand(Login);
-            LogoutCommand = new RelayCommand(Logout);
+            LogoutCommand = new RelayCommand(LogOut);
 
             IsLoggedIn = false; // Standard: brugeren er ikke logget ind
         }
@@ -69,32 +69,45 @@ namespace RandersKFUM.ViewModel
         // Login-metode
         private void Login(object obj)
         {
-            var user = teamLeaderRepository.GetByUsername(UserName); // Hent brugeren fra databasen baseret på brugernavn
-
-            if (user != null && user.Password == Password) // Tjek om brugeren eksisterer, og om adgangskoden matcher
+            try
             {
-                IsLoggedIn = true; // Brugeren er logget ind
+                var user = teamLeaderRepository.GetByUsername(UserName); // Hent brugeren fra databasen baseret på brugernavn
 
-                // Opret og vis AdministrationView vinduet
-                RandersKFUM.Utilities.NavigationService.NavigateTo(new MainMenuView());
+                if (user != null && user.Password == Password) // Tjek om brugeren eksisterer, og om adgangskoden matcher
+                {
+                    IsLoggedIn = true; // Brugeren er logget ind
+
+                    // Opret og vis AdministrationView vinduet
+                    RandersKFUM.Utilities.NavigationService.NavigateTo(new MainMenuView());
+                }
+                else
+                {
+                    IsLoggedIn = false; // Fejl: Forkert brugernavn eller adgangskode
+
+                    // Eventuelt vis en fejlmeddelelse til brugeren
+                    MessageBox.Show("Forkert brugernavn eller adgangskode. Prøv igen.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                IsLoggedIn = false; // Fejl: Forkert brugernavn eller adgangskode
+                // Håndter fejl her - vis en fejlmeddelelse
+                MessageBox.Show("Der opstod en uventet fejl. Prøv igen eller kontakt support.");
 
-                // Eventuelt vis en fejlmeddelelse til brugeren
-                MessageBox.Show("Forkert brugernavn eller adgangskode. Prøv igen.");
+                // Overvej at logge fejlen:
+                // Logger.Log(ex.ToString());
             }
         }
 
 
+
         // Logout-metode
-        public void Logout(object obj)
+        public void LogOut(object obj)
         {
             IsLoggedIn = false; // Brugeren er logget ud
             UserName = string.Empty; // Ryd brugernavn
             Password = string.Empty; // Ryd adgangskode
                                      // Eventuel navigering til login-skærm eller opdatering af UI
+            RandersKFUM.Utilities.NavigationService.NavigateTo(new LoginView());
         }
     }
 

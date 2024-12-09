@@ -20,8 +20,8 @@
         </StackPanel>
 
         <!-- Login/Logout-knap nederst -->
-        <Button Content="{Binding LoginButtonText}" Width="100" Height="30" 
+        <Button Content="Log ud" Width="100" Height="30" 
                 HorizontalAlignment="Left" VerticalAlignment="Bottom" 
-                Margin="10" Command="{Binding NavigateToLoginViewCommand}" />
+                Margin="10" Command="{Binding LogOutCommand}" />
     </Grid>
 </Page>

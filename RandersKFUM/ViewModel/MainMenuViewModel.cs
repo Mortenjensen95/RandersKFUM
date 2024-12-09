@@ -11,17 +11,22 @@ namespace RandersKFUM.ViewModel
 {
     internal class MainMenuViewModel
     {
+
+        private readonly LoginViewModel _loginViewModel;
+
         public RelayCommand NavigateToBookingOverviewViewCommand { get; }
         public RelayCommand NavigateToBookingViewCommand { get; }
         public RelayCommand NavigateToAdministrationViewCommand { get; }
-        public RelayCommand NavigateToLoginViewCommand { get; }
+        public RelayCommand LogOutCommand { get; }
 
-        public MainMenuViewModel()
+        public MainMenuViewModel(LoginViewModel loginViewModel)
         {
+            _loginViewModel = loginViewModel;
+
             NavigateToBookingOverviewViewCommand = new RelayCommand(_ => NavigateToBookingOverviewView());
             NavigateToBookingViewCommand = new RelayCommand(_ => NavigateToBookingView());
             NavigateToAdministrationViewCommand = new RelayCommand(_ => NavigateToAdministrationView());
-            // NavigateToLoginViewCommand = new RelayCommand(_ => NavigateToLoginView());
+            LogOutCommand = new RelayCommand(_ => _loginViewModel.LogOut(null));
         }
 
         private void NavigateToBookingOverviewView()
@@ -39,10 +44,5 @@ namespace RandersKFUM.ViewModel
             RandersKFUM.Utilities.NavigationService.NavigateTo(new AdministrationView());
         }
 
-        /*private void NavigateToLoginView()
-        {
-            RandersKFUM.Utilities.NavigationService.NavigateTo(new LoginView());
-        }
-        */
     }
 }
