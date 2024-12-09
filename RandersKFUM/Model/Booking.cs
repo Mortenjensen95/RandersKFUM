@@ -16,7 +16,7 @@ namespace RandersKFUM.Model //test
         public Team Team { get; set; } // Navigation til Team
 
         public ICollection<FieldBooking> FieldBookings { get; set; } // Navigation til mange til mange relation
-        public ICollection<LockerRoomBooking> LockerRoomBookings { get; set; }
+        public ICollection<LockerRoomBooking> LockerRoomBookings { get; set; } // samme som ovenfor
 
         public Booking () 
         {

@@ -27,7 +27,7 @@ namespace RandersKFUM
             RandersKFUM.Utilities.NavigationService.MainFrame = MainFrame;
 
             // Naviger til MainMenuView
-            MainFrame.Navigate(new MainMenuView());
+            MainFrame.Navigate(new LoginView());
         }
 
     }

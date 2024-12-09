@@ -3,96 +3,99 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using RandersKFUM.Utilities;
+using RandersKFUM.View;
+using RandersKFUM.Repository;
 
 namespace RandersKFUM.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        // Fields
-        private string _username;
-        private string _password;
-        private string _errorMessage;
-        private bool isViewVisible = true;
+        // Privat felt til repository, der håndterer brugere i databasen
+        private readonly TeamLeaderRepository teamLeaderRepository;
 
-        // Properties
-        public string Username
+        // Brugernavn og adgangskode properties, der binder til UI'et
+        private string userName;
+        public string UserName
         {
-            get => _username;
+            get { return userName; }
             set
             {
-                _username = value;
-                OnPropertyChanged(nameof(Username));
+                userName = value;
+                OnPropertyChanged(nameof(UserName));
             }
         }
 
+        private string password;
         public string Password
         {
-            get => _password;
+            get { return password; }
             set
             {
-                _password = value;
+                password = value;
                 OnPropertyChanged(nameof(Password));
             }
         }
 
-        public string ErrorMessage
+        // Kommandoer til login og logout
+        public ICommand LoginCommand { get; set; }
+        public ICommand LogoutCommand { get; set; }
+
+        // Property til at holde styr på, om brugeren er logget ind eller ej
+        private bool isLoggedIn;
+        public bool IsLoggedIn
         {
-            get => _errorMessage;
+            get { return isLoggedIn; }
             set
             {
-                _errorMessage = value;
-                OnPropertyChanged(nameof(ErrorMessage));
+                isLoggedIn = value;
+                OnPropertyChanged(nameof(IsLoggedIn));
             }
         }
-
-        public bool IsViewVisible
-        {
-            get => isViewVisible;
-            set
-            {
-                isViewVisible = value;
-                OnPropertyChanged(nameof(IsViewVisible));
-            }
-        }
-
-        // Commands
-        public ICommand LoginCommand { get; }
-        public ICommand RecoverPasswordCommand { get; }
-        public ICommand ShowPasswordCommand { get; }
-        public ICommand RememberPasswordCommand { get; }
 
         // Constructor
         public LoginViewModel()
         {
-            LoginCommand = new RelayCommand(ExecuteLoginCommand, CanExecuteLoginCommand);
-            RecoverPasswordCommand = new RelayCommand(p => ExecuteRecoverPasswordCommand("", ""));
+            teamLeaderRepository = new TeamLeaderRepository(DatabaseConfig.GetConnectionString());
+
+            LoginCommand = new RelayCommand(Login);
+            LogoutCommand = new RelayCommand(Logout);
+
+            IsLoggedIn = false; // Standard: brugeren er ikke logget ind
         }
 
-        private bool CanExecuteLoginCommand(object obj)
+        // Login-metode
+        private void Login(object obj)
         {
-            bool validData;
-            if (string.IsNullOrWhiteSpace(Username) || Username.Length < 3 ||
-                Password == null || Password.Length < 3)
+            var user = teamLeaderRepository.GetByUsername(UserName); // Hent brugeren fra databasen baseret på brugernavn
+
+            if (user != null && user.Password == Password) // Tjek om brugeren eksisterer, og om adgangskoden matcher
             {
-                validData = false;
+                IsLoggedIn = true; // Brugeren er logget ind
+
+                // Opret og vis AdministrationView vinduet
+                RandersKFUM.Utilities.NavigationService.NavigateTo(new MainMenuView());
             }
             else
             {
-                validData = true;
+                IsLoggedIn = false; // Fejl: Forkert brugernavn eller adgangskode
+
+                // Eventuelt vis en fejlmeddelelse til brugeren
+                MessageBox.Show("Forkert brugernavn eller adgangskode. Prøv igen.");
             }
-            return validData;
         }
 
-        private void ExecuteLoginCommand(object obj)
-        {
-            throw new NotImplementedException();
-        }
 
-        private void ExecuteRecoverPasswordCommand(string username, string email)
+        // Logout-metode
+        public void Logout(object obj)
         {
-            throw new NotImplementedException();
+            IsLoggedIn = false; // Brugeren er logget ud
+            UserName = string.Empty; // Ryd brugernavn
+            Password = string.Empty; // Ryd adgangskode
+                                     // Eventuel navigering til login-skærm eller opdatering af UI
         }
     }
+
 }

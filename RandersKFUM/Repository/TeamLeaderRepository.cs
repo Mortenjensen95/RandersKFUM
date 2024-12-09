@@ -179,6 +179,32 @@ namespace RandersKFUM.Repository
                 }
             }
         }
+        public TeamLeader GetByUsername(string userName)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open(); // Sørg for, at forbindelsen er åben
+                using (var command = new SqlCommand("uspGetTeamLeaderByUsername", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
 
+                    // Tilføj parameter med korrekt datatype
+                    command.Parameters.Add(new SqlParameter("@UserName", SqlDbType.NVarChar)).Value = userName;
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new TeamLeader
+                            {
+                                UserName = reader["UserName"]?.ToString(),
+                                Password = reader["Password"]?.ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
+        }
     }
 }
