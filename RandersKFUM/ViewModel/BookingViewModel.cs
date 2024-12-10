@@ -116,25 +116,33 @@ public class BookingViewModel : ViewModelBase
 
     private void LoadAllResources()
     {
-        Fields.Clear();
-        var allFields = fieldRepository.GetAll();
-        foreach (var field in allFields)
+        try
         {
-            Fields.Add(field);
-        }
+            Fields.Clear();
+            var allFields = fieldRepository.GetAll();
+            foreach (var field in allFields)
+            {
+                Fields.Add(field);
+            }
 
-        LockerRooms.Clear();
-        var allLockerRooms = lockerRoomRepository.GetAll();
-        foreach (var lockerRoom in allLockerRooms)
-        {
-            LockerRooms.Add(lockerRoom);
-        }
+            LockerRooms.Clear();
+            var allLockerRooms = lockerRoomRepository.GetAll();
+            foreach (var lockerRoom in allLockerRooms)
+            {
+                LockerRooms.Add(lockerRoom);
+            }
 
-        Teams.Clear();
-        var allTeams = teamRepository.GetAll();
-        foreach (var team in allTeams)
+            Teams.Clear();
+            var allTeams = teamRepository.GetAll();
+            foreach (var team in allTeams)
+            {
+                Teams.Add(team);
+            }
+        }
+        catch (Exception ex)
         {
-            Teams.Add(team);
+            // Log fejlen og/eller giv brugeren besked
+            MessageBox.Show("Kunne ikke indlæse ressourcer: " + ex.Message, "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -152,44 +160,51 @@ public class BookingViewModel : ViewModelBase
         if (SelectedDate == default || SelectedTimeSlot == default || SelectedDuration == 0 || SelectedTeam == default)
             return;
 
-        var start = SelectedDate.Date + SelectedTimeSlot;
-        var end = start.AddMinutes(SelectedDuration);
-
-        // Hent alle felter og omklædningsrum først
-        var allFields = fieldRepository.GetAll();
-        var allLockerRooms = lockerRoomRepository.GetAll();
-
-        // Hent kun tilgængelige ressourcer
-        var availableFields = fieldRepository.GetAvailableFields(start, end).Select(f => f.FieldId).ToList();
-        var availableLockerRooms = lockerRoomRepository.GetAvailableLockerRooms(start, end).Select(lr => lr.LockerRoomId).ToList();
-
-        // Opdater tilgængelighedsstatus for alle ressourcer
-        FieldAvailability.Clear();
-        foreach (var field in allFields)
+        try
         {
-            FieldAvailability.Add(new FieldStatus
+            var start = SelectedDate.Date + SelectedTimeSlot;
+            var end = start.AddMinutes(SelectedDuration);
+
+            // Hent alle felter og omklædningsrum først
+            var allFields = fieldRepository.GetAll();
+            var allLockerRooms = lockerRoomRepository.GetAll();
+
+            // Hent kun tilgængelige ressourcer
+            var availableFields = fieldRepository.GetAvailableFields(start, end).Select(f => f.FieldId).ToList();
+            var availableLockerRooms = lockerRoomRepository.GetAvailableLockerRooms(start, end).Select(lr => lr.LockerRoomId).ToList();
+
+            // Opdater tilgængelighedsstatus for alle ressourcer
+            FieldAvailability.Clear();
+            foreach (var field in allFields)
             {
-                FieldId = field.FieldId,
-                FieldNumber = field.FieldNumber, // Bruger FieldNumber
-                FieldType = field.FieldType,     // Bruger FieldType
-                IsAvailable = availableFields.Contains(field.FieldId)
-            });
+                FieldAvailability.Add(new FieldStatus
+                {
+                    FieldId = field.FieldId,
+                    FieldNumber = field.FieldNumber,
+                    FieldType = field.FieldType,
+                    IsAvailable = availableFields.Contains(field.FieldId)
+                });
+            }
+
+            LockerRoomAvailability.Clear();
+            foreach (var lockerRoom in allLockerRooms)
+            {
+                LockerRoomAvailability.Add(new LockerRoomStatus
+                {
+                    LockerRoomId = lockerRoom.LockerRoomId,
+                    LockerRoomNumber = lockerRoom.LockerRoomNumber,
+                    LockerRoomType = lockerRoom.LockerRoomType,
+                    IsAvailable = availableLockerRooms.Contains(lockerRoom.LockerRoomId)
+                });
+            }
         }
-
-
-        LockerRoomAvailability.Clear();
-        foreach (var lockerRoom in allLockerRooms)
+        catch (Exception ex)
         {
-            LockerRoomAvailability.Add(new LockerRoomStatus
-            {
-                LockerRoomId = lockerRoom.LockerRoomId,
-                LockerRoomNumber = lockerRoom.LockerRoomNumber, // Sørg for, at dette er korrekt mappet
-                LockerRoomType = lockerRoom.LockerRoomType, // Sørg for, at dette er korrekt mappet
-                IsAvailable = availableLockerRooms.Contains(lockerRoom.LockerRoomId)
-            });
+            // Log eller vis fejlen
+            MessageBox.Show("Kunne ikke opdatere tilgængeligheden: " + ex.Message, "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
     }
+
 
 
     public virtual void ConfirmBooking()

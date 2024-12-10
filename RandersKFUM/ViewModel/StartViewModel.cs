@@ -12,11 +12,7 @@ namespace RandersKFUM.ViewModel
 {
     public class StartViewModel : ViewModelBase
     {
-
-        private readonly FieldRepository fieldRepository;
-        private readonly LockerRoomRepository lockerRoomRepository;
         private readonly BookingRepository bookingRepository;
-        private readonly TeamRepository teamRepository;
 
         public ObservableCollection<BookingOverview> AllBookings { get; private set; }
         public ObservableCollection<BookingOverview> FilteredBookings { get; private set; }
@@ -33,7 +29,6 @@ namespace RandersKFUM.ViewModel
             }
         }
 
-        public RelayCommand NavigateBackToMainMenuCommand { get; }
         public RelayCommand NavigateToLogInCommand {  get; }
 
 
@@ -48,15 +43,10 @@ namespace RandersKFUM.ViewModel
             }
         }
 
-        public StartViewModel(FieldRepository fieldRepo, LockerRoomRepository lockerRoomRepo, BookingRepository bookingRepo, TeamRepository teamRepo)
+        public StartViewModel()
         {
+            bookingRepository = new BookingRepository(DatabaseConfig.GetConnectionString());
 
-            fieldRepository = fieldRepo;
-            lockerRoomRepository = lockerRoomRepo;
-            bookingRepository = bookingRepo;
-            teamRepository = teamRepo;
-
-            NavigateBackToMainMenuCommand = new RelayCommand(_ => NavigateBackToMainMenuView());
             NavigateToLogInCommand = new RelayCommand(_ => NavigateToLogIn());
 
             LoadBookings();
@@ -100,26 +90,6 @@ namespace RandersKFUM.ViewModel
             }
 
             OnPropertyChanged(nameof(FilteredBookings));
-        }
-
-        private void DeleteBooking()
-        {
-            if (SelectedBooking == null) return;
-
-            var result = MessageBox.Show("Er du sikker på, at du vil slette denne booking?", "Bekræft Sletning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                bookingRepository.Delete(SelectedBooking.BookingNumber);
-
-                // Reload bookings after deletion
-                LoadBookings();
-            }
-        }
-
-        private void NavigateBackToMainMenuView()
-        {
-            NavigationService.NavigateTo(new MainMenuView());
         }
 
         private void NavigateToLogIn()

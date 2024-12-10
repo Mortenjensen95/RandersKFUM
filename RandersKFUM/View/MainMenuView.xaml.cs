@@ -24,8 +24,7 @@ namespace RandersKFUM.View
         public MainMenuView()
         {
             InitializeComponent();
-            var loginVM = new LoginViewModel();
-            DataContext = new MainMenuViewModel(loginVM);
+            DataContext = new MainMenuViewModel();
         }
     }
 }

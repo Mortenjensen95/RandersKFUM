@@ -12,10 +12,7 @@ namespace RandersKFUM.ViewModel
 {
     public class BookingOverviewViewModel : ViewModelBase
     {
-        private readonly FieldRepository fieldRepository;
-        private readonly LockerRoomRepository lockerRoomRepository;
         private readonly BookingRepository bookingRepository;
-        private readonly TeamRepository teamRepository;
 
         public ObservableCollection<BookingOverview> AllBookings { get; private set; }
         public ObservableCollection<BookingOverview> FilteredBookings { get; private set; }
@@ -46,12 +43,9 @@ namespace RandersKFUM.ViewModel
             }
         }
 
-        public BookingOverviewViewModel(FieldRepository fieldRepo, LockerRoomRepository lockerRoomRepo, BookingRepository bookingRepo, TeamRepository teamRepo)
+        public BookingOverviewViewModel()
         {
-            fieldRepository = fieldRepo;
-            lockerRoomRepository = lockerRoomRepo;
-            bookingRepository = bookingRepo;
-            teamRepository = teamRepo;
+            bookingRepository = new BookingRepository(DatabaseConfig.GetConnectionString());
 
             NavigateBackToMainMenuCommand = new RelayCommand(_ => NavigateBackToMainMenuView());
             DeleteBookingCommand = new RelayCommand(_ => DeleteBooking(), canExecute => SelectedBooking != null);

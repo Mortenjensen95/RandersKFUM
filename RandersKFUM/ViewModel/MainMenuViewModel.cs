@@ -1,4 +1,5 @@
-﻿using RandersKFUM.Utilities;
+﻿using RandersKFUM.Repository;
+using RandersKFUM.Utilities;
 using RandersKFUM.View;
 using RandersKFUM.ViewModel;
 using System;
@@ -12,21 +13,21 @@ namespace RandersKFUM.ViewModel
     internal class MainMenuViewModel
     {
 
-        private readonly LoginViewModel _loginViewModel;
+        private readonly LoginViewModel loginViewModel;
 
         public RelayCommand NavigateToBookingOverviewViewCommand { get; }
         public RelayCommand NavigateToBookingViewCommand { get; }
         public RelayCommand NavigateToAdministrationViewCommand { get; }
         public RelayCommand LogOutCommand { get; }
 
-        public MainMenuViewModel(LoginViewModel loginViewModel)
+        public MainMenuViewModel()
         {
-            _loginViewModel = loginViewModel;
+            loginViewModel = new LoginViewModel(); // vi opretter en ny instans af LoginViewModel, så vi kan bruge metoden LogOut
 
             NavigateToBookingOverviewViewCommand = new RelayCommand(_ => NavigateToBookingOverviewView());
             NavigateToBookingViewCommand = new RelayCommand(_ => NavigateToBookingView());
             NavigateToAdministrationViewCommand = new RelayCommand(_ => NavigateToAdministrationView());
-            LogOutCommand = new RelayCommand(_ => _loginViewModel.LogOut(null));
+            LogOutCommand = new RelayCommand(_ => loginViewModel.LogOut(null));
         }
 
         private void NavigateToBookingOverviewView()

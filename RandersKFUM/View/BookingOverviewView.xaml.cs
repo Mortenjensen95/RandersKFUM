@@ -25,18 +25,7 @@ namespace RandersKFUM.View
             public BookingOverviewView()
             {
                 InitializeComponent();
-
-                // Hent connection string
-                var connectionString = DatabaseConfig.GetConnectionString();
-
-                // Opret repositories med connection string
-                var fieldRepo = new FieldRepository(connectionString);
-                var lockerRoomRepo = new LockerRoomRepository(connectionString);
-                var bookingRepo = new BookingRepository(connectionString);
-                var teamRepo = new TeamRepository(connectionString);
-
-                // Initialiser ViewModel med repositories
-                DataContext = new BookingOverviewViewModel(fieldRepo, lockerRoomRepo, bookingRepo, teamRepo);
+                DataContext = new BookingOverviewViewModel();
             }
         }
     }

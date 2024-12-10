@@ -13,10 +13,8 @@ namespace RandersKFUM.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        // Privat felt til repository, der håndterer brugere i databasen
         private readonly TeamLeaderRepository teamLeaderRepository;
 
-        // Brugernavn og adgangskode properties, der binder til UI'et
         private string userName;
         public string UserName
         {
@@ -39,11 +37,9 @@ namespace RandersKFUM.ViewModel
             }
         }
 
-        // Kommandoer til login og logout
         public ICommand LoginCommand { get; set; }
         public ICommand LogoutCommand { get; set; }
 
-        // Property til at holde styr på, om brugeren er logget ind eller ej
         private bool isLoggedIn;
         public bool IsLoggedIn
         {
@@ -55,7 +51,6 @@ namespace RandersKFUM.ViewModel
             }
         }
 
-        // Constructor
         public LoginViewModel()
         {
             teamLeaderRepository = new TeamLeaderRepository(DatabaseConfig.GetConnectionString());
@@ -63,50 +58,41 @@ namespace RandersKFUM.ViewModel
             LoginCommand = new RelayCommand(Login);
             LogoutCommand = new RelayCommand(LogOut);
 
-            IsLoggedIn = false; // Standard: brugeren er ikke logget ind
+            IsLoggedIn = false;
         }
 
-        // Login-metode
         public void Login(object obj)
         {
             try
             {
-                var user = teamLeaderRepository.GetByUsername(UserName); // Hent brugeren fra databasen baseret på brugernavn
+                var user = teamLeaderRepository.GetByUsername(UserName);
 
-                if (user != null && user.Password == Password) // Tjek om brugeren eksisterer, og om adgangskoden matcher
+                if (user != null && user.Password == Password)
                 {
-                    IsLoggedIn = true; // Brugeren er logget ind
+                    IsLoggedIn = true;
 
-                    // Opret og vis AdministrationView vinduet
                     RandersKFUM.Utilities.NavigationService.NavigateTo(new MainMenuView());
                 }
                 else
                 {
-                    IsLoggedIn = false; // Fejl: Forkert brugernavn eller adgangskode
+                    IsLoggedIn = false;
 
-                    // Eventuelt vis en fejlmeddelelse til brugeren
                     MessageBox.Show("Forkert brugernavn eller adgangskode. Prøv igen.");
                 }
             }
             catch (Exception ex)
             {
-                // Håndter fejl her - vis en fejlmeddelelse
                 MessageBox.Show("Der opstod en uventet fejl. Prøv igen eller kontakt support.");
 
-                // Overvej at logge fejlen:
-                // Logger.Log(ex.ToString());
             }
         }
 
-
-
-        // Logout-metode
         public void LogOut(object obj)
         {
-            IsLoggedIn = false; // Brugeren er logget ud
-            UserName = string.Empty; // Ryd brugernavn
-            Password = string.Empty; // Ryd adgangskode
-                                     // Eventuel navigering til login-skærm eller opdatering af UI
+            IsLoggedIn = false;
+            UserName = string.Empty;
+            Password = string.Empty; 
+                                     
             RandersKFUM.Utilities.NavigationService.NavigateTo(new StartView());
         }
     }
