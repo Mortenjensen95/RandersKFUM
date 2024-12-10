@@ -15,6 +15,18 @@ namespace RandersKFUM.ViewModel
     {
         private readonly TeamLeaderRepository teamLeaderRepository;
 
+        public ICommand LoginCommand { get; set; }
+        public ICommand LogoutCommand { get; set; }
+
+        public LoginViewModel()
+        {
+            teamLeaderRepository = new TeamLeaderRepository(DatabaseConfig.GetConnectionString());
+
+            LoginCommand = new RelayCommand(Login);
+            LogoutCommand = new RelayCommand(LogOut);
+
+            IsLoggedIn = false;
+        }
         private string userName;
         public string UserName
         {
@@ -37,9 +49,6 @@ namespace RandersKFUM.ViewModel
             }
         }
 
-        public ICommand LoginCommand { get; set; }
-        public ICommand LogoutCommand { get; set; }
-
         private bool isLoggedIn;
         public bool IsLoggedIn
         {
@@ -49,16 +58,6 @@ namespace RandersKFUM.ViewModel
                 isLoggedIn = value;
                 OnPropertyChanged(nameof(IsLoggedIn));
             }
-        }
-
-        public LoginViewModel()
-        {
-            teamLeaderRepository = new TeamLeaderRepository(DatabaseConfig.GetConnectionString());
-
-            LoginCommand = new RelayCommand(Login);
-            LogoutCommand = new RelayCommand(LogOut);
-
-            IsLoggedIn = false;
         }
 
         public void Login(object obj)

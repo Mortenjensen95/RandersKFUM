@@ -75,7 +75,7 @@
             <Button Content="Gem" Width="100" Height="40" Margin="5" 
         Command="{Binding SaveChangesCommand}" />
         </StackPanel>
-        <Button Content="Tilbage til AdministrationView" Width="175" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="1"
+        <Button Content="Tilbage til Administration" Width="175" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="1"
         Command="{Binding NavigateBackToAdministrationViewCommand}" />
     </Grid>
 </Page>

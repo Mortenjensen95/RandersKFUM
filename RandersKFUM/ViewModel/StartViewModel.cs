@@ -17,6 +17,20 @@ namespace RandersKFUM.ViewModel
         public ObservableCollection<BookingOverview> AllBookings { get; private set; }
         public ObservableCollection<BookingOverview> FilteredBookings { get; private set; }
 
+        public RelayCommand NavigateToLogInCommand { get; }
+
+        public StartViewModel()
+        {
+            bookingRepository = new BookingRepository(DatabaseConfig.GetConnectionString());
+
+            NavigateToLogInCommand = new RelayCommand(_ => NavigateToLogIn());
+
+            LoadBookings();
+
+            SelectedDate = DateTime.Today;
+
+        }
+
         private DateTime? selectedDate;
         public DateTime? SelectedDate
         {
@@ -29,8 +43,6 @@ namespace RandersKFUM.ViewModel
             }
         }
 
-        public RelayCommand NavigateToLogInCommand {  get; }
-
 
         private BookingOverview selectedBooking;
         public BookingOverview SelectedBooking
@@ -41,18 +53,6 @@ namespace RandersKFUM.ViewModel
                 selectedBooking = value;
                 OnPropertyChanged(nameof(SelectedBooking));
             }
-        }
-
-        public StartViewModel()
-        {
-            bookingRepository = new BookingRepository(DatabaseConfig.GetConnectionString());
-
-            NavigateToLogInCommand = new RelayCommand(_ => NavigateToLogIn());
-
-            LoadBookings();
-
-            SelectedDate = DateTime.Today;
-
         }
 
         private void LoadBookings()

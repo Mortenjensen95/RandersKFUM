@@ -54,9 +54,7 @@ namespace RandersKFUM.ViewModel
 
         private void CreateTeamLeader()
         {
-            
-                // Opret en ny TeamLeader med standardværdier (ikke gemt i databasen endnu)
-                var newTeamLeader = new TeamLeader
+            var newTeamLeader = new TeamLeader
                 {
                     Name = "",
                     UserName = "",
@@ -64,12 +62,9 @@ namespace RandersKFUM.ViewModel
                     Phone = "",
                     Email = ""
                 };
-                // Tilføj til ObservableCollection
                 TeamLeaders.Add(newTeamLeader);
 
-                // Sæt som valgt, så brugeren kan redigere
                 SelectedItem = newTeamLeader;
-            
 
         }
 

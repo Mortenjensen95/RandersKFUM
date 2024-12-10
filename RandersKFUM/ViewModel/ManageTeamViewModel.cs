@@ -63,7 +63,6 @@ namespace RandersKFUM.ViewModel
         private void CreateTeam()
         {
 
-                // Opret et net team med standardværdier (vi har har endnu ikke gemt til databasen
                 var newTeam = new Team
                 {
                     TeamName = "",
@@ -73,7 +72,6 @@ namespace RandersKFUM.ViewModel
 
                 Teams.Add(newTeam);
 
-                // sæt som valgt, så brugeren kan redigere
                 SelectedItem = newTeam;
             
         }
@@ -85,8 +83,8 @@ namespace RandersKFUM.ViewModel
             if (SelectedItem == null) return;
             try
             {
-                teamRepository.Delete(SelectedItem.TeamId); // Slet fra databasen
-                Teams.Remove(SelectedItem);                 // Fjern fra ObservableCollection
+                teamRepository.Delete(SelectedItem.TeamId);
+                Teams.Remove(SelectedItem);                 
             }
             catch (Exception ex)
             {
@@ -100,15 +98,12 @@ namespace RandersKFUM.ViewModel
 
             try
             {
-                // Tjek, om det er en ny TeamLeader (hvis ID ikke er sat endnu, eller det er en defaultværdi som 0)
                 if (SelectedItem.TeamId == 0)
                 {
-                    // Opret ny TeamLeader i databasen
                     teamRepository.Add(SelectedItem);
                 }
                 else
                 {
-                    // Opdater eksisterende TeamLeader
                     teamRepository.Update(SelectedItem);
                 }
                 var updatedTeams = teamRepository.GetAll();

@@ -30,6 +30,20 @@ public class BookingViewModel : ViewModelBase
     public RelayCommand NavigateBackCommand { get; }
 
 
+    public BookingViewModel()
+    {
+        fieldRepository = new FieldRepository(DatabaseConfig.GetConnectionString());
+        lockerRoomRepository = new LockerRoomRepository(DatabaseConfig.GetConnectionString());
+        bookingRepository = new BookingRepository(DatabaseConfig.GetConnectionString());
+        teamRepository = new TeamRepository(DatabaseConfig.GetConnectionString());
+
+        ConfirmBookingCommand = new RelayCommand(_ => ConfirmBooking());
+        NavigateBackCommand = new RelayCommand(_ => NavigateBackToMainMenu());
+
+        LoadAllResources();
+        InitializeTimeSlots();
+    }
+
     private FieldStatus selectedField;
     public FieldStatus SelectedField
     {
@@ -37,7 +51,7 @@ public class BookingViewModel : ViewModelBase
         set
         {
             selectedField = value;
-            OnPropertyChanged(); // Dette sikrer, at UI bliver opdateret, når værdien ændres
+            OnPropertyChanged();
         }
     }
 
@@ -48,7 +62,7 @@ public class BookingViewModel : ViewModelBase
         set
         {
             selectedLockerRoom = value;
-            OnPropertyChanged(); // Sikrer, at UI bliver opdateret
+            OnPropertyChanged();
         }
     }
 
@@ -100,20 +114,6 @@ public class BookingViewModel : ViewModelBase
         }
     }
 
-    public BookingViewModel()
-    {
-        fieldRepository = new FieldRepository(DatabaseConfig.GetConnectionString());
-        lockerRoomRepository = new LockerRoomRepository(DatabaseConfig.GetConnectionString());
-        bookingRepository = new BookingRepository(DatabaseConfig.GetConnectionString());
-        teamRepository = new TeamRepository(DatabaseConfig.GetConnectionString());
-
-        ConfirmBookingCommand = new RelayCommand(_ => ConfirmBooking());
-        NavigateBackCommand = new RelayCommand(_ => NavigateBackToMainMenu());
-
-        LoadAllResources();
-        InitializeTimeSlots();
-    }
-
     private void LoadAllResources()
     {
         try
@@ -141,7 +141,7 @@ public class BookingViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            // Log fejlen og/eller giv brugeren besked
+           
             MessageBox.Show("Kunne ikke indlæse ressourcer: " + ex.Message, "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
@@ -200,7 +200,6 @@ public class BookingViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            // Log eller vis fejlen
             MessageBox.Show("Kunne ikke opdatere tilgængeligheden: " + ex.Message, "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
@@ -225,7 +224,6 @@ public class BookingViewModel : ViewModelBase
             TeamId = SelectedTeam.TeamId
         };
 
-        // Saml FieldIds og LockerRoomIds
         var fieldIds = SelectedFields.Select(f => f.FieldId);
         var lockerRoomIds = SelectedLockerRooms.Select(lr => lr.LockerRoomId);
         try
@@ -238,7 +236,6 @@ public class BookingViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            // Håndter uforudsete fejl
             MessageBox.Show($"Der opstod en fejl: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
