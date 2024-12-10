@@ -66,11 +66,19 @@ namespace RandersKFUM.ViewModel
 
         private void DeleteTeamLeader()
         {
-            if (selectedItem == null) return;
+            if (SelectedItem == null) return;
 
-            teamLeaderRepository.Delete(SelectedItem.TeamLeaderId); // Slet fra databasen
-            TeamLeaders.Remove(SelectedItem);                       // Fjern fra ObservableCollection
+            try
+            {
+                teamLeaderRepository.Delete(SelectedItem.TeamLeaderId);
+                TeamLeaders.Remove(SelectedItem);                       
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Kunne ikke slette holdleder: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
 
         private void SaveChanges()
         {

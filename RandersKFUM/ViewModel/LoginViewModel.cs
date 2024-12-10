@@ -82,7 +82,7 @@ namespace RandersKFUM.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Der opstod en uventet fejl. Prøv igen eller kontakt support.");
+                MessageBox.Show("Der opstod en uventet fejl. Prøv igen.");
 
             }
         }
