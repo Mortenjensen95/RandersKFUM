@@ -100,12 +100,12 @@ public class BookingViewModel : ViewModelBase
         }
     }
 
-    public BookingViewModel(FieldRepository fieldRepository, LockerRoomRepository lockerRoomRepository, BookingRepository bookingRepository, TeamRepository teamRepository)
+    public BookingViewModel()
     {
-        this.fieldRepository = fieldRepository;
-        this.lockerRoomRepository = lockerRoomRepository;
-        this.bookingRepository = bookingRepository;
-        this.teamRepository = teamRepository;
+        fieldRepository = new FieldRepository(DatabaseConfig.GetConnectionString());
+        lockerRoomRepository = new LockerRoomRepository(DatabaseConfig.GetConnectionString());
+        bookingRepository = new BookingRepository(DatabaseConfig.GetConnectionString());
+        teamRepository = new TeamRepository(DatabaseConfig.GetConnectionString());
 
         ConfirmBookingCommand = new RelayCommand(_ => ConfirmBooking());
         NavigateBackCommand = new RelayCommand(_ => NavigateBackToMainMenu());

@@ -71,13 +71,21 @@ namespace RandersKFUM.ViewModel
             try
             {
                 teamLeaderRepository.Delete(SelectedItem.TeamLeaderId);
-                TeamLeaders.Remove(SelectedItem);                       
+                TeamLeaders.Remove(SelectedItem);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Kunne ikke slette holdleder: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (ex.Message.Contains("DELETE statement conflicted with the REFERENCE constraint"))
+                {
+                    MessageBox.Show("Du kan ikke slette denne holdleder, da holdlederen er tilknyttet et eller flere hold. Fjern holdlederen fra holdet først.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"Kunne ikke slette holdleder: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
+
 
 
         private void SaveChanges()

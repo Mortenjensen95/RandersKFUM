@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Linq.Expressions;
 
 namespace RandersKFUM.View
 {
@@ -26,21 +27,9 @@ namespace RandersKFUM.View
     {
         public BookingView()
         {
-            try
-            {
+            
                 InitializeComponent();
-                var connectionString = DatabaseConfig.GetConnectionString();
-
-                DataContext = new BookingViewModel(
-                    new FieldRepository(connectionString),
-                    new LockerRoomRepository(connectionString),
-                    new BookingRepository(connectionString),
-                    new TeamRepository(connectionString));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"En fejl opstod under initialisering: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                DataContext = new BookingViewModel();
         }
 
     }
