@@ -63,13 +63,20 @@ namespace RandersKFUM.ViewModel
 
         private void LoadBookings()
         {
-            var bookingOverviews = bookingRepository.GetBookingOverviews();
-            AllBookings = new ObservableCollection<BookingOverview>(bookingOverviews);
+            try
+            {
+                var bookingOverviews = bookingRepository.GetBookingOverviews();
+                AllBookings = new ObservableCollection<BookingOverview>(bookingOverviews);
 
-            FilteredBookings = new ObservableCollection<BookingOverview>(AllBookings);
+                FilteredBookings = new ObservableCollection<BookingOverview>(AllBookings);
 
-            OnPropertyChanged(nameof(AllBookings));
-            OnPropertyChanged(nameof(FilteredBookings));
+                OnPropertyChanged(nameof(AllBookings));
+                OnPropertyChanged(nameof(FilteredBookings));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Kunne ikke indlæse bookingdata: " + ex.Message, "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void FilterBookingsByDate()
@@ -106,12 +113,19 @@ namespace RandersKFUM.ViewModel
 
             if (result == MessageBoxResult.Yes)
             {
-                bookingRepository.Delete(SelectedBooking.BookingNumber);
-
-                // Reload bookings after deletion
-                LoadBookings();
+                try
+                {
+                    bookingRepository.Delete(SelectedBooking.BookingNumber);
+                    LoadBookings();
+                    FilterBookingsByDate();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Kunne ikke slette booking: " + ex.Message, "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
+
 
         private void NavigateBackToMainMenuView()
         {

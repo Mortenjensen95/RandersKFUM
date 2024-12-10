@@ -124,7 +124,7 @@ namespace RandersKFUM.Repository
 
         public void Update(Booking updatedBooking, IEnumerable<int> fieldIds, IEnumerable<int> lockerRoomIds)
         {
-            using var connection = new SqlConnection(DatabaseConfig.GetConnectionString());
+            using var connection = new SqlConnection(_connectionString);
             connection.Open();
 
             // Konverter fieldIds til DataTable
@@ -195,37 +195,35 @@ namespace RandersKFUM.Repository
         {
             var bookings = new List<BookingOverview>();
 
-            using (var connection = new SqlConnection(DatabaseConfig.GetConnectionString()))
-            {
-                // Åbn forbindelsen
-                connection.Open();
-
-                // SQL-forespørgsel til at hente data fra viewet
-                var query = "SELECT * FROM BookingOverview";
-
-                using (var command = new SqlCommand(query, connection))
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    using (var reader = command.ExecuteReader())
+                    connection.Open();
+
+                    using (var command = new SqlCommand("uspShowBookingOverView", connection))
                     {
-                        while (reader.Read())
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        using (var reader = command.ExecuteReader())
                         {
-                            // Map resultaterne fra databasen til BookingOverview-modellen
-                            bookings.Add(new BookingOverview
+                            while (reader.Read())
                             {
-                                BookingNumber = reader.GetInt32(reader.GetOrdinal("BookingNumber")),
-                                DateTimeStart = reader.GetDateTime(reader.GetOrdinal("DateTimeStart")),
-                                DateTimeEnd = reader.GetDateTime(reader.GetOrdinal("DateTimeEnd")),
-                                TeamName = reader.GetString(reader.GetOrdinal("TeamName")),
-                                FieldNumbers = reader.GetString(reader.GetOrdinal("FieldNumbers")),
-                                LockerRoomNumbers = reader.GetString(reader.GetOrdinal("LockerRoomNumbers"))
-                            });
+                                bookings.Add(new BookingOverview
+                                {
+                                    BookingNumber = reader.GetInt32(reader.GetOrdinal("BookingNumber")),
+                                    DateTimeStart = reader.GetDateTime(reader.GetOrdinal("DateTimeStart")),
+                                    DateTimeEnd = reader.GetDateTime(reader.GetOrdinal("DateTimeEnd")),
+                                    TeamName = reader.GetString(reader.GetOrdinal("TeamName")),
+                                    FieldNumbers = reader.GetString(reader.GetOrdinal("FieldNumbers")),
+                                    LockerRoomNumbers = reader.GetString(reader.GetOrdinal("LockerRoomNumbers"))
+                                });
+                            }
                         }
                     }
                 }
-            }
 
             return bookings;
         }
+
 
 
 
