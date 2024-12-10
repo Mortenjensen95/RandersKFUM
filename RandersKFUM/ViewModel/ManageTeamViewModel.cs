@@ -19,19 +19,30 @@ namespace RandersKFUM.ViewModel
         private readonly TeamRepository teamRepository;
         private readonly TeamLeaderRepository teamLeaderRepository;
 
-        public RelayCommand CreateTeamCommand => new RelayCommand(execute => CreateTeam());
-        public RelayCommand DeleteTeamCommand => new RelayCommand(execute => DeleteTeam(), canExecute => SelectedItem != null);
-        public RelayCommand SaveChangesCommand => new RelayCommand(execute => SaveChanges(), canExecute => SelectedItem != null);
-        public RelayCommand NavigateBackToAdministrationViewCommand => new RelayCommand(execute => NavigateBackToAdministrationView());
+        public RelayCommand CreateTeamCommand { get;}
+        public RelayCommand DeleteTeamCommand { get;}
+        public RelayCommand SaveChangesCommand { get; }
+        public RelayCommand NavigateBackToAdministrationViewCommand { get; }
 
 
         public ManageTeamViewModel()
         {
-            string connectionString = DatabaseConfig.GetConnectionString();
-            teamRepository = new TeamRepository(connectionString);
-            teamLeaderRepository = new TeamLeaderRepository(connectionString);
-            Teams = new ObservableCollection<Team>(teamRepository.GetAll());
-            TeamLeaders = new ObservableCollection<TeamLeader>(teamLeaderRepository.GetAll());
+            try
+            {
+                teamRepository = new TeamRepository(DatabaseConfig.GetConnectionString());
+                teamLeaderRepository = new TeamLeaderRepository(DatabaseConfig.GetConnectionString());
+                Teams = new ObservableCollection<Team>(teamRepository.GetAll());
+                TeamLeaders = new ObservableCollection<TeamLeader>(teamLeaderRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Kunne ikke hente hold eller holdledere: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            CreateTeamCommand = new RelayCommand(_ => CreateTeam());
+            DeleteTeamCommand = new RelayCommand(_ => DeleteTeam(), _ => SelectedItem != null);
+            SaveChangesCommand = new RelayCommand(_ => SaveChanges(), _ => SelectedItem != null);
+            NavigateBackToAdministrationViewCommand = new RelayCommand(_ => NavigateBackToAdministrationView());
         }
 
 
@@ -51,18 +62,20 @@ namespace RandersKFUM.ViewModel
 
         private void CreateTeam()
         {
-            // Opret et net team med standardværdier (vi har har endnu ikke gemt til databasen
-            var newTeam = new Team
-            {
-                TeamName = "",
-                TeamType = "",
-                TeamLeaderId = TeamLeaders.FirstOrDefault()?.TeamLeaderId ?? 0 // Eksempeldata
-            };
 
-            Teams.Add(newTeam);
+                // Opret et net team med standardværdier (vi har har endnu ikke gemt til databasen
+                var newTeam = new Team
+                {
+                    TeamName = "",
+                    TeamType = "",
+                    TeamLeaderId = TeamLeaders.FirstOrDefault()?.TeamLeaderId ?? 0 // Eksempeldata
+                };
 
-            // sæt som valgt, så brugeren kan redigere
-            SelectedItem = newTeam;
+                Teams.Add(newTeam);
+
+                // sæt som valgt, så brugeren kan redigere
+                SelectedItem = newTeam;
+            
         }
 
 

@@ -30,7 +30,6 @@ namespace RandersKFUM.Repository
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    try
                     {
                         using (var reader = command.ExecuteReader())
                         {
@@ -48,10 +47,7 @@ namespace RandersKFUM.Repository
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error while retrieving TeamLeaders: {ex.Message}");
-                    }
+                  
                 }
             }
 
