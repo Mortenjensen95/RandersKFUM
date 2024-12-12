@@ -196,37 +196,31 @@ namespace RandersKFUM.Repository
         {
             var bookings = new List<BookingOverview>();
 
-                using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand("uspShowBookingOverView", connection))
                 {
-                    connection.Open();
+                    command.CommandType = CommandType.StoredProcedure;
 
-                    using (var command = new SqlCommand("uspShowBookingOverView", connection))
+                    using (var reader = command.ExecuteReader())
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-
-                        using (var reader = command.ExecuteReader())
+                        while (reader.Read())
                         {
-                            while (reader.Read())
+                            bookings.Add(new BookingOverview
                             {
-                                bookings.Add(new BookingOverview
-                                {
-                                    BookingNumber = reader.GetInt32(reader.GetOrdinal("BookingNumber")),
-                                    DateTimeStart = reader.GetDateTime(reader.GetOrdinal("DateTimeStart")),
-                                    DateTimeEnd = reader.GetDateTime(reader.GetOrdinal("DateTimeEnd")),
-                                    TeamName = reader.GetString(reader.GetOrdinal("TeamName")),
-                                    FieldNumbers = reader.GetString(reader.GetOrdinal("FieldNumbers")),
-                                    LockerRoomNumbers = reader.GetString(reader.GetOrdinal("LockerRoomNumbers"))
-                                });
-                            }
+                                BookingNumber = reader.GetInt32(reader.GetOrdinal("BookingNumber")),
+                                DateTimeStart = reader.GetDateTime(reader.GetOrdinal("DateTimeStart")),
+                                DateTimeEnd = reader.GetDateTime(reader.GetOrdinal("DateTimeEnd")),
+                                TeamName = reader.GetString(reader.GetOrdinal("TeamName")),
+                                FieldNumbers = reader.GetString(reader.GetOrdinal("FieldNumbers")),
+                                LockerRoomNumbers = reader.GetString(reader.GetOrdinal("LockerRoomNumbers"))
+                            });
                         }
                     }
                 }
+            }
 
             return bookings;
         }
-
-
-
-
-    }
-}

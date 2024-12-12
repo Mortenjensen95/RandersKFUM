@@ -15,7 +15,7 @@ public class BookingViewModel : ViewModelBase
 
     public ObservableCollection<FieldStatus> FieldAvailability { get; set; } = new ObservableCollection<FieldStatus>();
     public ObservableCollection<LockerRoomStatus> LockerRoomAvailability { get; set; } = new ObservableCollection<LockerRoomStatus>();
-    
+
     public ObservableCollection<Team> Teams { get; set; } = new ObservableCollection<Team> { };
     public ObservableCollection<Field> Fields { get; set; } = new ObservableCollection<Field>();
     public ObservableCollection<LockerRoom> LockerRooms { get; set; } = new ObservableCollection<LockerRoom>();
@@ -141,7 +141,7 @@ public class BookingViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-           
+
             MessageBox.Show("Kunne ikke indlæse ressourcer: " + ex.Message, "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
