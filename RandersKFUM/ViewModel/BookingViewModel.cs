@@ -15,7 +15,7 @@ public class BookingViewModel : ViewModelBase
 
     public ObservableCollection<FieldStatus> FieldAvailability { get; set; } = new ObservableCollection<FieldStatus>();
     public ObservableCollection<LockerRoomStatus> LockerRoomAvailability { get; set; } = new ObservableCollection<LockerRoomStatus>();
-    
+
     public ObservableCollection<Team> Teams { get; set; } = new ObservableCollection<Team> { };
     public ObservableCollection<Field> Fields { get; set; } = new ObservableCollection<Field>();
     public ObservableCollection<LockerRoom> LockerRooms { get; set; } = new ObservableCollection<LockerRoom>();
@@ -141,7 +141,7 @@ public class BookingViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-           
+
             MessageBox.Show("Kunne ikke indlæse ressourcer: " + ex.Message, "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
@@ -206,17 +206,20 @@ public class BookingViewModel : ViewModelBase
 
 
 
-    public virtual void ConfirmBooking()
+    public void ConfirmBooking()
     {
+        // Validerer om de nødvendige felter er valgt
         if (!SelectedFields.Any() || !SelectedLockerRooms.Any())
         {
             MessageBox.Show("Vælg venligst mindst én bane, ét omklædningsrum og et hold.", "Validering Fejl", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
+        // Beregner start og slut tidspunkter baseret på valgte dato og tidsrum
         var start = SelectedDate.Date + SelectedTimeSlot;
         var end = start.AddMinutes(SelectedDuration);
 
+        // Opretter en ny booking-instans
         var booking = new Booking(
             bookingNumber: 0,
             dateTimeStart: start,
@@ -224,10 +227,17 @@ public class BookingViewModel : ViewModelBase
             teamId: SelectedTeam.TeamId
         );
 
+        // Henter ID'er for valgte baner og omklædningsrum
+        // Henter ID'er for de valgte baner ved at anvende LINQ og et lambda-udtryk
+        // 'SelectedFields' er en samling af valgte baner, og 'Select' anvendes her til at transformere denne samling til en ny samling, hvor hvert element er et FieldId
         var fieldIds = SelectedFields.Select(f => f.FieldId);
+
+        // På samme måde henter vi ID'er for de valgte omklædningsrum ved brug af LINQ og et lambda-udtryk
+        // 'SelectedLockerRooms' er en samling af valgte omklædningsrum, og 'Select' funktionen transformerer denne samling til en liste af LockerRoomId'er
         var lockerRoomIds = SelectedLockerRooms.Select(lr => lr.LockerRoomId);
         try
         {
+            // Tilføjer bookingen til databasen via repository
             bookingRepository.Add(booking, fieldIds, lockerRoomIds);
             MessageBox.Show("Booking oprettet!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             NavigateBackToMainMenu();
@@ -237,6 +247,7 @@ public class BookingViewModel : ViewModelBase
             MessageBox.Show($"Der opstod en fejl: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
+
 
 
     private void NavigateBackToMainMenu()

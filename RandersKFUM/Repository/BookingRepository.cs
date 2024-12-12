@@ -32,11 +32,12 @@ namespace RandersKFUM.Repository
                         while (reader.Read())
                         {
                             bookings.Add(new Booking(
-                                Convert.ToInt32(reader["BookingNumber"]),
-                                reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
-                                reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
-                                reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
+                            Convert.ToInt32(reader["BookingNumber"]),
+                            reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
+                            reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
+                            reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
                             ));
+
                         }
                     }
                 }
@@ -44,7 +45,6 @@ namespace RandersKFUM.Repository
 
             return bookings;
         }
-
 
         public Booking GetById(int bookingNumber)
         {
@@ -74,40 +74,41 @@ namespace RandersKFUM.Repository
             return null;
         }
 
-
         public void Add(Booking booking, IEnumerable<int> fieldIds, IEnumerable<int> lockerRoomIds)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString)) // Opretter en forbindelse til databasen
             {
-                connection.Open();
-                using (var command = new SqlCommand("uspAddBooking", connection))
+                connection.Open(); // Åbner forbindelsen
+                using (var command = new SqlCommand("uspAddBooking", connection)) // Opretter en SQL-kommando til at kalde en stored procedure
                 {
-                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandType = CommandType.StoredProcedure; // Angiver at kommandotypen er en stored procedure
 
+                    // Tilføjer parametre til kommandoen
                     command.Parameters.Add(new SqlParameter("@DateTimeStart", booking.DateTimeStart));
                     command.Parameters.Add(new SqlParameter("@DateTimeEnd", booking.DateTimeEnd));
                     command.Parameters.Add(new SqlParameter("@TeamId", booking.TeamId));
 
-                    // FieldIds
+                    // Opretter og tilføjer parameter for banernes ID'er
                     var fieldIdsParam = new SqlParameter("@FieldIds", SqlDbType.Structured)
                     {
-                        TypeName = "dbo.IntList",
-                        Value = ConvertToDataTable(fieldIds)
+                        TypeName = "dbo.IntList", // Definerer den brugerdefinerede tabeltype
+                        Value = ConvertToDataTable(fieldIds) // Konverterer fieldIds til DataTable
                     };
                     command.Parameters.Add(fieldIdsParam);
 
-                    // LockerRoomIds
+                    // Opretter og tilføjer parameter for omklædningsrummenes ID'er
                     var lockerRoomIdsParam = new SqlParameter("@LockerRoomIds", SqlDbType.Structured)
                     {
-                        TypeName = "dbo.IntList",
-                        Value = ConvertToDataTable(lockerRoomIds)
+                        TypeName = "dbo.IntList", // Definerer den brugerdefinerede tabeltype
+                        Value = ConvertToDataTable(lockerRoomIds) // Konverterer lockerRoomIds til DataTable
                     };
                     command.Parameters.Add(lockerRoomIdsParam);
 
-                    command.ExecuteNonQuery();
+                    command.ExecuteNonQuery(); // Udfører SQL-kommandoen
                 }
             }
         }
+
 
         private DataTable ConvertToDataTable(IEnumerable<int> ids)
         {
@@ -195,37 +196,31 @@ namespace RandersKFUM.Repository
         {
             var bookings = new List<BookingOverview>();
 
-                using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand("uspShowBookingOverView", connection))
                 {
-                    connection.Open();
+                    command.CommandType = CommandType.StoredProcedure;
 
-                    using (var command = new SqlCommand("uspShowBookingOverView", connection))
+                    using (var reader = command.ExecuteReader())
                     {
-                        command.CommandType = CommandType.StoredProcedure;
-
-                        using (var reader = command.ExecuteReader())
+                        while (reader.Read())
                         {
-                            while (reader.Read())
+                            bookings.Add(new BookingOverview
                             {
-                                bookings.Add(new BookingOverview
-                                {
-                                    BookingNumber = reader.GetInt32(reader.GetOrdinal("BookingNumber")),
-                                    DateTimeStart = reader.GetDateTime(reader.GetOrdinal("DateTimeStart")),
-                                    DateTimeEnd = reader.GetDateTime(reader.GetOrdinal("DateTimeEnd")),
-                                    TeamName = reader.GetString(reader.GetOrdinal("TeamName")),
-                                    FieldNumbers = reader.GetString(reader.GetOrdinal("FieldNumbers")),
-                                    LockerRoomNumbers = reader.GetString(reader.GetOrdinal("LockerRoomNumbers"))
-                                });
-                            }
+                                BookingNumber = reader.GetInt32(reader.GetOrdinal("BookingNumber")),
+                                DateTimeStart = reader.GetDateTime(reader.GetOrdinal("DateTimeStart")),
+                                DateTimeEnd = reader.GetDateTime(reader.GetOrdinal("DateTimeEnd")),
+                                TeamName = reader.GetString(reader.GetOrdinal("TeamName")),
+                                FieldNumbers = reader.GetString(reader.GetOrdinal("FieldNumbers")),
+                                LockerRoomNumbers = reader.GetString(reader.GetOrdinal("LockerRoomNumbers"))
+                            });
                         }
                     }
                 }
+            }
 
             return bookings;
         }
-
-
-
-
-    }
-}
