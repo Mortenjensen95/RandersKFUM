@@ -20,6 +20,7 @@ namespace RandersKFUM.Model
         public ICollection<LockerRoomBooking> LockerRoomBookings { get; set; } // En samling af omklædningsrumsreservationer forbundet med denne booking
 
         // Konstruktør til at initialisere en ny booking med nødvendige oplysninger
+
         public Booking(int bookingNumber, DateTime dateTimeStart, DateTime dateTimeEnd, int teamId)
         {
             BookingNumber = bookingNumber;
