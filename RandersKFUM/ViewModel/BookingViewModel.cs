@@ -208,7 +208,7 @@ public class BookingViewModel : ViewModelBase
 
     public virtual void ConfirmBooking()
     {
-        if (!SelectedFields.Any() || !SelectedLockerRooms.Any() || SelectedTeam == null)
+        if (!SelectedFields.Any() || !SelectedLockerRooms.Any())
         {
             MessageBox.Show("Vælg venligst mindst én bane, ét omklædningsrum og et hold.", "Validering Fejl", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
@@ -217,19 +217,17 @@ public class BookingViewModel : ViewModelBase
         var start = SelectedDate.Date + SelectedTimeSlot;
         var end = start.AddMinutes(SelectedDuration);
 
-        var booking = new Booking
-        {
-            DateTimeStart = start,
-            DateTimeEnd = end,
-            TeamId = SelectedTeam.TeamId
-        };
+        var booking = new Booking(
+            bookingNumber: 0,
+            dateTimeStart: start,
+            dateTimeEnd: end,
+            teamId: SelectedTeam.TeamId
+        );
 
         var fieldIds = SelectedFields.Select(f => f.FieldId);
         var lockerRoomIds = SelectedLockerRooms.Select(lr => lr.LockerRoomId);
         try
         {
-
-
             bookingRepository.Add(booking, fieldIds, lockerRoomIds);
             MessageBox.Show("Booking oprettet!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             NavigateBackToMainMenu();
@@ -239,6 +237,7 @@ public class BookingViewModel : ViewModelBase
             MessageBox.Show($"Der opstod en fejl: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
+
 
     private void NavigateBackToMainMenu()
     {

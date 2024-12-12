@@ -18,13 +18,6 @@ namespace RandersKFUM.Model //test
         public ICollection<FieldBooking> FieldBookings { get; set; } // Navigation til mange til mange relation
         public ICollection<LockerRoomBooking> LockerRoomBookings { get; set; } // samme som ovenfor
 
-        public Booking () 
-        {
-            FieldBookings = new List<FieldBooking>();
-            LockerRoomBookings = new List<LockerRoomBooking>();
-        }
-
-
         public Booking(int bookingNumber, DateTime dateTimeStart, DateTime dateTimeEnd, int teamId)
         {
             BookingNumber = bookingNumber;

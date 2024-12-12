@@ -31,13 +31,12 @@ namespace RandersKFUM.Repository
                     {
                         while (reader.Read())
                         {
-                            bookings.Add(new Booking
-                            {
-                                BookingNumber = Convert.ToInt32(reader["BookingNumber"]),
-                                DateTimeStart = reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
-                                DateTimeEnd = reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
-                                TeamId = reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
-                            });
+                            bookings.Add(new Booking(
+                                Convert.ToInt32(reader["BookingNumber"]),
+                                reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
+                                reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
+                                reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
+                            ));
                         }
                     }
                 }
@@ -45,6 +44,7 @@ namespace RandersKFUM.Repository
 
             return bookings;
         }
+
 
         public Booking GetById(int bookingNumber)
         {
@@ -60,13 +60,12 @@ namespace RandersKFUM.Repository
                     {
                         if (reader.Read())
                         {
-                            return new Booking
-                            {
-                                BookingNumber = Convert.ToInt32(reader["BookingNumber"]),
-                                DateTimeStart = reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
-                                DateTimeEnd = reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
-                                TeamId = reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
-                            };
+                            return new Booking(
+                                Convert.ToInt32(reader["BookingNumber"]),
+                                reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
+                                reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
+                                reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
+                            );
                         }
                     }
                 }
@@ -74,6 +73,7 @@ namespace RandersKFUM.Repository
 
             return null;
         }
+
 
         public void Add(Booking booking, IEnumerable<int> fieldIds, IEnumerable<int> lockerRoomIds)
         {
