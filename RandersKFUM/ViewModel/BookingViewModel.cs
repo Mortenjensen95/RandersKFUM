@@ -206,30 +206,38 @@ public class BookingViewModel : ViewModelBase
 
 
 
-    public virtual void ConfirmBooking()
+    public void ConfirmBooking()
     {
-        if (!SelectedFields.Any() || !SelectedLockerRooms.Any() || SelectedTeam == null)
+        // Validerer om de nødvendige felter er valgt
+        if (!SelectedFields.Any() || !SelectedLockerRooms.Any())
         {
             MessageBox.Show("Vælg venligst mindst én bane, ét omklædningsrum og et hold.", "Validering Fejl", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
+        // Beregner start og slut tidspunkter baseret på valgte dato og tidsrum
         var start = SelectedDate.Date + SelectedTimeSlot;
         var end = start.AddMinutes(SelectedDuration);
 
-        var booking = new Booking
-        {
-            DateTimeStart = start,
-            DateTimeEnd = end,
-            TeamId = SelectedTeam.TeamId
-        };
+        // Opretter en ny booking-instans
+        var booking = new Booking(
+            bookingNumber: 0,
+            dateTimeStart: start,
+            dateTimeEnd: end,
+            teamId: SelectedTeam.TeamId
+        );
 
+        // Henter ID'er for valgte baner og omklædningsrum
+        // Henter ID'er for de valgte baner ved at anvende LINQ og et lambda-udtryk
+        // 'SelectedFields' er en samling af valgte baner, og 'Select' anvendes her til at transformere denne samling til en ny samling, hvor hvert element er et FieldId
         var fieldIds = SelectedFields.Select(f => f.FieldId);
+
+        // På samme måde henter vi ID'er for de valgte omklædningsrum ved brug af LINQ og et lambda-udtryk
+        // 'SelectedLockerRooms' er en samling af valgte omklædningsrum, og 'Select' funktionen transformerer denne samling til en liste af LockerRoomId'er
         var lockerRoomIds = SelectedLockerRooms.Select(lr => lr.LockerRoomId);
         try
         {
-
-
+            // Tilføjer bookingen til databasen via repository
             bookingRepository.Add(booking, fieldIds, lockerRoomIds);
             MessageBox.Show("Booking oprettet!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             NavigateBackToMainMenu();
@@ -239,6 +247,8 @@ public class BookingViewModel : ViewModelBase
             MessageBox.Show($"Der opstod en fejl: {ex.Message}", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
+
+
 
     private void NavigateBackToMainMenu()
     {

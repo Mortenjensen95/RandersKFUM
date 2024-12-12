@@ -31,13 +31,13 @@ namespace RandersKFUM.Repository
                     {
                         while (reader.Read())
                         {
-                            bookings.Add(new Booking
-                            {
-                                BookingNumber = Convert.ToInt32(reader["BookingNumber"]),
-                                DateTimeStart = reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
-                                DateTimeEnd = reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
-                                TeamId = reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
-                            });
+                            bookings.Add(new Booking(
+                            Convert.ToInt32(reader["BookingNumber"]),
+                            reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
+                            reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
+                            reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
+                            ));
+
                         }
                     }
                 }
@@ -60,13 +60,12 @@ namespace RandersKFUM.Repository
                     {
                         if (reader.Read())
                         {
-                            return new Booking
-                            {
-                                BookingNumber = Convert.ToInt32(reader["BookingNumber"]),
-                                DateTimeStart = reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
-                                DateTimeEnd = reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
-                                TeamId = reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
-                            };
+                            return new Booking(
+                                Convert.ToInt32(reader["BookingNumber"]),
+                                reader["DateTimeStart"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeStart"]) : DateTime.MinValue,
+                                reader["DateTimeEnd"] != DBNull.Value ? Convert.ToDateTime(reader["DateTimeEnd"]) : DateTime.MinValue,
+                                reader["TeamId"] != DBNull.Value ? Convert.ToInt32(reader["TeamId"]) : 0
+                            );
                         }
                     }
                 }
@@ -77,37 +76,39 @@ namespace RandersKFUM.Repository
 
         public void Add(Booking booking, IEnumerable<int> fieldIds, IEnumerable<int> lockerRoomIds)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString)) // Opretter en forbindelse til databasen
             {
-                connection.Open();
-                using (var command = new SqlCommand("uspAddBooking", connection))
+                connection.Open(); // Åbner forbindelsen
+                using (var command = new SqlCommand("uspAddBooking", connection)) // Opretter en SQL-kommando til at kalde en stored procedure
                 {
-                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandType = CommandType.StoredProcedure; // Angiver at kommandotypen er en stored procedure
 
+                    // Tilføjer parametre til kommandoen
                     command.Parameters.Add(new SqlParameter("@DateTimeStart", booking.DateTimeStart));
                     command.Parameters.Add(new SqlParameter("@DateTimeEnd", booking.DateTimeEnd));
                     command.Parameters.Add(new SqlParameter("@TeamId", booking.TeamId));
 
-                    // FieldIds
+                    // Opretter og tilføjer parameter for banernes ID'er
                     var fieldIdsParam = new SqlParameter("@FieldIds", SqlDbType.Structured)
                     {
-                        TypeName = "dbo.IntList",
-                        Value = ConvertToDataTable(fieldIds)
+                        TypeName = "dbo.IntList", // Definerer den brugerdefinerede tabeltype
+                        Value = ConvertToDataTable(fieldIds) // Konverterer fieldIds til DataTable
                     };
                     command.Parameters.Add(fieldIdsParam);
 
-                    // LockerRoomIds
+                    // Opretter og tilføjer parameter for omklædningsrummenes ID'er
                     var lockerRoomIdsParam = new SqlParameter("@LockerRoomIds", SqlDbType.Structured)
                     {
-                        TypeName = "dbo.IntList",
-                        Value = ConvertToDataTable(lockerRoomIds)
+                        TypeName = "dbo.IntList", // Definerer den brugerdefinerede tabeltype
+                        Value = ConvertToDataTable(lockerRoomIds) // Konverterer lockerRoomIds til DataTable
                     };
                     command.Parameters.Add(lockerRoomIdsParam);
 
-                    command.ExecuteNonQuery();
+                    command.ExecuteNonQuery(); // Udfører SQL-kommandoen
                 }
             }
         }
+
 
         private DataTable ConvertToDataTable(IEnumerable<int> ids)
         {
