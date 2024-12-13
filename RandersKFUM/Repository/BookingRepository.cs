@@ -224,3 +224,53 @@ namespace RandersKFUM.Repository
 
             return bookings;
         }
+
+        public List<int> GetFieldsForBooking(int bookingNumber)
+        {
+            List<int> fieldIds = new List<int>();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("uspGetFieldsForBooking", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@BookingNumber", bookingNumber);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            fieldIds.Add(reader.GetInt32(0));  // Antager at FieldId er den første kolonne
+                        }
+                    }
+                }
+            }
+            return fieldIds;
+        }
+
+        public List<int> GetLockerRoomsForBooking(int bookingNumber)
+        {
+            List<int> lockerRoomIds = new List<int>();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("uspGetLockerRoomsForBooking", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@BookingNumber", bookingNumber);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lockerRoomIds.Add(reader.GetInt32(0));  // Antager at LockerRoomId er den første kolonne
+                        }
+                    }
+                }
+            }
+            return lockerRoomIds;
+        }
+
+
+
+    }
+
+}

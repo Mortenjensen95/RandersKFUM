@@ -50,7 +50,7 @@ namespace BookingTests
             var testThread = new Thread(() =>
             {
                 // Arrange
-                _viewModel.SelectedDate = new DateTime(2024, 12, 13);
+                _viewModel.SelectedDate = new DateTime(2025, 12, 13);
                 _viewModel.SelectedTimeSlot = new TimeSpan(17, 0, 0); // Kl. 17:00
                 _viewModel.SelectedDuration = 60; // 1 time
                 _viewModel.SelectedFields = new ObservableCollection<FieldStatus>
