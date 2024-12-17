@@ -26,5 +26,6 @@ namespace RandersKFUM.View
             InitializeComponent();
             DataContext = new ManageTeamLeaderViewModel();
         }
+
     }
 }

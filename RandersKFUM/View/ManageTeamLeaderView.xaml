@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ManageTeamLeaderView">
 
-    <Grid Background="LightGray">
+    <Grid Background="#FF292828">
         <!-- Layout til hoveddelen -->
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -29,7 +29,7 @@
                 <TextBlock Text="Administrer holdledere" 
                    FontSize="20" 
                    FontWeight="Bold" 
-                   Margin="0,0,0,20" />
+                   Margin="0,0,0,20" Foreground="White" />
 
                 <DataGrid ItemsSource="{Binding TeamLeaders}" 
                   SelectedItem="{Binding SelectedItem}" 
@@ -65,16 +65,16 @@
                 <TextBlock Text="Holdleder information" 
            FontSize="16" 
            FontWeight="Bold" 
-           Margin="0,0,0,10" />
-                <Label Content="Navn"/>
+           Margin="0,0,0,10" Foreground="White" />
+                <Label Content="Navn" Foreground="White"/>
                 <TextBox Margin="5,0,5,15"  Text="{Binding SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}" />
-                <Label Content="Brugernavn"/>
+                <Label Content="Brugernavn" Foreground="White"/>
                 <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.UserName, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Adgangskode"/>
+                <Label Content="Adgangskode" Foreground="White"/>
                 <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.Password, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Telefon"/>
+                <Label Content="Telefon" Foreground="White"/>
                 <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.Phone, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Email"/>
+                <Label Content="Email" Foreground="White"/>
                 <TextBox Margin="5,0,5,15" Text="{Binding SelectedItem.Email, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </Grid>
@@ -82,14 +82,18 @@
         <!-- Knapper nederst på skærmen -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
             <Button Content="Opret Holdleder" Width="120" Height="40" Margin="5" 
+                    Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
                 Command="{Binding CreateTeamLeaderCommand}" />
             <Button Content="Slet Holdleder" Width="120" Height="40" Margin="5" 
+                    Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
                 Command="{Binding DeleteTeamLeaderCommand}" />
                 <Button Content="Gem" Width="100" Height="40" Margin="5" 
+                        Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
                 Command="{Binding SaveChangesCommand}" />
         </StackPanel>
 
         <Button Content="Tilbage til Administration" Width="175" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="1"
-         Command="{Binding NavigateBackToAdministrationViewCommand}" />
+         Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
+                Command="{Binding NavigateBackToAdministrationViewCommand}" />
     </Grid>
 </Page>

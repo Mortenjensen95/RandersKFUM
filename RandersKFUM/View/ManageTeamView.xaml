@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ManageTeamView">
 
-    <Grid Background="LightGray">
+    <Grid Background="#FF292828">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <!-- DataGrid fylder mest -->
@@ -27,7 +27,7 @@
             <TextBlock Text="Administrer Hold" 
                        FontSize="20" 
                        FontWeight="Bold" 
-                       Margin="0,0,0,20" />
+                       Margin="0,0,0,20" Foreground="White" />
             <DataGrid ItemsSource="{Binding Teams}" 
                       SelectedItem="{Binding SelectedItem}" 
                       SelectionMode="Single"
@@ -52,14 +52,14 @@
             <TextBlock Text="Holdinformation" 
                        FontSize="16" 
                        FontWeight="Bold" 
-                       Margin="0,0,0,10" />
-            <Label Content="Holdnavn:" />
+                       Margin="0,0,0,10" Foreground="White" />
+            <Label Content="Holdnavn:" Foreground="White" />
             <TextBox Margin="0,0,0,10" Text="{Binding SelectedItem.TeamName, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Label Content="Holdtype:" />
+            <Label Content="Holdtype:" Foreground="White" />
             <TextBox Margin="0,0,0,10" Text="{Binding SelectedItem.TeamType, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Label Content="Holdleder:" />
+            <Label Content="Holdleder:" Foreground="White" />
             <ComboBox ItemsSource="{Binding TeamLeaders}" 
                       DisplayMemberPath="Name" 
                       SelectedValuePath="TeamLeaderId"
@@ -69,13 +69,17 @@
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5">
             <Button Content="Opret Hold" Width="120" Height="40" Margin="5" 
+                    Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
         Command="{Binding CreateTeamCommand}" />
             <Button Content="Slet Hold" Width="120" Height="40" Margin="5" 
+                    Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
         Command="{Binding DeleteTeamCommand}" />
             <Button Content="Gem" Width="100" Height="40" Margin="5" 
+                    Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
         Command="{Binding SaveChangesCommand}" />
         </StackPanel>
         <Button Content="Tilbage til Administration" Width="175" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Grid.Row="1"
-        Command="{Binding NavigateBackToAdministrationViewCommand}" />
+        Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
+                Command="{Binding NavigateBackToAdministrationViewCommand}" />
     </Grid>
 </Page>
