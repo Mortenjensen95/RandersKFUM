@@ -52,7 +52,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Margin="10"
-                Command="{Binding NavigateBackToMainMenuCommand}" />
+                Command="{Binding NavigateBackToMainMenuCommand}" Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"/>
 
         <!-- Delete Booking Button -->
         <Button Content="Slet booking"
@@ -62,6 +62,6 @@
                 Height="40"
                 HorizontalAlignment="Center"
                 Margin="10"
-                Command="{Binding DeleteBookingCommand}" />
+                Command="{Binding DeleteBookingCommand}" Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"/>
     </Grid>
 </Page>

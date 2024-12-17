@@ -9,7 +9,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="BookingView">
 
-    <Grid Background="LightGray">
+    <Grid Background="#FF292828">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -22,10 +22,10 @@
 
         <!-- Kalender til venstre -->
         <StackPanel Grid.Column="0" Margin="10">
-            <TextBlock Text="Vælg dato" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" />
+            <TextBlock Text="Vælg dato" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Foreground="White" />
             <Calendar SelectedDate="{Binding SelectedDate}" />
 
-            <TextBlock Text="Vælg tidsrum" Margin="0,10,0,5" />
+            <TextBlock Text="Vælg tidsrum" Margin="0,10,0,5" Foreground="White" />
             <ComboBox ItemsSource="{Binding TimeSlots}" SelectedItem="{Binding SelectedTimeSlot}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -34,10 +34,10 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <TextBlock Text="Vælg varighed (minutter)" Margin="0,10,0,5" />
+            <TextBlock Text="Vælg varighed (minutter)" Margin="0,10,0,5" Foreground="White" />
             <ComboBox ItemsSource="{Binding Durations}" SelectedItem="{Binding SelectedDuration}"/>
 
-            <TextBlock Text="Vælg hold" Margin="0,10,0,5" />
+            <TextBlock Text="Vælg hold" Margin="0,10,0,5" Foreground="White" />
             <ComboBox ItemsSource="{Binding Teams}" SelectedItem="{Binding SelectedTeam}" DisplayMemberPath="TeamName"/>
 
         </StackPanel>
@@ -45,14 +45,15 @@
         <!-- Højre side: Visualisering af baner -->
         <StackPanel Grid.Column="1" Margin="20" Orientation="Horizontal">
             <StackPanel>
-                <TextBlock Text="Vælg omklædningsrum" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Width="280" TextAlignment="Center"/>
+                <TextBlock Text="Vælg omklædningsrum" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Width="280" TextAlignment="Center" Foreground="White"/>
             <ListBox ItemsSource="{Binding LockerRoomAvailability}" 
             utils:ListBoxExtensions.SelectedItems="{Binding SelectedLockerRooms}" 
             SelectionMode="Multiple">
+                    
             
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="5" Margin="2" CornerRadius="5">
+                        <Border Padding="2" Margin="2" CornerRadius="5">
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Setter Property="Background" Value="Green" />
@@ -89,13 +90,13 @@
             </ListBox>
             </StackPanel>
             <StackPanel>
-            <TextBlock Text="Vælg bane" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Width="280" TextAlignment="Center"/>
+            <TextBlock Text="Vælg bane" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Width="280" TextAlignment="Center" Foreground="White"/>
             <ListBox ItemsSource="{Binding FieldAvailability}" 
          utils:ListBoxExtensions.SelectedItems="{Binding SelectedFields}" 
          SelectionMode="Multiple">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="5" Margin="2" CornerRadius="5">
+                        <Border Padding="2" Margin="2" CornerRadius="5">
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Setter Property="Background" Value="Green" />
@@ -136,8 +137,8 @@
 
         <!-- Booking-knapper nederst -->
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Content="Book" Width="80" Height="35" Margin="0,0,10,0"  Command="{Binding ConfirmBookingCommand}"/>
-            <Button Content="Cancel" Width="80" Command="{Binding NavigateBackCommand}" />
+            <Button Content="Book" Width="80" Height="35" Margin="0,0,10,0"  Command="{Binding ConfirmBookingCommand}" Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"/>
+            <Button Content="Cancel" Width="80" Command="{Binding NavigateBackCommand}" Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"/>
         </StackPanel>
     </Grid>
 </Page>

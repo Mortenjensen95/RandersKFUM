@@ -11,17 +11,17 @@
     <Grid Background="#FF292828">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
             <TextBlock Text="Menu" FontSize="24" FontWeight="Bold" TextAlignment="Center" Margin="0,0,0,20" Foreground="White" />
-            <Button Content="Bookingoversigt" Height="40" Margin="0,10" Background="White"
+            <Button Content="Bookingoversigt" Height="40" Margin="0,10" Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
                     Command="{Binding NavigateToBookingOverviewViewCommand}" />
-            <Button Content="Opret booking" Height="40" Margin="0,10" Background="White"
+            <Button Content="Opret booking" Height="40" Margin="0,10" Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
                     Command="{Binding NavigateToBookingViewCommand}" />
-            <Button Content="Administration" Height="40" Margin="0,10" Background="White"
+            <Button Content="Administration" Height="40" Margin="0,10" Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
                     Command="{Binding NavigateToAdministrationViewCommand}" />
         </StackPanel>
 
         <!-- Login/Logout-knap nederst -->
         <Button Content="Log ud" Width="100" Height="30" 
-                HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="White"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="White" BorderThickness="3" BorderBrush="Gray" FontSize="14" FontWeight="bold"
                 Margin="10" Command="{Binding LogOutCommand}" />
     </Grid>
 </Page>
