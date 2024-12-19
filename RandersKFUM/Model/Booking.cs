@@ -14,7 +14,7 @@ namespace RandersKFUM.Model
         public DateTime DateTimeEnd { get; set; } // Sluttidspunkt for bookingen
         public int TeamId { get; set; } // ID for det team, der laver bookingen
 
-        public Team Team { get; set; } // Navigationsejendom til Team
+        public Team Team { get; set; } // Navigationproperty til Team
 
         public ICollection<FieldBooking> FieldBookings { get; set; } // En samling af banereservationer forbundet med denne booking
         public ICollection<LockerRoomBooking> LockerRoomBookings { get; set; } // En samling af omklædningsrumsreservationer forbundet med denne booking
