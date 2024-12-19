@@ -42,6 +42,8 @@ public class BookingViewModel : ViewModelBase
 
         LoadAllResources();
         InitializeTimeSlots();
+
+        SelectedDate = DateTime.Today;
     }
 
     private FieldStatus selectedField;
